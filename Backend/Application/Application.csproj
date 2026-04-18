@@ -11,10 +11,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="DTOs\Responses\" />
-    <Folder Include="DTOs\Requests\" />
     <Folder Include="Interfaces\" />
-    <Folder Include="UseCase\" />
+    <Folder Include="Response\" />
+    <Folder Include="UseCase\Event\Command\" />
+    <Folder Include="UseCase\Event\Handler\" />
+    <Folder Include="UseCase\Event\Query\" />
   </ItemGroup>
 
 </Project>

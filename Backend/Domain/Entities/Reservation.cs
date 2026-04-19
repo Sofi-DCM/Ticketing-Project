@@ -6,13 +6,13 @@ namespace Domain.Entities
         public Guid Id { get; set; }
         public int UserId { get; set; }
         public Guid SeatId { get; set; }
-        public int StatusId { get; set; }
+        public string Status { get; set; } = null!;
         public DateTime ReservedAt { get; set; }
-        public DateTime ExpiredAt { get; set; }
+        public DateTime ExpiresAt { get; set; }
 
         //---------
-        public virtual User User { get; set; }
-        //public Seat Seat { get; set; }
+        public User User { get; set; } = null!;
+        //public Seat Seat { get; set; } = null!;
         
     }
 }

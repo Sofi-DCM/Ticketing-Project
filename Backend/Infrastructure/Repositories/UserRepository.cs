@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-//implementacion de contrato IUserRepository; usa el context, EFCore y LINQ para acceder a datos
+
 namespace Infrastructure.Repositories
 {
     public class UserRepository : IUserRepository
@@ -33,5 +33,10 @@ namespace Infrastructure.Repositories
 
         public async Task<bool> ExistsByEmailAsync(string email) =>
             await _context.Users.AnyAsync(u => u.Email == email);
+
+        public async Task<User?> GetUserById(int id)
+        {
+           return await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
+        }
     }
 }

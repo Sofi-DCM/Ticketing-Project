@@ -6,10 +6,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Interfaces.Handlers
+namespace Application.Interfaces.Handlers._User
 {
-    public interface ICreateUserHandler
+    public interface IGetUserByIdHandler
     {
-        public Task<int> HandleAsync(CreateUserCommand command);
+        public Task<UserResponse> HandleAsync(int id);
     }
 }

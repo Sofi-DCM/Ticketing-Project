@@ -1,4 +1,4 @@
-﻿using Application.Interfaces.Handlers;
+﻿using Application.Interfaces.Handlers._User;
 using Application.Interfaces.Repositories;
 using BCrypt.Net;
 using Domain.Entities;
@@ -8,7 +8,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-//implementa la logica de negocio para crear un usuario
+
 namespace Application.UseCase._User.Commands.CreateUser
 {
     public class CreateUserHandler : ICreateUserHandler

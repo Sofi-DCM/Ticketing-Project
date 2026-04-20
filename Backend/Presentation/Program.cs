@@ -1,4 +1,5 @@
 
+using Application.Interfaces.Handlers._User;
 using Presentation.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,19 +11,21 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Database Connection
+// -------- Database Connection --------
 builder.Services.AddDbContext<AppDbContext>(options => 
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// Dependency Injection
+// -------- Dependency Injection --------
 
 // User
-builder.Services.AddScoped<ICreateUserHandler, CreateUserHandler>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<ICreateUserHandler, CreateUserHandler>();
+builder.Services.AddScoped<IGetUserByIdHandler, GetUserByIdHandler>();
+
 
 var app = builder.Build();
 
-// Use Middleware
+// -------- Use Middleware --------
 app.UseMiddleware<ExceptionMiddleware>();
 
 // Configure the HTTP request pipeline.

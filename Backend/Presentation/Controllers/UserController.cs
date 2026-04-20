@@ -1,4 +1,5 @@
-﻿using Azure.Core;
+﻿using Application.Interfaces.Handlers._User;
+using Azure.Core;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,10 +11,14 @@ namespace Presentation.Controllers
     public class UserController : ControllerBase
     {
         private readonly ICreateUserHandler _createUserHandler;
+        private readonly IGetUserByIdHandler _getUserByIdHandler;
 
-        public UserController(ICreateUserHandler createUserHandler)
+        public UserController(
+            ICreateUserHandler createUserHandler, 
+            IGetUserByIdHandler getUserByIdHandler)
         {
             _createUserHandler=createUserHandler;
+            _getUserByIdHandler=getUserByIdHandler;
         }
 
         [HttpPost]
@@ -26,9 +31,11 @@ namespace Presentation.Controllers
 
 
         [HttpGet("{id}")]
-        public IActionResult GetUserById([FromQuery] int id) 
+        public async Task<IActionResult> GetUserById(int id) 
         {
-            return new JsonResult(new { user = "user" });
+            var response = await _getUserByIdHandler.HandleAsync(id);
+
+            return Ok(response);
         }
 
 

@@ -6,9 +6,11 @@ global using Microsoft.EntityFrameworkCore;
 
 // ----- for dependency injection -----
 
-global using Application.Interfaces.Handlers;
-
 global using Application.Interfaces.Repositories;
 global using Infrastructure.Repositories;
 
+//--- Users
+global using Application.Interfaces.Handlers._User;
+
 global using Application.UseCase._User.Commands.CreateUser;
+global using Application.UseCase._User.Queries.GetUserById;

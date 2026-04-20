@@ -11,11 +11,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Interfaces\" />
-    <Folder Include="Response\" />
-    <Folder Include="UseCase\Event\Command\" />
-    <Folder Include="UseCase\Event\Handler\" />
-    <Folder Include="UseCase\Event\Query\" />
+    <Folder Include="UseCase\_User\Queries\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="BCrypt.Net-Next" Version="4.1.0" />
   </ItemGroup>
 
 </Project>

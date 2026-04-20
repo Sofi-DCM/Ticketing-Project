@@ -38,6 +38,11 @@ namespace Infrastructure.Persistence.EntityConfiguration
                 .WithMany(s => s.Seats)
                 .HasForeignKey(s => s.SectorId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasMany(s => s.Reservations)
+              .WithOne(r => r.Seat)
+              .HasForeignKey(r => r.SeatId)
+              .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

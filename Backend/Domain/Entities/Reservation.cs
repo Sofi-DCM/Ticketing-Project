@@ -12,7 +12,7 @@ namespace Domain.Entities
 
         //---------
         public User User { get; set; } = null!;
-        //public Seat Seat { get; set; } = null!;
-        
+        public Seat Seat { get; set; } = null!;
+
     }
 }

@@ -1,5 +1,6 @@
 
 using Application.Interfaces.Handlers._User;
+using Application.UseCase._AuditLog.Commands.CreateAuditLog;
 using Presentation.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,6 +23,9 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ICreateUserHandler, CreateUserHandler>();
 builder.Services.AddScoped<IGetUserByIdHandler, GetUserByIdHandler>();
 
+//AuditLog
+builder.Services.AddScoped<IAuditLogRepository, AuditLogRepository>();
+builder.Services.AddScoped<ICreateAuditLogHandler, CreateAuditLogHandler>();
 
 var app = builder.Build();
 

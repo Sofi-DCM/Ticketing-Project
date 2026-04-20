@@ -14,4 +14,8 @@
     <PackageReference Include="BCrypt.Net-Next" Version="4.1.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="UseCase\_AuditLog\Queries\" />
+  </ItemGroup>
+
 </Project>

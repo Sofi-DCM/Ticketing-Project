@@ -9,8 +9,13 @@ global using Microsoft.EntityFrameworkCore;
 global using Application.Interfaces.Repositories;
 global using Infrastructure.Repositories;
 
-//--- Users
+//--- User
 global using Application.Interfaces.Handlers._User;
 
 global using Application.UseCase._User.Commands.CreateUser;
 global using Application.UseCase._User.Queries.GetUserById;
+
+//--- AuditLog
+global using Application.Interfaces.Handlers._AuditLog;
+
+global using Application.UseCase._AuditLog.Commands.CreateAuditLog;

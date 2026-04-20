@@ -1,5 +1,5 @@
-using Infrastructure.Persistence;
-using Microsoft.EntityFrameworkCore;
+
+using Presentation.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,11 +12,18 @@ builder.Services.AddSwaggerGen();
 
 // Database Connection
 builder.Services.AddDbContext<AppDbContext>(options => 
-    options.UseLazyLoadingProxies() 
-           .UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+// Dependency Injection
+
+// User
+builder.Services.AddScoped<ICreateUserHandler, CreateUserHandler>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 var app = builder.Build();
+
+// Use Middleware
+app.UseMiddleware<ExceptionMiddleware>();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

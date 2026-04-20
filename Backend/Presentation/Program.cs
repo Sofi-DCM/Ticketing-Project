@@ -1,7 +1,8 @@
-
 using Application.Interfaces.Handlers._User;
 using Application.UseCase._AuditLog.Commands.CreateAuditLog;
 using Presentation.Middlewares;
+using Infrastructure.Persistence;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 

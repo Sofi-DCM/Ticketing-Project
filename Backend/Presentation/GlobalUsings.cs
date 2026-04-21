@@ -1,8 +1,9 @@
 ﻿
-//Archivo de usings globales para evitar el enchastre de usings en el Program.cs
-
 global using Infrastructure.Persistence;
 global using Microsoft.EntityFrameworkCore;
+global using Presentation.Middlewares;
+global using Domain.Entities;
+global using Domain.Constants;
 
 // ----- for dependency injection -----
 

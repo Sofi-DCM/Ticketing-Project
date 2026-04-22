@@ -2,6 +2,7 @@
 using System.Net;
 using System.Text.Json;
 using Application.Response;
+using Domain.Exceptions;
 
 namespace Presentation.Middlewares
 {
@@ -42,7 +43,7 @@ namespace Presentation.Middlewares
             // Mapeamos tipos de excepciones a códigos HTTP
             var statusCode = exception switch
             {
-                ApplicationException => (int)HttpStatusCode.BadRequest, // Errores de lógica, 400
+                BadRequestException => (int)HttpStatusCode.BadRequest, // Errores de lógica, 400
                 KeyNotFoundException => (int)HttpStatusCode.NotFound,   // No encontrado, 404
                 DuplicateNameException => (int)HttpStatusCode.Conflict, // 409
                 _ => (int)HttpStatusCode.InternalServerError            // Error 500

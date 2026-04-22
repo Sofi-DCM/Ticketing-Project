@@ -25,6 +25,10 @@ builder.Services.AddScoped<IGetUserByIdHandler, GetUserByIdHandler>();
 builder.Services.AddScoped<IAuditLogRepository, AuditLogRepository>();
 builder.Services.AddScoped<ICreateAuditLogHandler, CreateAuditLogHandler>();
 
+//Event
+builder.Services.AddScoped<IEventRepository, EventRepository>();
+builder.Services.AddScoped<IGetActiveEventsHandler, GetActiveEventsHandler>();
+
 var app = builder.Build();
 
 // -------- Dinamic Seeds --------

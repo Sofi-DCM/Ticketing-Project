@@ -20,3 +20,8 @@ global using Application.UseCase._User.Queries.GetUserById;
 global using Application.Interfaces.Handlers._AuditLog;
 
 global using Application.UseCase._AuditLog.Commands.CreateAuditLog;
+
+//--- Event
+global using Application.Interfaces.Handlers._Event;
+
+global using Application.UseCase._Event.Queries.GetActiveEvents;

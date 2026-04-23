@@ -1,16 +1,15 @@
 ﻿using Application.Response;
 using Application.UseCase._Reservation.Commands.CreateReservation;
-using Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Interfaces.Repositories
+namespace Application.Interfaces.Handlers._Reservation
 {
-    public interface IReservationRepository
+    public interface ICreateReservationHandler
     {
-        public Task<Guid> InsertReservationAsync(Reservation reservation, CancellationToken ct);
+        public Task<ReservationResponseDto> HandleAsync(CreateReservationCommand command, CancellationToken cancellationToken);
     }
 }

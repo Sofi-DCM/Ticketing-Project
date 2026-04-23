@@ -1,5 +1,4 @@
-﻿using Application.UseCase.Reservations.Commands;
-using Application.UseCase.Reservations.Handlers;
+﻿using Application.UseCase._Reservation.Commands.CreateReservation;
 using Domain.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,11 +8,11 @@ namespace Presentation.Controllers
     [Route("api/[controller]")]
     public class ReservationsController : ControllerBase
     {
-        private readonly CreateReservationCommandHandler _createReservationCommandHandler;
+        private readonly ICreateReservationHandler _createReservationHandler;
 
-        public ReservationsController(CreateReservationCommandHandler createReservationCommandHandler)
+        public ReservationsController(ICreateReservationHandler createReservationHandler)
         {
-            _createReservationCommandHandler = createReservationCommandHandler;
+            _createReservationHandler = createReservationHandler;
         }
 
         [HttpPost]
@@ -21,20 +20,9 @@ namespace Presentation.Controllers
             [FromBody] CreateReservationCommand command,
             CancellationToken cancellationToken)
         {
-            try
-            {
-                var result = await _createReservationCommandHandler.Handle(command, cancellationToken);
+                var result = await _createReservationHandler.HandleAsync(command, cancellationToken);
 
                 return Created(string.Empty, result);
-            }
-            catch (NotFoundException ex)
-            {
-                return NotFound(new { message = ex.Message });
-            }
-            catch (ConflictException ex)
-            {
-                return Conflict(new { message = ex.Message });
-            }
         }
     }
 }

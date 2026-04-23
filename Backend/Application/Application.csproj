@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="UseCase\Reservations\Queries\" />
+    <Folder Include="UseCase\_Reservation\Queries\" />
     <Folder Include="UseCase\_AuditLog\Queries\" />
   </ItemGroup>
 

@@ -1,5 +1,8 @@
 
 
+using Application.Interfaces;
+using Application.UseCase.Reservations.Handlers;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -24,6 +27,10 @@ builder.Services.AddScoped<IGetUserByIdHandler, GetUserByIdHandler>();
 //AuditLog
 builder.Services.AddScoped<IAuditLogRepository, AuditLogRepository>();
 builder.Services.AddScoped<ICreateAuditLogHandler, CreateAuditLogHandler>();
+
+// Reservation
+builder.Services.AddScoped<IReservationRepository, ReservationRepository>();
+builder.Services.AddScoped<CreateReservationCommandHandler>();
 
 var app = builder.Build();
 

@@ -1,0 +1,32 @@
+@import 'Variables.css';
+
+body {
+    background-image: url('../../Images/LoginGif.gif'); 
+    background-position: center; 
+    background-repeat: no-repeat; 
+    background-size: cover; 
+    background-attachment: fixed; 
+    height: 100vh;
+    overflow: hidden;    
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+}
+
+.custom-icon {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--color-dark-pink);
+}
+
+/*para el link registrar*/
+.custom-link{
+    color: var(--color-dark-pink) !important;
+    text-decoration: none !important;
+}
+.custom-link:hover {
+    color: var(--color-strong-pink) !important;
+    text-shadow: 0 4px 15px rgba(255, 77, 141, 0.4);
+}

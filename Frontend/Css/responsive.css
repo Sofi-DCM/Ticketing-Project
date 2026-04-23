@@ -1,0 +1,9 @@
+@media (max-width: 576px) {
+  .login-container {
+    justify-content: center;   /* centrado en celulares */
+    padding: 1rem;
+  }
+  .glass-box {
+    max-width: 100%;
+  }
+}

@@ -1,4 +1,4 @@
-@import 'Variables.css';
+@import 'variables.css';
 
 .glass-box {
     background: rgba(255, 255, 255, 0.15); 
@@ -16,4 +16,15 @@
 .login-container {
   min-height: 100vh;
   padding: 1rem 10%;      
+}
+
+#userFormBox {
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.form-hidden {
+    opacity: 0 !important;
+    transform: translateY(10px); 
 }

@@ -9,38 +9,17 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../Css/Views/LogView.css">
-    <link rel="stylesheet" href="../Css/Boxes.css">
-    <Link rel="stylesheet" href="../Css/Button.css">
-    <link rel="stylesheet" href="../Css/Responsive.css">
+    <link rel="stylesheet" href="../css/views/logView.css">
+    <link rel="stylesheet" href="../css/boxes.css">
+    <Link rel="stylesheet" href="../css/button.css">
+    <link rel="stylesheet" href="../css/responsive.css">
 </head>
 <body>
-    <div class="login-container d-flex align-items-center justify-content-end">
-        <div class=" glass-box p-5 text-white">
-            <!-- esto se debe inyectar con js. box de login parecido pero sin name -->
-            <h2 class="mb-4 fw-bold text-uppercase">Create Account</h2>
-            <form>
-                <div class="mb-3 position-relative">
-                    <input type="text" class="form-control custom-input" placeholder="Name">
-                </div>
-
-                <div class="mb-3 position-relative">
-                    <input type="email" class="form-control custom-input" placeholder="E-mail address">
-                </div>
-               
-                <div class="mb-3 position-relative">
-                    <input type="password" class="form-control custom-input" placeholder="Password">
-                    <i class="bi bi-lock-fill custom-icon"></i>
-                </div>
-
-
-                <button type="submit" class="btn fw-bold mb-3 button-login">SIGN UP</button>
-               
-                <div class="text-center small">
-                    Ya tiene una cuenta? <a href="#" class="text-white fw-bold custom-link">Ingresar</a>
-                </div>
-            </form>
+    <div class=" d-flex align-items-center justify-content-end login-container">
+        <div id="userFormBox" class=" p-5 text-white glass-box form-hidden">
+            <!-- esto se renderiza dinamicamente con .js -->
         </div>
     </div>
 </body>
+<script type="module" src="../js/views/logView.js"></script>
 </html>

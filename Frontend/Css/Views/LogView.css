@@ -13,14 +13,6 @@ body {
     font-family: 'Poppins', sans-serif;
 }
 
-.custom-icon {
-    position: absolute;
-    right: 15px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: var(--color-dark-pink);
-}
-
 /*para el link registrar*/
 .custom-link{
     color: var(--color-dark-pink) !important;

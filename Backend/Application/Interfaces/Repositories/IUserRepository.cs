@@ -17,5 +17,6 @@ namespace Application.Interfaces.Repositories
 
         //-------- Queries --------
         public Task<User?> GetUserById(int id);
+        public Task<User?> GetUserByNameAsync(string name);
     }
 }

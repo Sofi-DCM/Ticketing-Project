@@ -38,5 +38,9 @@ namespace Infrastructure.Repositories
         {
            return await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
         }
+
+        public async Task<User?> GetUserByNameAsync(string name) {
+            return await _context.Users.FirstOrDefaultAsync(u => u.Name == name);
+        }
     }
 }

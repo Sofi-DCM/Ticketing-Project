@@ -14,12 +14,24 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<AppDbContext>(options => 
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+// Enable CORS
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
+
 // -------- Dependency Injection --------
 
 // User
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ICreateUserHandler, CreateUserHandler>();
 builder.Services.AddScoped<IGetUserByIdHandler, GetUserByIdHandler>();
+builder.Services.AddScoped<IValidateUserCredentialsHandler, ValidateUserCredentialsHandler>();
 
 //AuditLog
 builder.Services.AddScoped<IAuditLogRepository, AuditLogRepository>();
@@ -100,5 +112,14 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseCors();
+
+// Apply migrations automatically
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    db.Database.Migrate();
+}
 
 app.Run();

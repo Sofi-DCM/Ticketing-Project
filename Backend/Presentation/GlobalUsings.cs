@@ -15,6 +15,7 @@ global using Application.Interfaces.Handlers._User;
 
 global using Application.UseCase._User.Commands.CreateUser;
 global using Application.UseCase._User.Queries.GetUserById;
+global using Application.UseCase._User.Queries.ValidateUserCredentials;
 
 //--- AuditLog
 global using Application.Interfaces.Handlers._AuditLog;

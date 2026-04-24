@@ -1,8 +1,9 @@
-﻿using System.Data;
+﻿using Application.Response;
+using Domain.Entities;
+using Domain.Exceptions;
+using System.Data;
 using System.Net;
 using System.Text.Json;
-using Application.Response;
-using Domain.Exceptions;
 
 namespace Presentation.Middlewares
 {
@@ -44,6 +45,7 @@ namespace Presentation.Middlewares
             var statusCode = exception switch
             {
                 BadRequestException => (int)HttpStatusCode.BadRequest, // Errores de lógica, 400
+                UnauthorizedException => (int)HttpStatusCode.Unauthorized,
                 KeyNotFoundException => (int)HttpStatusCode.NotFound,   // No encontrado, 404
                 DuplicateNameException => (int)HttpStatusCode.Conflict, // 409
                 _ => (int)HttpStatusCode.InternalServerError            // Error 500

@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Presentation.Controllers
 {
-    [Route("api/v1/[controller]")]
+    [Route("api/v1/events")]
     [ApiController]
     public class EventController : ControllerBase
     {

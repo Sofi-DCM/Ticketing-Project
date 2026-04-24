@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Presentation.Controllers
 {
-    [Route("api/v1/[controller]")]
+    [Route("api/v1/users")]
     [ApiController]
     public class UserController : ControllerBase
     {
@@ -32,7 +32,7 @@ namespace Presentation.Controllers
             return CreatedAtAction(nameof(GetUserById), new { id = userCreatedId }, new { id = userCreatedId });
         }
 
-        [HttpGet]
+        [HttpGet("validate")]
         public async Task<IActionResult> ValidateUserCredentials(string name, string password) 
         {
             var userId = await _validateUserCredentialsHandler.HandleAsync(name, password);

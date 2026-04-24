@@ -13,12 +13,10 @@ export const UserService = {
 
     async CreateUser(createUserCommand) {
         const url = CONFIG.ROUTES.USER.REGISTER;
-        console.log(URL);
         return await baseFetch(url, 'POST', createUserCommand);
     },
     async ValidateUserCredentials(name, password) {
         const url = CONFIG.ROUTES.USER.VALIDATE(name, password);
-        console.log(URL);
         return await baseFetch(url, 'GET');
     },
     async GetUserById(id) {

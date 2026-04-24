@@ -115,12 +115,6 @@ class UserForm {
                 UserIdService.saveId(userId);
             }
 
-            if (document.referrer) {
-                window.location.href = document.referrer; //va directo a la pagina anterior
-            } else {
-                window.location.href = "index.html"; // Backup por si no hay historial
-            }
-
         } catch (ex) {console.log(ex.message)}
         //hacer las validaciones
     }
@@ -130,7 +124,11 @@ class UserForm {
 const app = new UserForm('userFormBox');
 
 /* 
-
+            if (document.referrer) {
+                window.location.href = document.referrer; //va directo a la pagina anterior
+            } else {
+                window.location.href = "index.html"; // Backup por si no hay historial
+            }
 console.log("🚀 Sistemas de prueba listos. Podés usar UserService en la consola.");
 
 ------- Prueba de conexion con fetch y query

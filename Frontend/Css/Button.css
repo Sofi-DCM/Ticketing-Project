@@ -1,0 +1,16 @@
+@import 'Variables.css';
+
+/* Boton de Login */
+.button-login {
+    background-color: var(--color-strong-pink); 
+    border: none;
+    border-radius: 8px;
+    color: white ; 
+    letter-spacing: 1px;
+    transition: 0.3s ease;
+}
+
+.button-login:hover {
+    background-color: var(--color-dark-pink);
+    box-shadow: 0 4px 15px rgba(255, 77, 141, 0.4);
+}

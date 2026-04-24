@@ -1,0 +1,30 @@
+@import 'variables.css';
+
+.glass-box {
+    background: rgba(255, 255, 255, 0.15); 
+    backdrop-filter: blur(10px);          
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 20px;
+    width: 100%;
+    max-width: 320px;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    text-align: center;
+    padding: 2rem 2.5rem;
+    font-family: 'Poppins', sans-serif;
+}
+
+.login-container {
+  min-height: 100vh;
+  padding: 1rem 10%;      
+}
+
+#userFormBox {
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.form-hidden {
+    opacity: 0 !important;
+    transform: translateY(10px); 
+}

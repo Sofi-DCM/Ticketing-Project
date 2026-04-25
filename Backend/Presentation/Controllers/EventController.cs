@@ -1,9 +1,4 @@
-﻿using Application.Response;
-using Application.UseCase._Event.Queries.GetActiveEvents;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-
-namespace Presentation.Controllers
+﻿namespace Presentation.Controllers
 {
     [Route("api/v1/events")]
     [ApiController]

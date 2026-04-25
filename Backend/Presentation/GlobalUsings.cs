@@ -4,6 +4,12 @@ global using Microsoft.EntityFrameworkCore;
 global using Presentation.Middlewares;
 global using Domain.Entities;
 global using Domain.Constants;
+global using Microsoft.AspNetCore.Mvc;
+global using Domain.Exceptions;
+global using System.Data;
+global using System.Net;
+global using System.Text.Json;
+
 
 // ----- for dependency injection -----
 

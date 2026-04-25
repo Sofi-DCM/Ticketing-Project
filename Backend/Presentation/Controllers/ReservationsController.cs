@@ -1,9 +1,4 @@
-﻿using Application.Interfaces.Handlers._Reservation;
-using Application.UseCase._Reservation.Commands.CreateReservation;
-using Domain.Exceptions;
-using Microsoft.AspNetCore.Mvc;
-
-namespace Presentation.Controllers
+﻿namespace Presentation.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]

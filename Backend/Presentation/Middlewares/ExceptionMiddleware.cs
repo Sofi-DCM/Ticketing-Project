@@ -1,10 +1,4 @@
-﻿using Application.Response;
-using Domain.Exceptions;
-using System.Data;
-using System.Net;
-using System.Text.Json;
-
-namespace Presentation.Middlewares
+﻿namespace Presentation.Middlewares
 {
     public class ExceptionMiddleware
     {

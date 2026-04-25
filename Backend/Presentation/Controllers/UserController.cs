@@ -1,10 +1,4 @@
-﻿using Application.Interfaces.Handlers._User;
-using Azure.Core;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-
-
-namespace Presentation.Controllers
+﻿namespace Presentation.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

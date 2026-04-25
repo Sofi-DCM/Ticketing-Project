@@ -11,10 +11,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="DTOs\Responses\" />
-    <Folder Include="DTOs\Requests\" />
-    <Folder Include="Interfaces\" />
-    <Folder Include="UseCase\" />
+    <PackageReference Include="BCrypt.Net-Next" Version="4.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="UseCase\_Reservation\Queries\" />
+    <Folder Include="UseCase\_AuditLog\Queries\" />
   </ItemGroup>
 
 </Project>

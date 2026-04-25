@@ -1,7 +1,7 @@
 ﻿
 namespace Domain.Constants
 {
-    public class ReservationConstants
+    public static class ReservationConstants
     {
         public const string Pending = "Pending";
         public const string Paid = "Paid";

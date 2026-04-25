@@ -31,8 +31,8 @@ namespace Application.UseCase._Reservation.Commands.CreateReservation
             IChangeSeatStatusHandler changeSeatStatusHandler)
         {
             _repository = reservationRepository;
-            _createAuditLogHandler=createAuditLogHandler;
-            _changeSeatStatusHandler=changeSeatStatusHandler;
+            _createAuditLogHandler = createAuditLogHandler;
+            _changeSeatStatusHandler = changeSeatStatusHandler;
         }
 
         public async Task<ReservationResponseDto> HandleAsync(CreateReservationCommand command, CancellationToken ct)
@@ -44,15 +44,15 @@ namespace Application.UseCase._Reservation.Commands.CreateReservation
                 await _changeSeatStatusHandler.HandleAsync(command.SeatId, ct);
                 // hacer la reserva en repository
                 var newReservation = new Reservation
-                    {
-                        UserId = command.UserId,
-                        SeatId = command.SeatId,
-                        Status = ReservationConstants.Pending,
-                        ReservedAt = DateTime.UtcNow,
-                        ExpiresAt = DateTime.UtcNow.AddMinutes(5) 
-                    };
+                {
+                    UserId = command.UserId,
+                    SeatId = command.SeatId,
+                    Status = ReservationConstants.Pending,
+                    ReservedAt = DateTime.UtcNow,
+                    ExpiresAt = DateTime.UtcNow.AddMinutes(5)
+                };
 
-                var reservationId = await _repository.InsertReservationAsync(newReservation,ct);
+                var reservationId = await _repository.InsertReservationAsync(newReservation, ct);
 
                 // crear auditoria de conseguido
                 await _createAuditLogHandler.HandleAsync(MapToAuditLogCommand(command, true, reservationId));
@@ -93,74 +93,5 @@ namespace Application.UseCase._Reservation.Commands.CreateReservation
                 ExpiresAt = reservation.ExpiresAt
             };
         }
-
-        /*
-        public async Task<ReservationResponseDto> Handle(CreateReservationCommand command, CancellationToken ct) 
-        {
-            var seat = await _context.Seats.FirstOrDefaultAsync(s => s.Id == command.SeatId, cancellationToken);
-            if (seat == null)
-            {
-                throw new Exception("Seat not found");
-            }
-            if (seat.Status != "Available")
-            {
-                _context.AuditLogs.Add(new AuditLog
-                {
-                    Id = Guid.NewGuid(),
-                    UserId = command.UserId,
-                    Action = "RESERVE_ATTEMPT_FAILED",
-                    EntityType = "Seat",
-                    EntityId = command.SeatId.ToString(),
-                    Details = $"La butaca no está disponible. Estado actual: {seat.Status}",
-                    CreatedAt = DateTime.UtcNow
-                });
-                await _context.SaveChangesAsync(cancellationToken);
-
-                throw new ConflictException("La butaca ya no está disponible.");
-            }
-            var reservation = new Reservation
-            {
-                Id = Guid.NewGuid(),
-                UserId = command.UserId,
-                SeatId = seat.Id,
-                Status = "Pending",
-                ReservedAt = DateTime.UtcNow,
-                ExpiresAt = DateTime.UtcNow.AddMinutes(5)
-            };
-            seat.Status = "Reserved";
-            seat.Version++;
-
-            _context.Reservations.Add(reservation);
-
-            _context.AuditLogs.Add(new AuditLog
-            {
-                Id = Guid.NewGuid(),
-                UserId = command.UserId,
-                Action = "RESERVE_SUCCESS",
-                EntityType = "Reservation",
-                EntityId = reservation.Id.ToString(),
-                Details = $"Reserva creada para la butaca {seat.Id}. Expira a las {reservation.ExpiresAt:O}",
-                CreatedAt = DateTime.UtcNow
-            });
-            try
-            {
-                await _context.SaveChangesAsync(cancellationToken);
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                throw new ConflictException("Otro usuario reservó la butaca al mismo tiempo.");
-            }
-
-            return new ReservationResponseDto
-            {
-                ReservationId = reservation.Id,
-                SeatId = reservation.SeatId,
-                SeatStatus = seat.Status,
-                ReservationStatus = reservation.Status,
-                ReservedAt = reservation.ReservedAt,
-                ExpiresAt = reservation.ExpiresAt
-            };
-        }
-        */
     }
 }

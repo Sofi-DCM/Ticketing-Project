@@ -21,7 +21,7 @@ namespace Infrastructure.Persistence.EntityConfiguration
             entity.HasIndex(u => u.Name)
                   .IsUnique();
             entity.Property(d => d.Name)
-                  .IsRequired()          
+                  .IsRequired()
                   .HasMaxLength(50);
 
             entity.HasIndex(u => u.Email)
@@ -38,7 +38,7 @@ namespace Infrastructure.Persistence.EntityConfiguration
 
                 //Admin -> contraseña : 1234
                 new User { Id = 1, Name = "Admin", Email = "admin@gmail.com", PasswordHash = "$2a$12$JsxSgRNoJhtUIxlFO3YfWu.v6.yrLziZ/D/PEZK9oxTrEvJk9.nL2" }
-                
+
                 );
         }
     }

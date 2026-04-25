@@ -5,7 +5,11 @@
   --color-soft-pink: #ecacc7;
   --color-strong-pink: #ff4d8d ;
   --color-dark-pink: #e63e7a;
+  --color-translucent-pink: #ff40c34d;
   --color-soft-blue: #94e6ee;
   --color-dark-blue: #54d4e0;
+  --color-translucent-blue: #2bb2b761;
   --color-soft-green: #c6f388;
+  --color-dark-green: #75c506;
+  --color-translucent-green: #1f97458d;
 }

@@ -12,7 +12,7 @@ namespace Domain.Constants
             public const string ReserveExpired = "RESERVE_EXPIRED";
         }
 
-        public static class Entities 
+        public static class Entities
         {
             public const string User = "User";
             public const string Seat = "Seat";

@@ -1,11 +1,12 @@
-﻿using Application.UseCase._Reservation.Commands.CreateReservation;
+﻿using Application.Interfaces.Handlers._Reservation;
+using Application.UseCase._Reservation.Commands.CreateReservation;
 using Domain.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Presentation.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/v1/reservations")]
     public class ReservationsController : ControllerBase
     {
         private readonly ICreateReservationHandler _createReservationHandler;
@@ -20,9 +21,9 @@ namespace Presentation.Controllers
             [FromBody] CreateReservationCommand command,
             CancellationToken cancellationToken)
         {
-                var result = await _createReservationHandler.HandleAsync(command, cancellationToken);
+            var result = await _createReservationHandler.HandleAsync(command, cancellationToken);
 
-                return Created(string.Empty, result);
+            return Created(string.Empty, result);
         }
     }
 }

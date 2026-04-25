@@ -1,9 +1,39 @@
+
 @media (max-width: 576px) {
-.login-container {
+  /* --- LogView --- */
+  .login-container {
     justify-content: center;  
     padding: 1rem;
   }
   .glass-box {
     max-width: 100%;
+  }
+
+  /* --- IndexView --- */
+  
+  .header-section {
+    flex-direction: row; 
+    align-items: flex-start !important;
+    gap: 1rem;
+  }
+  .filter-bar {
+    flex-direction: row; 
+    justify-content: flex-start; 
+  }
+
+  .filter-bar button {
+    width: auto; 
+    flex-shrink: 0; 
+  }
+
+  /* Permitir scroll en la página si el contenido es muy alto en móviles */
+  body { 
+    overflow-y: auto;
+    height: auto;
+  }
+
+  .table-container {
+    max-width: 100%;
+    overflow-x: auto; /* Scroll horizontal para la tabla si no entra */
   }
 }

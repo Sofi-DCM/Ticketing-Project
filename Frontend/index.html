@@ -1,11 +1,76 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <title>Test de Consola</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catalogos de Evento</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/Views/IndexView.css">
+    <link rel="stylesheet" href="css/Button.css">
+    <link rel="stylesheet" href="css/responsive.css">
 </head>
 <body>
-    <h1>Abri la consola (F12) para probar</h1>
 
-    <script type="module" src="JavaScript/Views/LogView.js"></script>
+    <div class="main-container p-3">
+    <header class="header-section d-flex flex-wrap justify-content-between align-items-center mb-4">
+        <div id="title">
+            <h1 class="display-4">Catálogo de <em>Eventos</em></h1>
+            <p id="pageNumber">cant EVENTOS · PÁGINA numero</p>
+        </div>
+        <div>
+            <a href="Html/LogView.html" class="user-button d-flex align-items-center">
+                <!--Se inyecta por dependencia segun idstorage es null o tiene valor-->
+                <div class="user-avatar-container">
+                    <img src="Images/WarningProfile.PNG" alt="Profile" class="user-avatar" >
+                    <img src="Images/UserProfile.PNG" alt="Profile" class="user-avatar" hidden>
+                </div>
+                <span class="user-name">Invitado</span> <!--Invitado o valor-->
+            </a>
+        </div>
+    </header>
+
+    <nav class="filter-bar d-flex flex-wrap gap-2 mb-4">
+        <span class="align-self-center me-2">ORDENAR POR :</span>
+        <button class="btn btn-sm rounded-pill button-filter-selected">↓ Más reciente</button>
+        <button class="btn btn-sm rounded-pill button-filter-waiting">Fecha ↑</button>
+        <button class="btn btn-sm rounded-pill button-filter-waiting">Fecha ↓</button>
+        <button class="btn btn-sm rounded-pill button-filter-waiting">Nombre A-Z</button>
+        <button class="btn btn-sm rounded-pill button-filter-waiting">Nombre Z-A</button>
+    </nav>
+
+    <div class="table-container">
+        <table class="table custom-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>NOMBRE</th>
+                    <th>VENUE</th>
+                    <th>FECHA</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!--
+                <tr>
+                    <td colspan="4" class="text-center py-5">
+                        <span class="text-danger">Error al cargar datos: HTTP 404</span>
+                    </td>
+                </tr> -->
+            </tbody>
+        </table>
+    </div>
+
+    <footer class="pagination-footer d-flex justify-content-center align-items-center gap-3 mt-4">
+        <!--Disabled o no segun hay o no mas paginas-->
+        <button class="btn btn-light btn-sm button-page" disabled>‹ Anterior</button>
+        <span id="pageIndicator" class="page-indicator"><strong>1</strong> / 1</span>
+        <button class="btn btn-light btn-sm button-page" >Siguiente ›</button>
+    </footer>
+</div>
+
 </body>
+<script type="module" src="js/views/index.js"></script>
 </html>

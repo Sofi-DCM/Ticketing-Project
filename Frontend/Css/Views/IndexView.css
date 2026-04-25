@@ -1,0 +1,71 @@
+@import '../Variables.css';
+
+body{
+    background: var(--color-background); 
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    overflow: hidden; 
+    height: 100vh;
+}
+
+.main-container {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+#title {
+    h1 {
+        font-weight: 800;
+        color: var(--color-dark-pink);
+        margin: 0;
+        text-shadow: 0 4px 15px var(--color-translucent-pink);
+
+        em {
+            color: var(--color-strong-pink); 
+        }
+    } 
+     p{
+        color: var(--color-text);
+    }
+}
+.badge-custom{
+    background-color: var(--color-dark-blue);
+    box-shadow: 0 4px 14px var(--color-translucent-blue);
+}
+
+/* Scroll Interno */
+.table-container {
+    flex-grow: 1;
+    overflow-y: auto; /* Solo scroll vertical */
+    background: rgba(255, 255, 255, 0.15);         
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 15px;
+    box-shadow: 0 4px 14px var(--color-translucent-grey);
+}
+
+.custom-table thead th {
+    position: sticky;
+    top: 0;
+    background: rgba(255, 255, 255, 0.15); 
+    z-index: 10;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+    color: #9fa5aa;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+}
+
+.filter-bar {
+    display: flex; 
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+}
+
+.filter-bar span{
+    color: var(--color-text)
+}
+
+.page-indicator{
+    color: var(--color-text);
+}

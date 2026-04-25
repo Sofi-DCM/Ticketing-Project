@@ -24,7 +24,7 @@
 }
 
 .toast-info {
-    background: var(--color-dark-blue);
+    background: var(--color-strong-blue);
     border-color:var(--color-soft-blue);
     box-shadow: 0 4px 15px var(--color-translucent-blue) ;
 }

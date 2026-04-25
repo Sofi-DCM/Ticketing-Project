@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Presentation.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/v1/reservations")]
     public class ReservationsController : ControllerBase
     {
         private readonly ICreateReservationHandler _createReservationHandler;

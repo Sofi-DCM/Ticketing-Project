@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 
 namespace Application.Interfaces.Handlers._Reservation
 {
-    public class ICreateReservationHandler
+    public interface ICreateReservationHandler
     {
-            Task<ReservationResponseDto> HandleAsync(CreateReservationCommand command, CancellationToken cancellationToken);
+        public Task<ReservationResponseDto> HandleAsync(CreateReservationCommand command, CancellationToken cancellationToken);
     }
 }

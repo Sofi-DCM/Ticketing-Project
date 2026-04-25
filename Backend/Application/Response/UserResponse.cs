@@ -10,28 +10,9 @@ using System.Threading.Tasks;
 
 namespace Application.Response
 {
-    public class CreateAuditLogHandler : ICreateAuditLogHandler
+    public class UserResponse
     {
-        private readonly IAuditLogRepository _repository;
-
-        public CreateAuditLogHandler(IAuditLogRepository repository)
-        {
-            _repository = repository;
-        }
-
-        public async Task HandleAsync(CreateAuditLogCommand command)
-        {
-            var newAudit = new AuditLog
-            {
-                UserId = command.UserId,
-                Action = command.Action,
-                EntityType = command.EntityType,
-                EntityId = command.EntityId,
-                Details = command.Details,
-                CreatedAt = DateTime.Now,
-            };
-
-            await _repository.InsertAsync(newAudit);
-        }
+        public string Name { get; set; } = null!;
+        public string Email { get; set; } = null!;
     }
 }

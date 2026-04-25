@@ -39,7 +39,7 @@ namespace Application.UseCase._Event.Queries.GetActiveEvents
 
             return new PagedEventsResponse
             {
-                Events = response.events.Select(e => new ShortEventResponse
+                Events = response.events?.Select(e => new ShortEventResponse
                         {
                             Id = e.Id,
                             Name = e.Name,

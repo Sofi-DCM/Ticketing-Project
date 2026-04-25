@@ -37,5 +37,14 @@ namespace Infrastructure.Repositories
             // Si rowsAffected es 0, significa que el estado no coincidio por eso no se modifico
             return rowsAffected > 0;
         }
+
+        public async Task ReleaseSeatAsync(Guid seatId, CancellationToken ct)
+        {
+            await _context.Seats
+                .Where(s => s.Id == seatId && s.Status == SeatStatusConstants.Reserved)
+                .ExecuteUpdateAsync(setters => setters
+                    .SetProperty(s => s.Status, SeatStatusConstants.Available)
+                    .SetProperty(s => s.Version, s => s.Version + 1), ct);
+        }
     }
 }

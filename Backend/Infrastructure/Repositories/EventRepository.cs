@@ -45,5 +45,14 @@ namespace Infrastructure.Repositories
 
             return (events, TotalCount);
         }
+
+        public async Task<int> InsertEventAsync(Event newEvent, CancellationToken ct)
+        {
+            await _context.Events.AddAsync(newEvent, ct);
+
+            await _context.SaveChangesAsync(ct);
+
+            return newEvent.Id;
+        }
     }
 }

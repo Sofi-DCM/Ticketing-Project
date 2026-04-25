@@ -1,14 +1,24 @@
-﻿namespace Presentation.Controllers
+﻿using Application.UseCase._Event.Commands.CreateEvent;
+
+namespace Presentation.Controllers
 {
-    [Route("api/v1/events")]
+    [Route("api/[controller]")]
     [ApiController]
     public class EventController : ControllerBase
     {
         private readonly IGetActiveEventsHandler _getActiveEventsHandler;
+        private readonly ICreateEventHandler _createEventHandler;
 
+        /*
         public EventController(IGetActiveEventsHandler getActiveEventsHandler)
         {
             _getActiveEventsHandler=getActiveEventsHandler;
+        }
+        */
+        public EventController(IGetActiveEventsHandler getActiveEventsHandler, ICreateEventHandler createEventHandler)
+        {
+            _getActiveEventsHandler = getActiveEventsHandler;
+            _createEventHandler = createEventHandler;
         }
 
         [HttpGet]
@@ -17,6 +27,14 @@
             var response = await _getActiveEventsHandler.HandleAsync(query, ct);
 
             return Ok(response);
+        }
+
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        public async Task<IActionResult> CreateEvent([FromBody] CreateEventCommand command, CancellationToken ct)
+        {
+            var id = await _createEventHandler.HandleAsync(command, ct);
+            return Created(string.Empty, new { eventId = id });
         }
     }
 }

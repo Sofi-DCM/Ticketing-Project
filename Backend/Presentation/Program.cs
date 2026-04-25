@@ -1,5 +1,4 @@
 
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -40,6 +39,7 @@ builder.Services.AddScoped<ICreateAuditLogHandler, CreateAuditLogHandler>();
 //Event
 builder.Services.AddScoped<IEventRepository, EventRepository>();
 builder.Services.AddScoped<IGetActiveEventsHandler, GetActiveEventsHandler>();
+builder.Services.AddScoped<ICreateEventHandler, CreateEventHandler>();
 
 // Reservation
 builder.Services.AddScoped<IReservationRepository, ReservationRepository>();
@@ -49,6 +49,8 @@ builder.Services.AddScoped<ICreateReservationHandler, CreateReservationHandler>(
 builder.Services.AddScoped<ISeatRepository, SeatRepository>();
 builder.Services.AddScoped<IChangeSeatStatusHandler, ChangeSeatStatusHandler>();
 builder.Services.AddScoped<IGetSeatsBySectorHandler, GetSeatsBySectorHandler>();
+builder.Services.AddScoped<IExpireReservationsHandler, ExpireReservationsHandler>();
+builder.Services.AddHostedService<ReservationExpirationBackgroundService>();
 
 var app = builder.Build();
 

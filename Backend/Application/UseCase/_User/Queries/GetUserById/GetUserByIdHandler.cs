@@ -15,15 +15,15 @@ namespace Application.UseCase._User.Queries.GetUserById
 
         public GetUserByIdHandler(IUserRepository repository)
         {
-            _repository=repository;
+            _repository = repository;
         }
 
         public async Task<UserResponse> HandleAsync(int id)
         {
             var response = await _repository.GetUserById(id)
-                ??throw new KeyNotFoundException($"el usuario con Id : {id} no existe");
+                ?? throw new KeyNotFoundException($"el usuario con Id : {id} no existe");
 
-            return new UserResponse { Name = response.Name, Email = response.Email,};
+            return new UserResponse { Name = response.Name, Email = response.Email, };
         }
     }
 }

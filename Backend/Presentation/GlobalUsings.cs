@@ -22,6 +22,16 @@ global using Application.Interfaces.Handlers._AuditLog;
 
 global using Application.UseCase._AuditLog.Commands.CreateAuditLog;
 
+//--- Reservation
+global using Application.Interfaces.Handlers._Reservation;
+
+global using Application.UseCase._Reservation.Commands.CreateReservation;
+
+//--- Seat
+global using Application.Interfaces.Handlers._Seat;
+
+global using Application.UseCase._Seat.Commands.ChangeSeatStatus;
+
 //--- Event
 global using Application.Interfaces.Handlers._Event;
 

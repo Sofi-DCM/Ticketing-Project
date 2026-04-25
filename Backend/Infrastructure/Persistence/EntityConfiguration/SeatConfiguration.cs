@@ -32,7 +32,9 @@ namespace Infrastructure.Persistence.EntityConfiguration
                 .HasMaxLength(20);
 
             entity.Property(s => s.Version)
-                .IsRequired();
+                .IsRequired()
+                .HasDefaultValue(1)
+                .IsConcurrencyToken();
 
             entity.HasOne(s => s.Sector)
                 .WithMany(s => s.Seats)

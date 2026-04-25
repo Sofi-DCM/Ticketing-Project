@@ -6,22 +6,19 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Presentation.Controllers
 {
-    [Route("api/v1/users")]
+    [Route("api/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
     {
         private readonly ICreateUserHandler _createUserHandler;
         private readonly IGetUserByIdHandler _getUserByIdHandler;
-        private readonly IValidateUserCredentialsHandler _validateUserCredentialsHandler;
 
         public UserController(
-            ICreateUserHandler createUserHandler,
-            IGetUserByIdHandler getUserByIdHandler,
-            IValidateUserCredentialsHandler validateUserCredentialsHandler)
+            ICreateUserHandler createUserHandler, 
+            IGetUserByIdHandler getUserByIdHandler)
         {
             _createUserHandler=createUserHandler;
             _getUserByIdHandler=getUserByIdHandler;
-            _validateUserCredentialsHandler=validateUserCredentialsHandler;
         }
 
         [HttpPost]
@@ -32,13 +29,6 @@ namespace Presentation.Controllers
             return CreatedAtAction(nameof(GetUserById), new { id = userCreatedId }, new { id = userCreatedId });
         }
 
-        [HttpGet("validate")]
-        public async Task<IActionResult> ValidateUserCredentials(string name, string password) 
-        {
-            var userId = await _validateUserCredentialsHandler.HandleAsync(name, password);
-
-            return Ok(userId);
-        }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetUserById(int id) 

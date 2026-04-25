@@ -1,0 +1,42 @@
+@import 'variables.css';
+
+.toast-container{
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-Index: 9999;
+    display: flex;
+    flex-Direction: column;
+    gap: 10px
+}
+
+.toast-item {
+    background: #1e293b;
+    font-family: 'Poppins', sans-serif;
+    color: #fff;
+    padding: .75rem 1rem;
+    border-radius: .5rem;
+    font-size: 1rem;
+    border-left: 0.3rem solid #64748b;
+    transition: all 0.4s ease;
+    opacity: 0;
+    transform : translateX(20px);
+}
+
+.toast-info {
+    background: var(--color-dark-blue);
+    border-color:var(--color-soft-blue);
+    box-shadow: 0 4px 15px var(--color-translucent-blue) ;
+}
+
+.toast-success {
+    background: var(--color-dark-green);
+    border-color:var(--color-soft-green);
+    box-shadow: 0 4px 15px var(--color-translucent-green);
+}
+
+.toast-error{
+    background: var(--color-dark-pink);
+    border-color:var(--color-soft-pink);
+    box-shadow: 0 4px 15px var(--color-translucent-pink);
+}

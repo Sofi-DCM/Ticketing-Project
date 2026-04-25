@@ -1,5 +1,6 @@
 // importaciones
-import { UserIdService, UserService } from "../services/userService.js"; //si da error en el html agregar Type="Module"
+import { UserIdService, UserService} from "../services/userService.js"; //si da error en el html agregar Type="Module"
+import { Toast } from "../tools/toast.js";
 
 class UserForm {
     constructor(containerId) {
@@ -94,29 +95,49 @@ class UserForm {
         const data = Object.fromEntries(formData.entries()); //lo transforma en un objeto javaScript {}
 
         try{
+            let userId = null;
             if (this.isLogin) {
-                console.log("Validando credenciales");
-                const userId = await UserService.ValidateUserCredentials(data.name, data.password);
+                userId = await UserService.ValidateUserCredentials(data.name, data.password);
                 
-                console.log("Login exitoso");
-                UserIdService.saveId(userId);
-
             } else {
-                console.log("Registrando nuevo usuario...");
                 const command = {
                     name: data.name, 
                     email: data.email,
                     passwordHash : data.password
                 };
-                console.log(command);
-                const userId = await UserService.CreateUser(command);
+                userId = await UserService.CreateUser(command);
+            }
+            UserIdService.saveId(userId);
+            Toast.show("¡Bienvenido "+ data.name +"!");
+        } catch (error) 
+        {
+            switch (error.status) {
+                case 400:
+                    console.warn("Datos mal formados");
+                    Toast.show(error.message, "error");
+                    break;
 
-                console.log("registro exitoso");
-                UserIdService.saveId(userId);
+                case 401:
+                    Toast.show(error.message, "error");
+                    break;
+
+                case 409:
+                    Toast.show(error.message, "error");
+                    break;
+
+                case 500:
+                    Toast.show(error.message, "error");
+                    break;
+
+                default:
+                    Toast.show("error inesperado: "+error.message, "error");
+                    break;    
             }
 
-        } catch (ex) {console.log(ex.message)}
-        //hacer las validaciones
+            //DuplicateNameException (ya existe el nombre o mail) 409
+            //UnauthorizedException (credenciales invalidas) 401
+            //KeyNotFoundException (id invalida) 404
+        }
     }
 }
 

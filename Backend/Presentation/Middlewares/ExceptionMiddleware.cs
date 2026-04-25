@@ -1,5 +1,4 @@
 ﻿using Application.Response;
-using Domain.Entities;
 using Domain.Exceptions;
 using System.Data;
 using System.Net;
@@ -44,11 +43,17 @@ namespace Presentation.Middlewares
             // Mapeamos tipos de excepciones a códigos HTTP
             var statusCode = exception switch
             {
-                BadRequestException => (int)HttpStatusCode.BadRequest, // Errores de lógica, 400
-                UnauthorizedException => (int)HttpStatusCode.Unauthorized,
-                KeyNotFoundException => (int)HttpStatusCode.NotFound,   // No encontrado, 404
-                DuplicateNameException => (int)HttpStatusCode.Conflict, // 409
-                _ => (int)HttpStatusCode.InternalServerError            // Error 500
+                // --- 400 Bad Request ---
+                ApplicationException => (int)HttpStatusCode.BadRequest,
+                // --- 404 Not Found ---
+                KeyNotFoundException => (int)HttpStatusCode.NotFound,   
+                NotFoundException => (int)HttpStatusCode.NotFound,
+                // --- 409 Conflict ---
+                DuplicateNameException => (int)HttpStatusCode.Conflict,
+                InvalidOperationException => (int)HttpStatusCode.Conflict, //a futuro es DbUpdateConcurrencyException
+                ConflictException => (int)HttpStatusCode.Conflict,
+                // --- 500 Server Error ---
+                _ => (int)HttpStatusCode.InternalServerError         
             };
 
             context.Response.StatusCode = statusCode;

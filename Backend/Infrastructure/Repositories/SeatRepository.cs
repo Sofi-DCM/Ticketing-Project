@@ -1,5 +1,7 @@
 ﻿using Application.Interfaces.Repositories;
+using Application.Response;
 using Domain.Constants;
+using Domain.Entities;
 using Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -20,6 +22,15 @@ namespace Infrastructure.Repositories
 
         public async Task<bool> ExistsByIdAsync(Guid seatId) =>
             await _context.Seats.AnyAsync(s => s.Id == seatId);
+        public async Task<ICollection<Seat>> GetSeatsBySectorAsync(int sectorId, CancellationToken ct = default)
+        {
+            return await _context.Seats
+                .AsNoTracking()
+                .Where(s => s.SectorId == sectorId)
+                .OrderBy(s => s.RowIdentifier)
+                .ThenBy(s => s.SeatNumber)
+                .ToListAsync(ct);
+        }
 
         public async Task<bool> PatchSeatStateAsync(Guid seatId, CancellationToken ct)
         {

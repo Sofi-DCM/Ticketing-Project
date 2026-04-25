@@ -1,7 +1,5 @@
 
 
-using Application.Interfaces.Repositories;
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -50,6 +48,7 @@ builder.Services.AddScoped<ICreateReservationHandler, CreateReservationHandler>(
 //Seat
 builder.Services.AddScoped<ISeatRepository, SeatRepository>();
 builder.Services.AddScoped<IChangeSeatStatusHandler, ChangeSeatStatusHandler>();
+builder.Services.AddScoped<IGetSeatsBySectorHandler, GetSeatsBySectorHandler>();
 
 var app = builder.Build();
 

@@ -19,7 +19,7 @@ namespace Application.UseCase._Seat.Queries.GetSeatsBySector
         }
         public async Task<List<SeatStatusDto>> HandleAsync (int sectorId)
         {
-            return await _repository.GetSteasBySectorAsync(sectorId);
+            return await _repository.GetSeatsBySectorAsync(sectorId);
         }
     }
 }

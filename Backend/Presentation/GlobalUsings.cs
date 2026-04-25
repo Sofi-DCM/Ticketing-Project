@@ -32,7 +32,11 @@ global using Application.Interfaces.Handlers._Seat;
 
 global using Application.UseCase._Seat.Commands.ChangeSeatStatus;
 
+global using Application.UseCase._Seat.Queries.GetSeatsBySector;
 //--- Event
 global using Application.Interfaces.Handlers._Event;
 
 global using Application.UseCase._Event.Queries.GetActiveEvents;
+
+//
+global using Application.Response;

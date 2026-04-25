@@ -14,8 +14,8 @@ export const CONFIG = {
 
         // Rutas del EventController
         EVENT: {
-            GET_CATALOG:  (page = 1, size = 10, sort = 'Newest') => 
-                `${BASE_API}/events/active?PageNumber=${page}&PageSize=${size}&SortBy=${sort}`,    // GET GetActiveEvents
+            GET_CATALOG:  (page, size, sort) => 
+                `${BASE_API}/events?pageNumber=${page}&pageSize=${size}&sortBy=${sort}`,    // GET GetActiveEvents
         },
 
         // Rutas del ReservationController

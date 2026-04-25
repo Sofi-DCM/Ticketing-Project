@@ -9,6 +9,6 @@ namespace Application.Interfaces.Handlers._Seat
 {
     public interface IGetSeatsBySectorHandler
     {
-        Task<List<SeatStatusDto>> HandleAsync(int sectorId, CancellationToken ct);
+        Task<List<SeatStatusDto>> HandleAsync(int sectorId);
     }
 }

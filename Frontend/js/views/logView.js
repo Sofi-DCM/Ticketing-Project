@@ -1,11 +1,12 @@
 // importaciones
-import { UserIdService, UserService} from "../services/userService.js"; //si da error en el html agregar Type="Module"
+import { UserDataService, UserService} from "../services/userService.js"; //si da error en el html agregar Type="Module"
 import { Toast } from "../tools/toast.js";
+
 
 class UserForm {
     constructor(containerId) {
         this.container = document.getElementById(containerId);
-        this.isLogin = true; //estado inicial de login
+        this.isLogin = true; //estado inicial de login);
         this.init();
     }
 
@@ -107,7 +108,7 @@ class UserForm {
                 };
                 userId = await UserService.CreateUser(command);
             }
-            UserIdService.saveId(userId);
+            UserDataService.saveData(userId, data.name);
             Toast.show("¡Bienvenido "+ data.name +"!");
         } catch (error) 
         {

@@ -42,7 +42,6 @@ namespace Application.UseCase._Reservation.Commands.ExpireReservations
 
                 await _createAuditLogHandler.HandleAsync(new CreateAuditLogCommand
                 {
-                    UserId = reservation.UserId,
                     Action = AuditLogConstants.Actions.ReserveExpired,
                     EntityType = AuditLogConstants.Entities.Reservation,
                     EntityId = reservation.Id.ToString(),

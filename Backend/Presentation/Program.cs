@@ -50,7 +50,12 @@ builder.Services.AddScoped<ISeatRepository, SeatRepository>();
 builder.Services.AddScoped<IChangeSeatStatusHandler, ChangeSeatStatusHandler>();
 builder.Services.AddScoped<IGetSeatsBySectorHandler, GetSeatsBySectorHandler>();
 builder.Services.AddScoped<IExpireReservationsHandler, ExpireReservationsHandler>();
+builder.Services.AddScoped<ICreateSeatsForSectorHandler, CreateSeatsForSectorHandler>();
 builder.Services.AddHostedService<ReservationExpirationBackgroundService>();
+
+//Sector
+builder.Services.AddScoped<ISectorRepository, SectorRepository>();
+builder.Services.AddScoped<ICreateSectorHandler, CreateSectorHandler>();
 
 var app = builder.Build();
 

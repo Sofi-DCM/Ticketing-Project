@@ -9,7 +9,9 @@ global using Domain.Exceptions;
 global using System.Data;
 global using System.Net;
 global using System.Text.Json;
-global using Application.UseCase._Event.Commands.CreateEvent;
+global using Application.Response;
+
+
 // ----- for dependency injection -----
 
 global using Application.Interfaces.Repositories;
@@ -40,10 +42,15 @@ global using Application.UseCase._Seat.Commands.ChangeSeatStatus;
 global using Application.UseCase._Seat.Queries.GetSeatsBySector;
 global using Application.UseCase._Reservation.Commands.ExpireReservations;
 global using Infrastructure.BackgroundJobs;
+global using Application.UseCase._Seat.Commands.CreateSeatsForSector;
+
 //--- Event
 global using Application.Interfaces.Handlers._Event;
 
 global using Application.UseCase._Event.Queries.GetActiveEvents;
+global using Application.UseCase._Event.Commands.CreateEvent;
 
-//
-global using Application.Response;
+//--- Sector
+global using Application.Interfaces.Handlers._Sector;
+
+global using Application.UseCase._Sector.Commands.CreateSector;

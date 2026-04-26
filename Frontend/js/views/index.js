@@ -14,7 +14,7 @@ class EventCatalog{
         this.pageDetail = document.getElementById('pageDetail');
         this.pageIndicator = document.getElementById('pageIndicator');
         this.sortBy = "Newest";
-        this.pageSize = 10;
+        this.pageSize = 5;
         this.pageNumber = 1;
         console.log("creado");
         this.init();
@@ -55,6 +55,10 @@ class EventCatalog{
 
     }
 
+    initPageButtonListeners(){
+        
+    }
+// #region userHTML
     getWarningUserHTML(){
         return `
             <a href="Html/LogView.html" class="d-flex align-items-center user-button">
@@ -84,6 +88,7 @@ class EventCatalog{
                 <span class="user-name">Admin</span> 
             </a>`
     }
+// #endregion
 
     userButton(){
         //UserDataService.clearData();
@@ -168,5 +173,4 @@ class EventCatalog{
     }
 };
 
-//prueba fetch
 const app = new EventCatalog();

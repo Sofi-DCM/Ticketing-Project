@@ -16,61 +16,48 @@
 <body>
 
     <div class="main-container p-3">
-    <header class="header-section d-flex flex-wrap justify-content-between align-items-center mb-4">
-        <div id="title">
-            <h1 class="display-4">Catálogo de <em>Eventos</em></h1>
-            <p id="pageNumber">cant EVENTOS · PÁGINA numero</p>
-        </div>
-        <div>
-            <a href="Html/LogView.html" class="user-button d-flex align-items-center">
-                <!--Se inyecta por dependencia segun idstorage es null o tiene valor-->
-                <div class="user-avatar-container">
-                    <img src="Images/WarningProfile.PNG" alt="Profile" class="user-avatar" >
-                    <img src="Images/UserProfile.PNG" alt="Profile" class="user-avatar" hidden>
-                </div>
-                <span class="user-name">Invitado</span> <!--Invitado o valor-->
-            </a>
-        </div>
-    </header>
+        <header class="header-section d-flex flex-wrap justify-content-between align-items-center mb-4">
+            <div id="title">
+                <h1 class="display-4">Catálogo de <em>Eventos</em></h1>
+                <p id="pageDetail">EVENTOS · PÁGINA</p>
+            </div>
+            <div id="userContainer">
+            </div>
+        </header>
 
-    <nav class="filter-bar d-flex flex-wrap gap-2 mb-4">
-        <span class="align-self-center me-2">ORDENAR POR :</span>
-        <button class="btn btn-sm rounded-pill button-filter-selected">↓ Más reciente</button>
-        <button class="btn btn-sm rounded-pill button-filter-waiting">Fecha ↑</button>
-        <button class="btn btn-sm rounded-pill button-filter-waiting">Fecha ↓</button>
-        <button class="btn btn-sm rounded-pill button-filter-waiting">Nombre A-Z</button>
-        <button class="btn btn-sm rounded-pill button-filter-waiting">Nombre Z-A</button>
-    </nav>
+        <nav id="SortByButtons" class="filter-bar d-flex flex-wrap gap-2 mb-4">
+            <span class="align-self-center me-2">ORDENAR POR :</span>
+            <button id="sortByNewest" class="btn btn-sm rounded-pill button-filter-selected">↓ Más reciente</button>
+            <button id="sortByDateAsc" class="btn btn-sm rounded-pill button-filter-waiting">Fecha ↑</button>
+            <button id="sortByDateDesc" class="btn btn-sm rounded-pill button-filter-waiting">Fecha ↓</button>
+            <button id="sortByNameAsc" class="btn btn-sm rounded-pill button-filter-waiting">Nombre A-Z</button>
+            <button id="sortByNameDesc" class="btn btn-sm rounded-pill button-filter-waiting">Nombre Z-A</button>
+        </nav>
 
-    <div class="table-container">
-        <table class="table custom-table">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>NOMBRE</th>
-                    <th>VENUE</th>
-                    <th>FECHA</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!--
-                <tr>
-                    <td colspan="4" class="text-center py-5">
-                        <span class="text-danger">Error al cargar datos: HTTP 404</span>
-                    </td>
-                </tr> -->
-            </tbody>
-        </table>
+        <div class="table-container">
+            <table class="table table-striped custom-table">
+                <thead>
+                    <tr>
+                        <th class="button-column">VER</th>
+                        <th class="name-column">NOMBRE</th>
+                        <th class="venue-column">VENUE</th>
+                        <th class="date-column">FECHA</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                </tbody>
+            </table>
+        </div>
+
+        <footer class="pagination-footer d-flex justify-content-center align-items-center gap-3 mt-4">
+            <!--Disabled o no segun hay o no mas paginas-->
+            <button id="buttonPrev" class="btn btn-light btn-sm button-page" disabled>‹ Anterior</button>
+            <span id="pageIndicator" class="page-indicator"></span>
+            <button id="buttonNext" class="btn btn-light btn-sm button-page" disabled>Siguiente ›</button>
+        </footer>
     </div>
 
-    <footer class="pagination-footer d-flex justify-content-center align-items-center gap-3 mt-4">
-        <!--Disabled o no segun hay o no mas paginas-->
-        <button class="btn btn-light btn-sm button-page" disabled>‹ Anterior</button>
-        <span id="pageIndicator" class="page-indicator"><strong>1</strong> / 1</span>
-        <button class="btn btn-light btn-sm button-page" >Siguiente ›</button>
-    </footer>
-</div>
-
 </body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
 <script type="module" src="js/views/index.js"></script>
 </html>

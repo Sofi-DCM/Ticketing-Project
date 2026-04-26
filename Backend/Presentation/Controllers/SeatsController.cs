@@ -1,7 +1,7 @@
 ﻿namespace Presentation.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/v1/seats")]
     public class SeatsController : ControllerBase
     {
         private readonly IGetSeatsBySectorHandler _getSeatsBySectorHandler;

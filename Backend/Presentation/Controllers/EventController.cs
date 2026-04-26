@@ -2,19 +2,13 @@
 
 namespace Presentation.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/v1/events")]
     [ApiController]
     public class EventController : ControllerBase
     {
         private readonly IGetActiveEventsHandler _getActiveEventsHandler;
         private readonly ICreateEventHandler _createEventHandler;
 
-        /*
-        public EventController(IGetActiveEventsHandler getActiveEventsHandler)
-        {
-            _getActiveEventsHandler=getActiveEventsHandler;
-        }
-        */
         public EventController(IGetActiveEventsHandler getActiveEventsHandler, ICreateEventHandler createEventHandler)
         {
             _getActiveEventsHandler = getActiveEventsHandler;
@@ -36,5 +30,6 @@ namespace Presentation.Controllers
             var id = await _createEventHandler.HandleAsync(command, ct);
             return Created(string.Empty, new { eventId = id });
         }
+
     }
 }

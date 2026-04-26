@@ -51,5 +51,11 @@ namespace Infrastructure.Repositories
             return await _context.Sectors
                 .AnyAsync(s => s.Id == sectorId, ct);
         }
+
+        public async Task CreateSeatsAsync(ICollection<Seat> seats) 
+        {
+            await _context.Seats.AddRangeAsync(seats);
+            await _context.SaveChangesAsync();
+        }
     }
 }

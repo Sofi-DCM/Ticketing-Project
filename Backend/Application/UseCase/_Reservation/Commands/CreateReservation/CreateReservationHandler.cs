@@ -6,12 +6,7 @@ using Application.Response;
 using Application.UseCase._AuditLog.Commands.CreateAuditLog;
 using Domain.Constants;
 using Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace Application.UseCase._Reservation.Commands.CreateReservation
 {
@@ -55,11 +50,11 @@ namespace Application.UseCase._Reservation.Commands.CreateReservation
 
                 return MapToResponseDto(newReservation);
             }
-            catch (InvalidOperationException ex) //a futuro es DbUpdateConcurrencyException
+            catch (InvalidOperationException) //a futuro es DbUpdateConcurrencyException
             {
                 //si se rompe porque el asiento ya esta reservado 
                 await _createAuditLogHandler.HandleAsync(MapToAuditLogCommand(command, false));
-                throw ex;
+                throw;
             }
         }
 

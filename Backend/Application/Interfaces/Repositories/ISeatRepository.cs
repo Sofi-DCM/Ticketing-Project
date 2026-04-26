@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Application.Response;
+using Domain.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,5 +12,8 @@ namespace Application.Interfaces.Repositories
     {
         public Task<bool> ExistsByIdAsync(Guid seatId);
         public Task<bool> PatchSeatStateAsync(Guid seatId, CancellationToken ct);
+        Task<ICollection<Seat>> GetSeatsBySectorAsync(int sectorId, CancellationToken ct = default);
+        Task ReleaseSeatAsync(Guid seatId, CancellationToken ct);
+        Task<bool> SectorExistsAsync(int sectorId, CancellationToken ct);
     }
 }

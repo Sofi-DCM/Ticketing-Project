@@ -4,7 +4,12 @@ global using Microsoft.EntityFrameworkCore;
 global using Presentation.Middlewares;
 global using Domain.Entities;
 global using Domain.Constants;
-
+global using Microsoft.AspNetCore.Mvc;
+global using Domain.Exceptions;
+global using System.Data;
+global using System.Net;
+global using System.Text.Json;
+global using Application.UseCase._Event.Commands.CreateEvent;
 // ----- for dependency injection -----
 
 global using Application.Interfaces.Repositories;
@@ -32,7 +37,13 @@ global using Application.Interfaces.Handlers._Seat;
 
 global using Application.UseCase._Seat.Commands.ChangeSeatStatus;
 
+global using Application.UseCase._Seat.Queries.GetSeatsBySector;
+global using Application.UseCase._Reservation.Commands.ExpireReservations;
+global using Infrastructure.BackgroundJobs;
 //--- Event
 global using Application.Interfaces.Handlers._Event;
 
 global using Application.UseCase._Event.Queries.GetActiveEvents;
+
+//
+global using Application.Response;

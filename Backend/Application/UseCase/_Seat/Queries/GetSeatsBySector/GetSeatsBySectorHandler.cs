@@ -13,17 +13,19 @@ namespace Application.UseCase._Seat.Queries.GetSeatsBySector
         {
             _repository = repository;
         }
-        public async Task<List<SeatStatusDto>> HandleAsync(int sectorId, CancellationToken ct = default)
+        public async Task<List<SeatStatusDto>> HandleAsync(int sectorId, bool? onlyRow, CancellationToken ct = default)
         {
             var exists = await _repository.SectorExistsAsync(sectorId, ct);
             if (!exists)
                 throw new NotFoundException($"El sector {sectorId} no existe.");
 
-            var seats = await _repository.GetSeatsBySectorAsync(sectorId, ct);
+            bool filterOnlyRow = onlyRow ?? false;
+
+            var seats = await _repository.GetSeatsBySectorAsync(sectorId, filterOnlyRow, ct);
 
             return seats.Select(s => new SeatStatusDto
             {
-                SectorId = s.Id,
+                Id = s.Id,
                 RowIdentifier = s.RowIdentifier,
                 SeatNumber = s.SeatNumber,
                 Status = s.Status

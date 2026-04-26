@@ -38,11 +38,10 @@ global using Application.UseCase._Reservation.Commands.CreateReservation;
 global using Application.Interfaces.Handlers._Seat;
 
 global using Application.UseCase._Seat.Commands.ChangeSeatStatus;
-
-global using Application.UseCase._Seat.Queries.GetSeatsBySector;
 global using Application.UseCase._Reservation.Commands.ExpireReservations;
-global using Infrastructure.BackgroundJobs;
 global using Application.UseCase._Seat.Commands.CreateSeatsForSector;
+global using Application.UseCase._Seat.Queries.GetSeatsBySector;
+global using Infrastructure.BackgroundJobs;
 
 //--- Event
 global using Application.Interfaces.Handlers._Event;

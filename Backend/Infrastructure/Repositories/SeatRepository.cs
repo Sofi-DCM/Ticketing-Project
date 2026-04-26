@@ -16,11 +16,13 @@ namespace Infrastructure.Repositories
 
         public async Task<bool> ExistsByIdAsync(Guid seatId) =>
             await _context.Seats.AnyAsync(s => s.Id == seatId);
-        public async Task<ICollection<Seat>> GetSeatsBySectorAsync(int sectorId, CancellationToken ct = default)
+
+        public async Task<ICollection<Seat>> GetSeatsBySectorAsync(int sectorId, bool onlyRow, CancellationToken ct = default)
         {
             return await _context.Seats
                 .AsNoTracking()
                 .Where(s => s.SectorId == sectorId)
+                .Where(s => onlyRow == false || s.RowIdentifier == "A")
                 .OrderBy(s => s.RowIdentifier)
                 .ThenBy(s => s.SeatNumber)
                 .ToListAsync(ct);
@@ -32,7 +34,7 @@ namespace Infrastructure.Repositories
                 .Where(s => s.Id == seatId && s.Status == SeatStatusConstants.Available)
                 .ExecuteUpdateAsync(setters => setters
                     .SetProperty(s => s.Status, SeatStatusConstants.Reserved), ct);
-            //a futuro se busca el where tambien con version y tambien se incrementa
+            // a futuro se busca el where tambien con version y tambien se incrementa
 
             // Si rowsAffected es 0, significa que el estado no coincidio por eso no se modifico
             return rowsAffected > 0;
@@ -46,6 +48,7 @@ namespace Infrastructure.Repositories
                     .SetProperty(s => s.Status, SeatStatusConstants.Available)
                     .SetProperty(s => s.Version, s => s.Version + 1), ct);
         }
+
         public async Task<bool> SectorExistsAsync(int sectorId, CancellationToken ct)
         {
             return await _context.Sectors
@@ -57,5 +60,6 @@ namespace Infrastructure.Repositories
             await _context.Seats.AddRangeAsync(seats);
             await _context.SaveChangesAsync();
         }
+
     }
 }

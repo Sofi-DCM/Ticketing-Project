@@ -14,5 +14,6 @@ namespace Application.Interfaces.Repositories
         public Task<bool> PatchSeatStateAsync(Guid seatId, CancellationToken ct);
         Task<ICollection<Seat>> GetSeatsBySectorAsync(int sectorId, CancellationToken ct = default);
         Task ReleaseSeatAsync(Guid seatId, CancellationToken ct);
+        Task<bool> SectorExistsAsync(int sectorId, CancellationToken ct);
     }
 }

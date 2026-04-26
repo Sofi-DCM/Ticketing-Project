@@ -46,5 +46,10 @@ namespace Infrastructure.Repositories
                     .SetProperty(s => s.Status, SeatStatusConstants.Available)
                     .SetProperty(s => s.Version, s => s.Version + 1), ct);
         }
+        public async Task<bool> SectorExistsAsync(int sectorId, CancellationToken ct)
+        {
+            return await _context.Sectors
+                .AnyAsync(s => s.Id == sectorId, ct);
+        }
     }
 }

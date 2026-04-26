@@ -39,6 +39,7 @@
             {
                 // --- 400 Bad Request ---
                 ApplicationException => (int)HttpStatusCode.BadRequest,
+                ArgumentException => (int)HttpStatusCode.BadRequest,
                 // --- 401 Unauthorized ---
                 UnauthorizedException => (int)HttpStatusCode.Unauthorized,
                 // --- 404 Not Found ---

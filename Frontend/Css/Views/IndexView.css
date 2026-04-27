@@ -45,8 +45,7 @@ body{
 }
 
 .custom-table {
-    thead th {
-        text-align: center;     
+    thead th {  
         vertical-align: middle; 
         padding: 0.7rem;         
         position: sticky;
@@ -104,4 +103,11 @@ body{
     transition: all 0.3s ease;
     box-shadow: 0 2px 8px rgba(31, 85, 172, 0.1);
     color: #333;
+}
+
+.message-error{
+    text-align: center !important;
+    color: var(--color-dark-pink)!important;  
+    font-size: 2rem !important; 
+    border-bottom: 2px solid rgba(255, 255, 255, 0) !important;
 }

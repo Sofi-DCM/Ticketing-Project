@@ -27,18 +27,18 @@
 
         <nav id="SortByButtons" class="filter-bar d-flex flex-wrap gap-2 mb-4">
             <span class="align-self-center me-2">ORDENAR POR :</span>
-            <button id="sortByNewest" class="btn btn-sm rounded-pill button-filter-selected">↓ Más reciente</button>
-            <button id="sortByDateAsc" class="btn btn-sm rounded-pill button-filter-waiting">Fecha ↑</button>
-            <button id="sortByDateDesc" class="btn btn-sm rounded-pill button-filter-waiting">Fecha ↓</button>
-            <button id="sortByNameAsc" class="btn btn-sm rounded-pill button-filter-waiting">Nombre A-Z</button>
-            <button id="sortByNameDesc" class="btn btn-sm rounded-pill button-filter-waiting">Nombre Z-A</button>
+            <button id="Newest" class="btn btn-sm rounded-pill button-filter-selected">↓ Más reciente</button>
+            <button id="DateAsc" class="btn btn-sm rounded-pill button-filter-waiting">Fecha ↑</button>
+            <button id="DateDesc" class="btn btn-sm rounded-pill button-filter-waiting">Fecha ↓</button>
+            <button id="NameAsc" class="btn btn-sm rounded-pill button-filter-waiting">Nombre A-Z</button>
+            <button id="NameDesc" class="btn btn-sm rounded-pill button-filter-waiting">Nombre Z-A</button>
         </nav>
 
         <div class="table-container">
             <table class="table table-striped custom-table">
                 <thead>
                     <tr>
-                        <th class="button-column">VER</th>
+                        <th class="button-column"></th>
                         <th class="name-column">NOMBRE</th>
                         <th class="venue-column">VENUE</th>
                         <th class="date-column">FECHA</th>
@@ -49,7 +49,7 @@
             </table>
         </div>
 
-        <footer class="pagination-footer d-flex justify-content-center align-items-center gap-3 mt-4">
+        <footer id="footer" class="pagination-footer d-flex justify-content-center align-items-center gap-3 mt-4">
             <!--Disabled o no segun hay o no mas paginas-->
             <button id="buttonPrev" class="btn btn-light btn-sm button-page" disabled>‹ Anterior</button>
             <span id="pageIndicator" class="page-indicator"></span>

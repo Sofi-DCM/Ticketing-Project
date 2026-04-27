@@ -14,10 +14,11 @@
         [HttpGet("{sectorId}")]
         [ProducesResponseType(typeof(List<SeatStatusDto>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetSeatsBySector(
-            int sectorId,
+            int sectorId, 
+            bool? onlyRow,
             CancellationToken ct)
         {
-            var response = await _getSeatsBySectorHandler.HandleAsync(sectorId, ct);
+            var response = await _getSeatsBySectorHandler.HandleAsync(sectorId, onlyRow, ct);
 
             return Ok(response);
         }

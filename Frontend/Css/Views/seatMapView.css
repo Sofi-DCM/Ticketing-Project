@@ -1,0 +1,89 @@
+@import '../Variables.css';
+
+body {
+    background: var(--color-background);
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 2rem;
+    color: white;
+}
+
+h1 {
+    text-align: center;
+    color: var(--color-strong-pink);
+    margin-bottom: 2rem;
+}
+
+/* Contenedor general del mapa */
+.seat-map {
+    display: grid;
+
+    /* cantidad de columnas */
+    grid-template-columns: repeat(10, 50px);
+
+    gap: 12px;
+
+    justify-content: center;
+
+    padding: 2rem;
+
+    background: rgba(255,255,255,0.05);
+
+    border-radius: 20px;
+
+    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+}
+
+/* Botón asiento base */
+.seat {
+    width: 50px;
+    height: 50px;
+
+    border: none;
+    border-radius: 10px;
+
+    font-size: 0.8rem;
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+/* Hover */
+.seat:hover:not(:disabled) {
+    transform: scale(1.08);
+}
+
+/* Disponible */
+.seat-available {
+    background-color: var(--color-dark-green);
+    color: white;
+}
+
+/* Reservado */
+.seat-reserved {
+    background-color: #eab308;
+    color: black;
+    cursor: not-allowed;
+}
+
+/* Vendido */
+.seat-sold {
+    background-color: var(--color-dark-pink);
+    color: white;
+    cursor: not-allowed;
+}
+
+/* Seleccionado */
+.seat-selected {
+    outline: 3px solid white;
+    box-shadow: 0 0 15px rgba(255,255,255,0.6);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .seat-map {
+        grid-template-columns: repeat(5, 50px);
+    }
+}

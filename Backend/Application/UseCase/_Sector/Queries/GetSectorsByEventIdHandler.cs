@@ -1,0 +1,35 @@
+﻿using Application.Interfaces.Handlers._Sector;
+using Application.Interfaces.Repositories;
+using Application.Response;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Application.UseCase._Sector.Queries
+{
+    public class GetSectorsByEventIdHandler : IGetSectorsByEventIdHandler
+    {
+        private readonly ISectorRepository _repository;
+
+        public GetSectorsByEventIdHandler(ISectorRepository repository)
+        {
+            _repository = repository;
+        }
+
+        public async Task<List<SectorResponseDto>> HandleAsync(int eventId, CancellationToken ct = default)
+        {
+            var sectors = await _repository.GetSectorsByEventIdAsync(eventId, ct);
+
+            return sectors.Select(s => new SectorResponseDto
+            {
+                Id = s.Id,
+                EventId = s.EventId,
+                Name = s.Name,
+                Price = s.Price,
+                Capacity = s.Capacity
+            }).ToList();
+        }
+    }
+}

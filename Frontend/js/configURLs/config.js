@@ -18,6 +18,12 @@ export const CONFIG = {
                 `${BASE_API}/events?pageNumber=${page}&pageSize=${size}&sortBy=${sort}`,    // GET GetActiveEvents
         },
 
+        // Rutas del SeatController
+        SEAT: {
+            GET_BY_SECTOR: (sectorId) =>
+                `${BASE_API}/seats/${sectorId}`
+        },
+
         // Rutas del ReservationController
         RESERVATION: {
         }

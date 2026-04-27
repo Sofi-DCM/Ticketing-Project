@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace Application.UseCase._Reservation.Commands.ExpireReservations
@@ -43,9 +44,9 @@ namespace Application.UseCase._Reservation.Commands.ExpireReservations
                 await _createAuditLogHandler.HandleAsync(new CreateAuditLogCommand
                 {
                     Action = AuditLogConstants.Actions.ReserveExpired,
-                    EntityType = AuditLogConstants.Entities.Reservation,
-                    EntityId = reservation.Id.ToString(),
-                    Details = $"La reserva {reservation.Id} expiró automáticamente."
+                    EntityType = AuditLogConstants.Entities.Seat,
+                    EntityId = reservation.SeatId.ToString(),
+                    Details = JsonSerializer.Serialize(new { reservation.UserId, reservation.SeatId, reservation.Id })
                 });
             }
         }

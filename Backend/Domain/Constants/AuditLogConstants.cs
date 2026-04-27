@@ -16,6 +16,7 @@ namespace Domain.Constants
         {
             public const string User = "User";
             public const string Seat = "Seat";
+            public const string Reservation = "Reservation";
         }
     }
 }

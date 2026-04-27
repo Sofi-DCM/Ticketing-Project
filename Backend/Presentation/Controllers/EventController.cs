@@ -1,7 +1,4 @@
-﻿using Application.Response;
-using Application.UseCase._Event.Queries.GetActiveEvents;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Application.UseCase._Event.Commands.CreateEvent;
 
 namespace Presentation.Controllers
 {
@@ -10,10 +7,12 @@ namespace Presentation.Controllers
     public class EventController : ControllerBase
     {
         private readonly IGetActiveEventsHandler _getActiveEventsHandler;
+        private readonly ICreateEventHandler _createEventHandler;
 
-        public EventController(IGetActiveEventsHandler getActiveEventsHandler)
+        public EventController(IGetActiveEventsHandler getActiveEventsHandler, ICreateEventHandler createEventHandler)
         {
-            _getActiveEventsHandler=getActiveEventsHandler;
+            _getActiveEventsHandler = getActiveEventsHandler;
+            _createEventHandler = createEventHandler;
         }
 
         [HttpGet]
@@ -23,5 +22,14 @@ namespace Presentation.Controllers
 
             return Ok(response);
         }
+
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        public async Task<IActionResult> CreateEvent([FromBody] CreateEventCommand command, CancellationToken ct)
+        {
+            var id = await _createEventHandler.HandleAsync(command, ct);
+            return Created(string.Empty, new { eventId = id });
+        }
+
     }
 }

@@ -110,6 +110,13 @@ class UserForm {
             }
             UserDataService.saveData(userId, data.name);
             Toast.show("¡Bienvenido "+ data.name +"!");
+            //redireccion a la pagina anterior (normalmente el index catalogo)
+            setTimeout(() => {            
+                if (document.referrer) {
+                    window.location.href = document.referrer; //va directo a la pagina anterior
+                } else {
+                    window.location.href = "index.html"; // Backup por si no hay historial
+            }},3000);
         } catch (error) 
         {
             switch (error.status) {
@@ -134,39 +141,9 @@ class UserForm {
                     Toast.show("error inesperado: "+error.message, "error");
                     break;    
             }
-
-            //DuplicateNameException (ya existe el nombre o mail) 409
-            //UnauthorizedException (credenciales invalidas) 401
-            //KeyNotFoundException (id invalida) 404
         }
     }
 }
 
 // Uso:
 const app = new UserForm('userFormBox');
-
-/* 
-            if (document.referrer) {
-                window.location.href = document.referrer; //va directo a la pagina anterior
-            } else {
-                window.location.href = "index.html"; // Backup por si no hay historial
-            }
-console.log("🚀 Sistemas de prueba listos. Podés usar UserService en la consola.");
-
-------- Prueba de conexion con fetch y query
-const user = await UserService.GetUserById(1);
-console.log(user);
-
-------- Prueba de conexion con fetch y body
-let miNuevoUsuario = { name: "Mimu", email: "Mimu@unaj.edu.ar", passwordHash: "123" };
-const response = await UserService.CreateUser(miNuevoUsuario);
-console.log(response);
-
------------ Para guardar el id de usuario en el local storage
-const idUsuario = 123;
-localStorage.setItem('usuarioId', idUsuario);
-----------Para recuperar el valor 
-const idGuardado = localStorage.getItem('usuarioId');
-
-console.log("El ID permanente es:", idGuardado);
-*/

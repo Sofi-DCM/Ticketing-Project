@@ -1,4 +1,6 @@
 
+using Application.UseCase._Sector.Queries;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -57,6 +59,7 @@ builder.Services.AddHostedService<ReservationExpirationBackgroundService>();
 //Sector
 builder.Services.AddScoped<ISectorRepository, SectorRepository>();
 builder.Services.AddScoped<ICreateSectorHandler, CreateSectorHandler>();
+builder.Services.AddScoped<IGetSectorsByEventIdHandler, GetSectorsByEventIdHandler>();
 
 var app = builder.Build();
 

@@ -51,5 +51,5 @@ global using Application.UseCase._Event.Commands.CreateEvent;
 
 //--- Sector
 global using Application.Interfaces.Handlers._Sector;
-
+global using Application.UseCase._Sector.Queries;
 global using Application.UseCase._Sector.Commands.CreateSector;

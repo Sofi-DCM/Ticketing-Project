@@ -6,6 +6,7 @@ using Application.Response;
 using Application.UseCase._AuditLog.Commands.CreateAuditLog;
 using Domain.Constants;
 using Domain.Entities;
+using Domain.Exceptions;
 using System.Text.Json;
 
 namespace Application.UseCase._Reservation.Commands.CreateReservation
@@ -15,19 +16,25 @@ namespace Application.UseCase._Reservation.Commands.CreateReservation
         private readonly IReservationRepository _repository;
         private readonly ICreateAuditLogHandler _createAuditLogHandler;
         private readonly IChangeSeatStatusHandler _changeSeatStatusHandler;
+        private readonly IUserRepository _userRepository;
 
         public CreateReservationHandler(
             IReservationRepository reservationRepository,
             ICreateAuditLogHandler createAuditLogHandler,
-            IChangeSeatStatusHandler changeSeatStatusHandler)
+            IChangeSeatStatusHandler changeSeatStatusHandler,
+            IUserRepository userRepository)
         {
             _repository = reservationRepository;
             _createAuditLogHandler = createAuditLogHandler;
             _changeSeatStatusHandler = changeSeatStatusHandler;
+            _userRepository = userRepository;
         }
 
         public async Task<ReservationResponseDto> HandleAsync(CreateReservationCommand command, CancellationToken ct)
         {
+            if (!await _userRepository.ExistsByIdAsync(command.UserId, ct))
+                throw new NotFoundException($"No existe un usuario con id: {command.UserId}");
+
             try
             {
                 // enviar a que se modifique el estado de asiento

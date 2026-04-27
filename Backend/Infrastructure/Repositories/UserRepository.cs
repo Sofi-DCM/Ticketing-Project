@@ -37,5 +37,11 @@ namespace Infrastructure.Repositories
         public async Task<User?> GetUserByNameAsync(string name) {
             return await _context.Users.FirstOrDefaultAsync(u => u.Name == name);
         }
+
+        public async Task<bool> ExistsByIdAsync(int userId, CancellationToken ct = default)
+        {
+            return await _context.Users
+                .AnyAsync(u => u.Id == userId, ct);
+        }
     }
 }

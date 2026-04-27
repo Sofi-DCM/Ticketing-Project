@@ -34,5 +34,12 @@ namespace Infrastructure.Repositories
                 .OrderBy(s => s.Id)
                 .ToListAsync(ct);
         }
+
+        public async Task<bool> EventExistsAsync(int eventId, CancellationToken ct = default)
+        {
+            return await _context.Events
+                .AsNoTracking()
+                .AnyAsync(e => e.Id == eventId, ct);
+        }
     }
 }

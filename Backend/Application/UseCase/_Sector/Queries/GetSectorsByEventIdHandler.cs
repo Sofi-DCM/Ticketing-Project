@@ -20,6 +20,13 @@ namespace Application.UseCase._Sector.Queries
 
         public async Task<List<SectorResponseDto>> HandleAsync(int eventId, CancellationToken ct = default)
         {
+            var eventExists = await _repository.EventExistsAsync(eventId);
+
+            if (!eventExists)
+            {
+                throw new KeyNotFoundException($"No existe un evento con id {eventId}");
+            }
+
             var sectors = await _repository.GetSectorsByEventIdAsync(eventId, ct);
 
             return sectors.Select(s => new SectorResponseDto

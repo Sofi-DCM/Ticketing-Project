@@ -27,7 +27,6 @@ builder.Services.AddCors(options =>
 });
 
 // -------- Dependency Injection --------
-//HOLAAAAAAAA
 
 // User
 builder.Services.AddScoped<IUserRepository, UserRepository>();
@@ -129,10 +128,42 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+// -------- Configuration for "Frontend" profile --------
+
+// Obtenemos la ruta base de ejecución
+string rootPath = builder.Environment.ContentRootPath; // donde estoy?
+string frontendPath = Path.Combine(rootPath, "..", "Frontend"); //de donde estoy salgo uno fuera y busca frontend
+
+// Verificación de seguridad: si no existe, subimos un nivel más 
+// si se esta ejecutando no desde el .snl sino el "bin/Debug/net8.0" debemos subir dos niveles
+if (!Directory.Exists(frontendPath)) 
+{
+    frontendPath = Path.Combine(rootPath, "..", "..", "Frontend");
+}
+
+// Imprimir en consola la url encontrada
+Console.WriteLine($"Buscando Frontend en: {Path.GetFullPath(frontendPath)}");
+
+if (Directory.Exists(frontendPath))
+{
+    app.UseDefaultFiles(); //busca archivos con nombres comunes como "index.html" o "default.html"
+    app.UseStaticFiles(new StaticFileOptions
+    {
+        FileProvider = new Microsoft.Extensions.FileProviders.PhysicalFileProvider(
+            Path.GetFullPath(frontendPath)), //permite que .net lea archivos fuera de la carpeta , creando la url
+        RequestPath = ""
+    });
+}
+else
+{
+    Console.ForegroundColor = ConsoleColor.Red;
+    Console.WriteLine("ERROR: No se encontró la carpeta Frontend. Verifica la estructura de carpetas.");
+    Console.ResetColor();
+}
+
+
 app.UseAuthorization();
-
 app.MapControllers();
-
 app.UseCors();
 
 // Apply migrations automatically
@@ -141,5 +172,11 @@ using (var scope = app.Services.CreateScope())
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     db.Database.Migrate();
 }
+
+// -------- Por si el navegador no va al lugar adecuado --------
+app.MapGet("/", context => { //si intenta ir a la raiz /
+    context.Response.Redirect("/index.html"); //redirecciona a index.html
+    return Task.CompletedTask; //es asincronico asique retorna que la tarea se completo
+});
 
 app.Run();

@@ -1,14 +1,11 @@
-﻿using Application.Interfaces.Handlers._Event;
+﻿
+using Application.Interfaces;
+using Application.Interfaces.Handlers._Event;
 using Application.Interfaces.Handlers._Sector;
 using Application.Interfaces.Repositories;
 using Domain.Constants;
 using Domain.Entities;
 using Domain.Exceptions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.UseCase._Event.Commands.CreateEvent
 {
@@ -16,10 +13,12 @@ namespace Application.UseCase._Event.Commands.CreateEvent
     {
         private readonly IEventRepository _eventRepository;
         private readonly ICreateSectorHandler _sectorHandler;
-        public CreateEventHandler(IEventRepository eventRepository, ICreateSectorHandler sectorHandler)
+        private readonly IUnitOfWork _unitOfWork;
+        public CreateEventHandler(IEventRepository eventRepository, ICreateSectorHandler sectorHandler, IUnitOfWork unitOfWork)
         {
             _eventRepository = eventRepository;
             _sectorHandler = sectorHandler;
+            _unitOfWork = unitOfWork;
         }
         public async Task<int> HandleAsync(CreateEventCommand command, CancellationToken ct)
         {
@@ -46,11 +45,22 @@ namespace Application.UseCase._Event.Commands.CreateEvent
                 Status = EventStatusConstants.Active
             };
 
-            var newEventId = await _eventRepository.InsertEventAsync(newEvent, ct);
+            using var transaction = await _unitOfWork.BeginTransactionAsync();
+            try
+            {
+                var newEventId = await _eventRepository.InsertEventAsync(newEvent, ct);
 
-            await _sectorHandler.HandleAsync(command.SectorsCommands, newEventId);
+                await _sectorHandler.HandleAsync(command.SectorsCommands, newEventId);
 
-            return newEventId;
+                await _unitOfWork.SaveChangesAsync();
+                await transaction.CommitAsync();  
+                
+                return newEventId;
+            }
+            catch (Exception) {
+                await transaction.RollbackAsync();    
+                throw;
+            }
         }
     }
 }

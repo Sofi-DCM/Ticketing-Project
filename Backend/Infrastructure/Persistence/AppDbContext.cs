@@ -1,5 +1,7 @@
-﻿using Domain.Entities;
+﻿using Application.Interfaces;
+using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Persistence
 {
-    public class AppDbContext : DbContext
+    public class AppDbContext : DbContext, IUnitOfWork
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
@@ -20,6 +22,11 @@ namespace Infrastructure.Persistence
         public DbSet<Event> Events { get; set; }
         public DbSet<Sector> Sectors { get; set; }
         public DbSet<Seat> Seats { get; set; }
+
+        public async Task<IDbContextTransaction> BeginTransactionAsync()
+        {
+            return await this.Database.BeginTransactionAsync();
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

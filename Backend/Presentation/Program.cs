@@ -1,4 +1,6 @@
 
+using Application.Interfaces;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -25,6 +27,8 @@ builder.Services.AddCors(options =>
 });
 
 // -------- Dependency Injection --------
+
+builder.Services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<AppDbContext>());
 
 // User
 builder.Services.AddScoped<IUserRepository, UserRepository>();

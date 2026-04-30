@@ -25,11 +25,11 @@ class UserForm {
             <h2 class="mb-4 fw-bold text-uppercase">Log In</h2>
             <form id="userForm">
                 <div class="mb-3 position-relative">
-                    <input name="name" type="text" class="form-control custom-input" placeholder="User Name">
+                    <input name="name" type="text" class="form-control custom-input" placeholder="User Name" required>
                 </div>
                
                 <div class="mb-3 position-relative">
-                    <input name="password" type="password" class="form-control custom-input" placeholder="Password">
+                    <input name="password" type="password" class="form-control custom-input" placeholder="Password" required>
                 </div>
 
                 <button type="submit" class="btn fw-bold mb-3 button-login">SIGN IN</button>
@@ -45,15 +45,15 @@ class UserForm {
             <h2 class="mb-4 fw-bold text-uppercase">Create Account</h2>
             <form id="userForm">
                 <div class="mb-3 position-relative">
-                    <input name="name" type="text" class="form-control custom-input" placeholder="User Name">
+                    <input name="name" type="text" class="form-control custom-input" placeholder="User Name" required>
                 </div>
 
                 <div class="mb-3 position-relative">
-                    <input name="email" type="email" class="form-control custom-input" placeholder="E-mail address">
+                    <input name="email" type="email" class="form-control custom-input" placeholder="E-mail address" required>
                 </div>
                
                 <div class="mb-3 position-relative">
-                    <input name="password" type="password" class="form-control custom-input" placeholder="Password">
+                    <input name="password" type="password" class="form-control custom-input" placeholder="Password" required>
                 </div>
 
                 <button type="submit" class="btn fw-bold mb-3 button-login">SIGN UP</button>
@@ -119,28 +119,9 @@ class UserForm {
             }},3000);
         } catch (error) 
         {
-            switch (error.status) {
-                case 400:
-                    console.warn("Datos mal formados");
-                    Toast.show(error.message, "error");
-                    break;
-
-                case 401:
-                    Toast.show(error.message, "error");
-                    break;
-
-                case 409:
-                    Toast.show(error.message, "error");
-                    break;
-
-                case 500:
-                    Toast.show(error.message, "error");
-                    break;
-
-                default:
-                    Toast.show("error inesperado: "+error.message, "error");
-                    break;    
-            }
+            const message = error.message || "Ocurrió un error inesperado";
+            Toast.show(message, "error");
+            console.error(`Error ${error.status}:`, error);
         }
     }
 }

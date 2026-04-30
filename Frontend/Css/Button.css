@@ -85,3 +85,78 @@
     font-weight: 600;
 }
 
+/* Boton de vista de admin */
+.button-custom{
+    letter-spacing: 1px;
+    border: none;
+    border-radius: 8px;
+    transition: 0.3s ease;
+}
+
+.button-create-event {
+    background-color: var(--color-strong-green); 
+    color: white ; 
+}
+
+.button-create-event:hover {
+    background-color: var(--color-dark-green);
+    box-shadow: 0 4px 15px var(--color-translucent-green);
+    color: black;
+}
+
+.button-create-event-selected {
+    background-color: var(--color-dark-green);
+    box-shadow: 0 4px 15px var(--color-translucent-green);
+    color: black;
+}
+
+.button-create-event-selected:hover {
+    background-color: var(--color-strong-green); 
+    color: white;
+    box-shadow: none;
+}
+
+.button-delete-event {
+    background-color: var(--color-dark-pink); 
+    color: white ; 
+}
+
+.button-delete-event:hover {
+    background-color: var(--color-soft-pink);
+    box-shadow: 0 4px 15px var(--color-translucent-pink);
+    color: black;
+}
+
+.button-audit {
+    background-color: #227e86; 
+    color: white ; 
+}
+
+.button-audit:hover {
+    background-color: var(--color-strong-blue);
+    box-shadow: 0 4px 15px var(--color-translucent-blue);
+    color: black;
+}
+
+.button-audit-selected {
+    background-color: var(--color-strong-blue);
+    box-shadow: 0 4px 15px var(--color-translucent-blue);
+    color: black;
+}
+
+.button-audit-selected:hover {
+    background-color: #227e86; 
+    color: white;
+    box-shadow: none;
+}
+
+.event-mod .button-create{
+    background-color: var(--color-dark-green); 
+    color: white ; 
+}
+
+.event-mod .button-create:hover {
+    background-color: var(--color-soft-green);
+    box-shadow: 0 4px 15px var(--color-translucent-green);
+    color: black;
+}

@@ -1,0 +1,144 @@
+@import '../Variables.css';
+
+body{
+    background: var(--color-background); 
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    height: 100vh;
+    padding: 1rem 5%; 
+}
+.title{
+    color: var(--color-dark-pink);
+    text-shadow: 0 4px 15px var(--color-translucent-pink);
+}
+
+.main-container{
+    background-color: #434343;
+    border-radius: 8px;
+}
+
+.event-container {
+    min-height: 100vh;
+    padding: 1rem ;
+}
+
+.main-sector-container {
+    width: 100%;
+}
+
+#customFormEvent {
+    flex-direction: column;
+    padding: 0 20px; 
+    flex: 0 0 500px;
+}
+
+#customFormEvent .form-control {
+    max-width: 500px; 
+    background-color: grey;
+    border: none;
+}
+
+#customForm {
+    width: 100%;
+    flex: 1; 
+}
+
+#customForm .form-control {
+    width: 100%; 
+    max-width: 500px; 
+    background-color: grey;
+    border: none;
+}
+
+/* CADA SECTOR INDIVIDUAL */
+.sector-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    width: 100%;
+    margin-bottom: 40px; 
+    align-items: flex-start;
+}
+
+.sector-form {
+    flex: 0 0 500px; 
+    max-width: 500px;
+    min-width: 300px; 
+}
+
+/* La caja del mapa de asientos con tamaño fijo y scroll */
+.map-wrapper {
+    flex: 1; 
+    min-width: 300px; 
+    height: 350px;   
+    overflow: auto; 
+    background-color: var(--color-background);
+    padding: 10px;
+    border-radius: 8px;
+    border: none;
+    position: relative;
+}
+
+/* Personalizar la barra de scroll */
+.map-wrapper::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+.map-wrapper::-webkit-scrollbar-thumb {
+    background: var(--color-dark-pink);
+    border-radius: 10px;
+}
+
+/* grilla interna */
+.seat-grid-container {
+    display: grid;
+    gap: 5px;
+    width: max-content; 
+    justify-content: center; 
+    margin: 0; 
+}
+/* Estilo para los asientos */
+.seat-pixel {
+    width: 30px;
+    height: 30px;
+    background-color: var(--color-dark-green);
+    border-radius: 4px;
+    display: flex;      
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;     
+    font-weight: bold;
+    color: var(--color-background); 
+    user-select: none;  
+}
+.seat-pixel:hover {
+    background-color: var(--color-soft-green); 
+}
+
+.auth-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); 
+    backdrop-filter: blur(8px);   
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;              
+}
+
+.auth-panel {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+}
+
+.d-none { display: none !important; }
+
+

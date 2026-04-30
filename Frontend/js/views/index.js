@@ -34,7 +34,8 @@ class EventCatalog{
         if(prevData){
             this.pageNumber = prevData.pageNumber;
             this.sortBy = prevData.sortBy;
-            this.setCorrectSortButton();
+            if (this.sortBy != "Newest") 
+                this.setCorrectSortButton();
             EventDataService.clearData(); //una vez recuperados los libero
         }
 
@@ -181,20 +182,11 @@ class EventCatalog{
             var response = await EventService.GetActiveEvents(this.pageNumber, this.pageSize, this.sortBy);
             console.log(response);
             this.render(response);
-        }catch(error){
-            switch (error.status) {
-                case 400:
-                    Toast.show(error.message, "error");
-                    break;
-
-                case 500:
-                    Toast.show(error.message, "error");
-                    break;
-
-                default:
-                    Toast.show("error inesperado: "+error.message, "error");
-                    break;    
-            }
+        }catch(error)
+        {
+            const message = error.message || "Ocurrió un error inesperado";
+            Toast.show(message, "error");
+            console.error(`Error ${error.status}:`, error);
         }
     }
 

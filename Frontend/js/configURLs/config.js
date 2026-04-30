@@ -16,6 +16,7 @@ export const CONFIG = {
         EVENT: {
             GET_CATALOG:  (page, size, sort) => 
                 `${BASE_API}/events?pageNumber=${page}&pageSize=${size}&sortBy=${sort}`,    // GET GetActiveEvents
+            POST:  `${BASE_API}/events`
         },
 
         // Rutas del SeatController

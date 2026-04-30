@@ -25,5 +25,9 @@ export const EventService = {
     async GetActiveEvents(page, size, sortBy){
         const url = CONFIG.ROUTES.EVENT.GET_CATALOG(page,size,sortBy);
         return await baseFetch(url, 'GET');
+    },
+    async CreateEvent(CreateEventCommand){
+        const url = CONFIG.ROUTES.EVENT.POST;
+        return await baseFetch(url, 'POST', CreateEventCommand);
     }
 }

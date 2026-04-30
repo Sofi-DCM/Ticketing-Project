@@ -1,4 +1,5 @@
-﻿using Application.Interfaces.Handlers._Seat;
+﻿
+using Application.Interfaces.Handlers._Seat;
 using Application.Interfaces.Repositories;
 using Application.Response;
 using Domain.Exceptions;

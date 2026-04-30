@@ -1,13 +1,8 @@
-﻿using Application.Interfaces.Handlers._Event;
+﻿
+using Application.Interfaces.Handlers._Event;
 using Application.Interfaces.Repositories;
 using Application.Response;
 using Domain.Entities;
-using Domain.Exceptions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.UseCase._Event.Queries.GetActiveEvents
 {

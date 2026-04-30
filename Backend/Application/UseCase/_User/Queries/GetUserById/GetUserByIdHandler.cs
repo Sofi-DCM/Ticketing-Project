@@ -1,11 +1,7 @@
-﻿using Application.Interfaces.Handlers._User;
+﻿
+using Application.Interfaces.Handlers._User;
 using Application.Interfaces.Repositories;
 using Application.Response;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.UseCase._User.Queries.GetUserById
 {

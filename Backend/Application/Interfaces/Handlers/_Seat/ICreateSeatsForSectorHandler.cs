@@ -1,9 +1,5 @@
-﻿using Application.UseCase._Seat.Commands.CreateSeatsForSector;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
+using Application.UseCase._Seat.Commands.CreateSeatsForSector;
 
 namespace Application.Interfaces.Handlers._Seat
 {

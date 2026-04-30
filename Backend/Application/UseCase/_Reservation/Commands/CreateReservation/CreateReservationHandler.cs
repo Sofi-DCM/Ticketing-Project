@@ -1,4 +1,5 @@
-﻿using Application.Interfaces.Handlers._AuditLog;
+﻿
+using Application.Interfaces.Handlers._AuditLog;
 using Application.Interfaces.Handlers._Reservation;
 using Application.Interfaces.Handlers._Seat;
 using Application.Interfaces.Repositories;
@@ -37,10 +38,9 @@ namespace Application.UseCase._Reservation.Commands.CreateReservation
 
             try
             {
-                // enviar a que se modifique el estado de asiento
-                // si alguien ya lo modifico el handler de asiento lanza excepcion de conflicto que toma el middleware
+               
                 await _changeSeatStatusHandler.HandleAsync(command.SeatId, ct);
-                // hacer la reserva en repository
+
                 var newReservation = new Reservation
                 {
                     UserId = command.UserId,
@@ -52,14 +52,12 @@ namespace Application.UseCase._Reservation.Commands.CreateReservation
 
                 var reservationId = await _repository.InsertReservationAsync(newReservation, ct);
 
-                // crear auditoria de conseguido
                 await _createAuditLogHandler.HandleAsync(MapToAuditLogCommand(command, true, reservationId));
 
                 return MapToResponseDto(newReservation);
             }
             catch (InvalidOperationException) //a futuro es DbUpdateConcurrencyException
             {
-                //si se rompe porque el asiento ya esta reservado 
                 await _createAuditLogHandler.HandleAsync(MapToAuditLogCommand(command, false));
                 throw;
             }

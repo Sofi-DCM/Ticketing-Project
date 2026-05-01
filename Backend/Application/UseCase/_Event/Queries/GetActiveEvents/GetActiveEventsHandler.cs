@@ -1,13 +1,8 @@
-﻿using Application.Interfaces.Handlers._Event;
+﻿
+using Application.Interfaces.Handlers._Event;
 using Application.Interfaces.Repositories;
 using Application.Response;
 using Domain.Entities;
-using Domain.Exceptions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.UseCase._Event.Queries.GetActiveEvents
 {
@@ -23,10 +18,10 @@ namespace Application.UseCase._Event.Queries.GetActiveEvents
         public async Task<PagedEventsResponse> HandleAsync(GetActiveEventsQuery query, CancellationToken ct = default)
         {
             if (query.PageNumber < 1)
-                throw new BadRequestException("La pagina solicitada no puede ser menor a 1");
+                throw new ArgumentException("La pagina solicitada no puede ser menor a 1");
 
             if (query.PageSize < 1 || query.PageSize > 50)
-                throw new BadRequestException("El tamaño de página debe estar entre 1 y 50.");
+                throw new ArgumentException("El tamaño de página debe estar entre 1 y 50.");
 
             var response = await _repository.GetActiveEventsAsync(query, ct);
 

@@ -1,11 +1,8 @@
-﻿using Application.Interfaces.Handlers._User;
+﻿
+using Application.Interfaces.Handlers._User;
 using Application.Interfaces.Repositories;
 using Application.Response;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace Application.UseCase._User.Queries.GetUserById
 {
@@ -20,6 +17,9 @@ namespace Application.UseCase._User.Queries.GetUserById
 
         public async Task<UserResponse> HandleAsync(int id)
         {
+            if (id <= 0)
+                throw new ArgumentException("Los id deben ser positivos");
+
             var response = await _repository.GetUserById(id)
                 ?? throw new KeyNotFoundException($"el usuario con Id : {id} no existe");
 

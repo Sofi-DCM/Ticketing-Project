@@ -1,15 +1,13 @@
-﻿using Domain.Entities;
+﻿
+using Application.Interfaces;
+using Domain.Entities;
 using Infrastructure.Persistence.EntityConfiguration;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore.Storage;
 
 namespace Infrastructure.Persistence
 {
-    public class AppDbContext : DbContext
+    public class AppDbContext : DbContext, IUnitOfWork
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
@@ -28,5 +26,10 @@ namespace Infrastructure.Persistence
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
         }
 
+        // --- IUnitOfWork Implementation
+        public async Task<IDbContextTransaction> BeginTransactionAsync()
+        {
+            return await this.Database.BeginTransactionAsync();
+        }
     }
 }

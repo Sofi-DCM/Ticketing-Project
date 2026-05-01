@@ -1,10 +1,5 @@
-﻿using Application.UseCase._User.Commands.CreateUser;
+﻿
 using Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.Interfaces.Repositories
 {
@@ -18,5 +13,6 @@ namespace Application.Interfaces.Repositories
         //-------- Queries --------
         public Task<User?> GetUserById(int id);
         public Task<User?> GetUserByNameAsync(string name);
+        Task<bool> ExistsByIdAsync(int userId, CancellationToken ct = default);
     }
 }

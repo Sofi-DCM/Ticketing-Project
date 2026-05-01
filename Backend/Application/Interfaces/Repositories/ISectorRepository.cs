@@ -1,9 +1,5 @@
-﻿using Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
+using Domain.Entities;
 
 namespace Application.Interfaces.Repositories
 {
@@ -11,5 +7,6 @@ namespace Application.Interfaces.Repositories
     {
         public Task<IList<int>> InsertAsync(ICollection<Sector> sectors);
         Task<ICollection<Sector>> GetSectorsByEventIdAsync(int eventId, CancellationToken ct = default);
+        Task<bool> EventExistsAsync(int eventId, CancellationToken ct = default);
     }
 }

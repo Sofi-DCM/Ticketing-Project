@@ -1,11 +1,11 @@
-﻿using Application.Interfaces.Handlers._Seat;
+﻿
+using Application.Interfaces.Handlers._Seat;
 using Application.Interfaces.Repositories;
 
 namespace Application.UseCase._Seat.Commands.ChangeSeatStatus
 {
     public class ChangeSeatStatusHandler : IChangeSeatStatusHandler
     {
-        // InvalidOperationException lanzar si el asiento no es available
         private readonly ISeatRepository _repository;
 
         public ChangeSeatStatusHandler(ISeatRepository repository)

@@ -1,8 +1,8 @@
-﻿using Application.Interfaces.Handlers._AuditLog;
+﻿
+using Application.Interfaces.Handlers._AuditLog;
 using Application.Interfaces.Handlers._User;
 using Application.Interfaces.Repositories;
 using Application.UseCase._AuditLog.Commands.CreateAuditLog;
-using BCrypt.Net;
 using Domain.Entities;
 using Domain.Constants;
 using System.Data;

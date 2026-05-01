@@ -1,9 +1,5 @@
-﻿using Application.UseCase._AuditLog.Commands.CreateAuditLog;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
+using Application.UseCase._AuditLog.Commands.CreateAuditLog;
 
 namespace Application.Interfaces.Handlers._AuditLog
 {

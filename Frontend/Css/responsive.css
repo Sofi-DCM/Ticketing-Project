@@ -36,43 +36,4 @@
     max-width: 100%;
     overflow-x: auto; /* Scroll horizontal para la tabla si no entra */
   }
-
-  /* --- AdminView --- */
-  .sector-form {
-    flex: 1 1 100%; 
-    max-width: 100%;
-    margin-right: 0; 
-  }
-
-  #customForm .form-control {
-    max-width: 100%; 
-  }
-  #customFormEvent .form-control{
-    max-width: 100%; 
-  }
-
-  .custom-Form-Event{
-    flex: 100%; 
-    max-width: 100%;
-    margin-right: 0; 
-  }
-
-  .main-event-container{
-    justify-content: center !important;
-    align-items: center !important;
-  }
-
-  .text-obligatory{
-    display: flex !important;
-    flex-direction: column;
-    text-align: center;
-  }
-    
-}
-
-/* Responsive de seatMapView*/
-@media (max-width: 768px) {
-    .seat-map {
-        grid-template-columns: repeat(5, 50px);
-    }
 }

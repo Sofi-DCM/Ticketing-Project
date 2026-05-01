@@ -33,7 +33,7 @@ namespace Application.UseCase._Reservation.Commands.CreateReservation
             _createAuditLogHandler = createAuditLogHandler;
             _changeSeatStatusHandler = changeSeatStatusHandler;
             _userRepository = userRepository;
-            _unitOfWork=unitOfWork;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<ReservationResponseDto> HandleAsync(CreateReservationCommand command, CancellationToken ct)

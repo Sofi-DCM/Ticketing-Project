@@ -202,3 +202,38 @@ h1 {
     padding: 25px 50px 0 50px;
     box-sizing: border-box;
 }
+
+.seat-legend {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 20px;
+    margin-bottom: 30px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: white;
+    font-size: 14px;
+}
+
+.legend-color {
+    width: 18px;
+    height: 18px;
+    border-radius: 1px;
+    display: inline-block;
+}
+
+.available {
+    background-color: var(--color-dark-green);
+}
+
+.reserved {
+    background-color: var(--color-soft-yellow);
+}
+
+.sold {
+    background-color: var(--color-dark-pink);
+}

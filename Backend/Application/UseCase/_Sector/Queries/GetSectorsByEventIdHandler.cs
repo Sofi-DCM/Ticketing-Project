@@ -2,6 +2,7 @@
 using Application.Interfaces.Handlers._Sector;
 using Application.Interfaces.Repositories;
 using Application.Response;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace Application.UseCase._Sector.Queries
 {
@@ -16,6 +17,9 @@ namespace Application.UseCase._Sector.Queries
 
         public async Task<List<SectorResponseDto>> HandleAsync(int eventId, CancellationToken ct = default)
         {
+            if (eventId <= 0)
+                throw new ArgumentException("Los id deben ser positivos");
+
             var eventExists = await _repository.EventExistsAsync(eventId);
 
             if (!eventExists)

@@ -1,10 +1,4 @@
-﻿using Application.Interfaces.Handlers._User;
-using Application.UseCase._User.Queries.ValidateUserCredentials;
-using Azure.Core;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-
-
+﻿
 namespace Presentation.Controllers
 {
     [Route("api/v1/users")]

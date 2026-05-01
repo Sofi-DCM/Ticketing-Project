@@ -22,6 +22,9 @@ namespace Application.UseCase._Event.Commands.CreateEvent
         }
         public async Task<int> HandleAsync(CreateEventCommand command, CancellationToken ct)
         {
+            if (command.UserId <= 0)
+                throw new ArgumentException("Los id deben ser positivos");
+
             if (command.UserId != 1)
                 throw new UnauthorizedException("Solo el administrador puede crear eventos.");
 

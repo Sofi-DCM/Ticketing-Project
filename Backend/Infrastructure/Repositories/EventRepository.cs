@@ -1,15 +1,10 @@
-﻿using Application.Interfaces.Repositories;
+﻿
+using Application.Interfaces.Repositories;
 using Application.UseCase._Event.Queries.GetActiveEvents;
 using Domain.Entities;
 using Domain.Constants;
 using Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Application.Response;
 
 namespace Infrastructure.Repositories
 {

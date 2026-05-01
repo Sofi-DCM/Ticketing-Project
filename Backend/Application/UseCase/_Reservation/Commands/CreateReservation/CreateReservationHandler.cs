@@ -3,6 +3,7 @@ using Application.Interfaces;
 using Application.Interfaces.Handlers._AuditLog;
 using Application.Interfaces.Handlers._Reservation;
 using Application.Interfaces.Handlers._Seat;
+using Application.Interfaces.Repositories;
 using Application.Response;
 using Application.UseCase._AuditLog.Commands.CreateAuditLog;
 using Application.UseCase._User.Commands.CreateUser;

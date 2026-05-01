@@ -37,6 +37,9 @@ namespace Application.UseCase._Reservation.Commands.CreateReservation
 
         public async Task<ReservationResponseDto> HandleAsync(CreateReservationCommand command, CancellationToken ct)
         {
+            if (command.UserId <= 0)
+                throw new ArgumentException("Los id deben ser positivos");
+
             if (!await _userRepository.ExistsByIdAsync(command.UserId, ct))
                 throw new NotFoundException($"No existe un usuario con id: {command.UserId}");
 

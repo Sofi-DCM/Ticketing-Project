@@ -3,6 +3,7 @@ import { EventService } from "../services/eventService.js";
 import { ReservationService } from "../services/reservationService.js";
 import { Toast } from "../tools/toast.js";
 import { UserDataService } from "../services/userService.js";
+import { initUserButtonModule } from "../modules/userButtonModule.js";
 
 class SeatMapView {
 
@@ -12,7 +13,8 @@ class SeatMapView {
         const params = new URLSearchParams(window.location.search);
         this.eventId = params.get("eventId") || 1;
         this.initBackButton();
-        this.renderUserButton();
+        initUserButtonModule(this.containerUser, false);
+        //this.renderUserButton();
         this.init();
     }
 
@@ -199,6 +201,7 @@ class SeatMapView {
         });
     }
 
+    /*
     getWarningUserHTML() {
         return `
             <a href="../Html/LogView.html"
@@ -236,6 +239,6 @@ class SeatMapView {
         } else {
             this.containerUser.innerHTML = this.getLogedUserHTML(storageData.name);
         }
-    }
+    }*/
 }
 new SeatMapView();

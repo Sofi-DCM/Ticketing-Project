@@ -2,47 +2,69 @@ import { UserDataService, UserService} from "../services/userService.js";
 import { EventDataService, EventService } from "../services/eventService.js"; 
 import { Toast } from "../tools/toast.js";
 
-export function initUserButtonModule(containerUser){
-    const manager = new UserButtonModule(containerUser);
+export function initUserButtonModule(containerUser, index){ //index true si es index.html
+    const manager = new UserButtonModule(containerUser, index);
     manager.renderUserButton();
 }
 
 class UserButtonModule {
-    constructor(containerUser){
+    constructor(containerUser, index){
         this.containerUser = containerUser;
+        this.index = index;
     }
 // #region userHTML
     getWarningUserHTML(){
+        if(this.index){
+            return `
+                <a href="Html/LogView.html" class="d-flex align-items-center user-button" id="login">
+                    <div id="userAvatarContainer" class="user-avatar-container"></div>
+                    <span class="user-name">LogIn</span>
+                </a>     
+            `
+        }
         return `
-            <a href="Html/LogView.html" class="d-flex align-items-center user-button" id="login">
-                <div class="user-avatar-container">
-                    <img src="Images/WarningProfile.PNG" alt="Profile" class="user-avatar" >
-                </div>
-                <span class="user-name">LogIn</span>
-            </a>     
-        `
+                <a href="LogView.html" class="d-flex align-items-center user-button" id="login">
+                    <div id="userAvatarContainer" class="user-avatar-container"></div>
+                    <span class="user-name">LogIn</span>
+                </a>     
+            `
     }
     getLogedUserHTML(userName){
         return `
             <button type="click" class="d-flex align-items-center user-button" id="sesion">
-                <div class="user-avatar-container">
-                    <img src="./Images/UserProfile.PNG"
-                        alt="Profile"
-                        class="user-avatar">
-                </div>
+                <div id="userAvatarContainer" class="user-avatar-container"></div>
                 <span class="user-name">${userName}</span>
             </button>
         `
     }
     getAdminUserHTML(){
+        if(this.index){
+            return `
+                <a href="Html/AdminView.html" class="d-flex align-items-center user-button">
+                    <div id="userAvatarContainer" class="user-avatar-container"></div>
+                    <span class="user-name">Admin</span> 
+                </a>`
+        }
         return `
-            <a href="Html/AdminView.html" class="d-flex align-items-center user-button">
-                <div class="user-avatar-container">
-                    <img src="Images/UserProfile.PNG" alt="Profile" class="user-avatar">
-                </div>
-                <span class="user-name">Admin</span> 
-            </a>`
+                <a href="AdminView.html" class="d-flex align-items-center user-button">
+                    <div id="userAvatarContainer" class="user-avatar-container"></div>
+                    <span class="user-name">Admin</span> 
+                </a>`
+
     }
+
+    getWarningImage(){
+        if(this.index)
+            return `<img src="Images/WarningProfile.PNG" alt="Profile" class="user-avatar">`
+        return `<img src="../Images/WarningProfile.PNG" alt="Profile" class="user-avatar">`
+    }
+
+    getUserImage(){
+        if(this.index)
+            return `<img src="Images/UserProfile.PNG" alt="Profile" class="user-avatar">`
+        return `<img src="../Images/UserProfile.PNG" alt="Profile" class="user-avatar">`
+    }
+
 // #endregion
 
 // #region User sesion button
@@ -55,6 +77,9 @@ class UserButtonModule {
         if(!storageData){
             console.log("construyendo login");
             this.containerUser.innerHTML = this.getWarningUserHTML();
+
+            const imageBox = this.containerUser.querySelector('#userAvatarContainer');
+            imageBox.innerHTML = this.getWarningImage();
             //set escucha
             const loginLink = this.containerUser.querySelector('#login');
 
@@ -73,6 +98,8 @@ class UserButtonModule {
                 this.containerUser.innerHTML = this.getLogedUserHTML(storageData.name);
                 this.initUserSesionButtons();
             }
+            const imageBox = this.containerUser.querySelector('#userAvatarContainer');
+            imageBox.innerHTML = this.getUserImage();
         }
     }
 

@@ -42,7 +42,7 @@ class EventCatalog{
 
         this.initSortButtonListeners();
         this.initPageButtonListeners();
-        initUserButtonModule(this.containerUser);
+        initUserButtonModule(this.containerUser, true);
         this.handleAsync();
     }
 

@@ -1,12 +1,13 @@
-import { UserDataService, UserService} from "../services/userService.js"; //si da error en el html agregar Type="Module"
-import { EventDataService, EventService } from "../services/eventService.js"; 
+import { UserService} from "../services/userService.js"; //si da error en el html agregar Type="Module"
 import { Toast } from "../tools/toast.js";
 import { initEventModule } from '../modules/eventModule.js';
 import { initAuditModule } from '../modules/auditModule.js';
+import { initUserButtonModule } from "../modules/userButtonModule.js";
 
 //tomar los botones
 const buttonEvent = document.getElementById('createEvent');
 const buttonAudit = document.getElementById('seeAudit');
+const userContainer = document.getElementById('userContainer');
 
 buttonEvent.addEventListener('click', () => {
     // Cambiamos la clase del body para activar el CSS correcto
@@ -25,28 +26,3 @@ buttonAudit.addEventListener('click', () => {
     initAuditModule();
 });
 
-
-
-
-//Prueba fetch Funciona
-const evento = {
-    userId : 1,
-    name : "Evento Frontend",
-    eventDate : "2026-08-29T20:24:46.306Z",
-    venue : "127.0.0.1:5500",
-    sectorsCommands : [{
-        name : "adminView.html",
-        price : 200,
-        columnsAmount : 10,
-        rowsAmount : 2 
-    },{
-        name : "adminView.js",
-        price : 1000,
-        columnsAmount : 2,
-        rowsAmount : 1 
-    }]
-}
-try{
-    //const response = EventService.CreateEvent(evento);
-    //console.log(response);
-} catch (error) {console.log(error.message)}

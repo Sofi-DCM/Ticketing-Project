@@ -25,6 +25,14 @@ Plataforma de venta de entradas para eventos de una productora.
 - **https** -> para generar el *swagger* y la documentacion automatica de *OpenApi*.
 - **Frontend** -> para ejecutar el backend y el frontend automatico en el navegador predeterminado.
 
+## IMPORTANTE -> Detalles de uso
+> [!NOTE]
+> **Vista de administración** se accede tocando el **boton "LogIn"** (incluido en vista de catalogo de eventos y vista de asiento), ingresando las credenciales de admin en el formulario y luego tocando el mismo boton que ahora dice **"admin"**.
+
+#### Credenciales:
+`{ "id" = 1, "name" = "admin",
+"password" = "1234" }`
+
 ## Detalles del Sistema
 ### Tecnologías :
 #### Backend y Base de Datos

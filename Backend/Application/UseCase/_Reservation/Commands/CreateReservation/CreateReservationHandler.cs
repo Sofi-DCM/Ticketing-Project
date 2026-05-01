@@ -1,4 +1,5 @@
 ﻿
+using Application.Interfaces;
 using Application.Interfaces.Handlers._AuditLog;
 using Application.Interfaces.Handlers._Reservation;
 using Application.Interfaces.Handlers._Seat;
@@ -18,17 +19,20 @@ namespace Application.UseCase._Reservation.Commands.CreateReservation
         private readonly ICreateAuditLogHandler _createAuditLogHandler;
         private readonly IChangeSeatStatusHandler _changeSeatStatusHandler;
         private readonly IUserRepository _userRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
         public CreateReservationHandler(
             IReservationRepository reservationRepository,
             ICreateAuditLogHandler createAuditLogHandler,
             IChangeSeatStatusHandler changeSeatStatusHandler,
-            IUserRepository userRepository)
+            IUserRepository userRepository,
+            IUnitOfWork unitOfWork)
         {
             _repository = reservationRepository;
             _createAuditLogHandler = createAuditLogHandler;
             _changeSeatStatusHandler = changeSeatStatusHandler;
             _userRepository = userRepository;
+            _unitOfWork=unitOfWork;
         }
 
         public async Task<ReservationResponseDto> HandleAsync(CreateReservationCommand command, CancellationToken ct)
@@ -36,9 +40,10 @@ namespace Application.UseCase._Reservation.Commands.CreateReservation
             if (!await _userRepository.ExistsByIdAsync(command.UserId, ct))
                 throw new NotFoundException($"No existe un usuario con id: {command.UserId}");
 
+            using var transaction = await _unitOfWork.BeginTransactionAsync();
+
             try
             {
-               
                 await _changeSeatStatusHandler.HandleAsync(command.SeatId, ct);
 
                 var newReservation = new Reservation
@@ -54,11 +59,21 @@ namespace Application.UseCase._Reservation.Commands.CreateReservation
 
                 await _createAuditLogHandler.HandleAsync(MapToAuditLogCommand(command, true, reservationId));
 
+                await _unitOfWork.SaveChangesAsync();
+                await transaction.CommitAsync();
+
                 return MapToResponseDto(newReservation);
             }
             catch (InvalidOperationException) //a futuro es DbUpdateConcurrencyException
             {
+                await transaction.RollbackAsync();
+
                 await _createAuditLogHandler.HandleAsync(MapToAuditLogCommand(command, false));
+                throw;
+            }
+            catch (Exception) 
+            {
+                await transaction.RollbackAsync();
                 throw;
             }
         }

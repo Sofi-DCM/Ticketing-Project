@@ -45,7 +45,6 @@
 }
 
 /* Boton User a Logeo */
-
 .user-button {
     text-decoration: none;
     background: rgba(255, 255, 255, 0.8);
@@ -159,4 +158,23 @@
     background-color: var(--color-soft-green);
     box-shadow: 0 4px 15px var(--color-translucent-green);
     color: black;
+}
+
+/*Boton de volver de los sectores de evento*/
+.button-back {
+    background: transparent;
+    border: 2px solid var(--color-strong-pink);
+    color: var(--color-strong-pink);
+    padding: 10px 20px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: 0.3s ease;
+}
+
+.button-back:hover {
+    background-color: var(--color-strong-pink);
+    color: white;
+    box-shadow: 0 4px 15px var(--color-translucent-pink);
 }

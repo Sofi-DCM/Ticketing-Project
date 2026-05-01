@@ -69,3 +69,10 @@
   }
     
 }
+
+/* Responsive de seatMapView*/
+@media (max-width: 768px) {
+    .seat-map {
+        grid-template-columns: repeat(5, 50px);
+    }
+}

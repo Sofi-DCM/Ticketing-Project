@@ -104,12 +104,17 @@ class EventCatalog{
     }
     getLogedUserHTML(userName){
         return `
-            <div class="d-flex align-items-center user">
+            <a href="./Html/LogView.html"
+            class="d-flex align-items-center user-button"
+            id="login">
+
                 <div class="user-avatar-container">
-                    <img src="Images/UserProfile.PNG" alt="Profile" class="user-avatar">
+                    <img src="./Images/UserProfile.PNG"
+                        alt="Profile"
+                        class="user-avatar">
                 </div>
-                <span class="user-name">${userName}</span> 
-            </div>
+                <span class="user-name">${userName}</span>
+            </a>
         `
     }
     getAdminUserHTML(){
@@ -237,7 +242,8 @@ class EventCatalog{
                     const id = e.target.getAttribute('data-id');
                     console.log(id);
                     EventDataService.saveData(this.pageNumber, this.sortBy);
-                    window.location.href = `../Html/seatMapView.html?id=${id}`;
+                    //window.location.href = `../Html/seatMapView.html?id=${id}`;
+                    window.location.href = `../Html/seatMapView.html?eventId=${id}&from=index`;
                 }
             });
         });

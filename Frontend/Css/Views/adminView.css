@@ -131,6 +131,7 @@ body{
 
 .auth-panel {
     background: white;
+    backdrop-filter: blur(8px); 
     padding: 2rem;
     border-radius: 12px;
     box-shadow: 0 10px 25px rgba(0,0,0,0.2);

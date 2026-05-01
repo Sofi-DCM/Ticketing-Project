@@ -2,6 +2,7 @@
 import { UserDataService, UserService} from "../services/userService.js"; //si da error en el html agregar Type="Module"
 import { EventDataService, EventService } from "../services/eventService.js"; 
 import { Toast } from "../tools/toast.js";
+import { initUserButtonModule } from "../modules/userButtonModule.js";
 
 // Vista de catalogo de eventos
 class EventCatalog{
@@ -41,9 +42,11 @@ class EventCatalog{
 
         this.initSortButtonListeners();
         this.initPageButtonListeners();
-        this.renderUserButton();
+        initUserButtonModule(this.containerUser);
         this.handleAsync();
     }
+
+// #region handle sort buttons
 
     setCorrectSortButton(){
         //si habia sesion anterior marca el boton filtro 
@@ -76,85 +79,6 @@ class EventCatalog{
 
     }
 
-    initPageButtonListeners(){
-        const buttons = this.footer.querySelectorAll('.btn');
-
-        buttons.forEach(button => {
-            button.addEventListener('click', (e) => {
-                e.preventDefault();
-
-                if(button.id == 'buttonPrev') this.pageNumber -= 1;
-                else this.pageNumber += 1;
-                console.log(this.pageNumber);
-                this.handleAsync();
-            });
-        });
-    }
-
-// #region userHTML
-    getWarningUserHTML(){
-        return `
-            <a href="Html/LogView.html" class="d-flex align-items-center user-button" id="login">
-                <div class="user-avatar-container">
-                    <img src="Images/WarningProfile.PNG" alt="Profile" class="user-avatar" >
-                </div>
-                <span class="user-name">LogIn</span>
-            </a>     
-        `
-    }
-    getLogedUserHTML(userName){
-        return `
-            <a href="./Html/LogView.html"
-            class="d-flex align-items-center user-button"
-            id="login">
-
-                <div class="user-avatar-container">
-                    <img src="./Images/UserProfile.PNG"
-                        alt="Profile"
-                        class="user-avatar">
-                </div>
-                <span class="user-name">${userName}</span>
-            </a>
-        `
-    }
-    getAdminUserHTML(){
-        return `
-            <a href="Html/AdminView.html" class="d-flex align-items-center user-button">
-                <div class="user-avatar-container">
-                    <img src="Images/UserProfile.PNG" alt="Profile" class="user-avatar">
-                </div>
-                <span class="user-name">Admin</span> 
-            </a>`
-    }
-// #endregion
-
-    renderUserButton(){
-        //UserDataService.clearData();
-        //UserDataService.saveData(5,"yo");
-        //UserDataService.saveData(1,"admin");
-        const storageData = UserDataService.getData();
-        console.log("construyendo data");
-        if(!storageData){
-            console.log("construyendo login");
-            this.containerUser.innerHTML = this.getWarningUserHTML();
-            //set escucha
-            const loginLink = this.containerUser.querySelector('#login');
-
-            loginLink.addEventListener('click', (e) => {
-                e.preventDefault();
-                console.log("Se hizo click en el link de login");
-                EventDataService.saveData(this.pageNumber, this.sortBy);
-                window.location.href = e.currentTarget.href;
-            });
-        }
-        else {
-            console.log("construyendo user");
-            if(storageData.id == 1)
-                this.containerUser.innerHTML = this.getAdminUserHTML();
-            else this.containerUser.innerHTML = this.getLogedUserHTML(storageData.name);
-        }
-    }
-
     setSortType(sortId){
         switch (sortId){
             case 'Newest':
@@ -181,7 +105,36 @@ class EventCatalog{
         this.pageNumber = 1; //cambia tipo de busqueda -> vuelve a pagina 1
         this.handleAsync();
     }
+// #endregion
 
+// #region handle page navigation buttons
+
+    initPageButtonListeners(){
+        const buttons = this.footer.querySelectorAll('.btn');
+
+        buttons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                e.preventDefault();
+
+                if(button.id == 'buttonPrev') this.pageNumber -= 1;
+                else this.pageNumber += 1;
+                console.log(this.pageNumber);
+                this.handleAsync();
+            });
+        });
+    }
+
+    enableOrDisablePageNavigationButtons(hasPrev, hasNext){
+        console.log("intentando hacer botones")
+        // Si hasPrev es false, el botón se deshabilita
+        this.footer.querySelector('#buttonPrev').disabled = !hasPrev;
+        // Si hasNext es false, el botón se deshabilita
+        this.footer.querySelector('#buttonNext').disabled = !hasNext;
+        console.log("botones hechos")
+    }
+// #endregion
+
+// #region handle fetch of events pagination
     async handleAsync (){
         try{
             var response = await EventService.GetActiveEvents(this.pageNumber, this.pageSize, this.sortBy);
@@ -222,15 +175,6 @@ class EventCatalog{
         this.initEventsListeners();
     }
 
-    enableOrDisablePageNavigationButtons(hasPrev, hasNext){
-        console.log("intentando hacer botones")
-        // Si hasPrev es false, el botón se deshabilita
-        this.footer.querySelector('#buttonPrev').disabled = !hasPrev;
-        // Si hasNext es false, el botón se deshabilita
-        this.footer.querySelector('#buttonNext').disabled = !hasNext;
-        console.log("botones hechos")
-    }
-
     initEventsListeners(){
         const buttons = this.tableBody.querySelectorAll('.button-page');
 
@@ -248,6 +192,7 @@ class EventCatalog{
             });
         });
     }
+// #endregion
 };
 
 const app = new EventCatalog();

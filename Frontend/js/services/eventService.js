@@ -29,5 +29,10 @@ export const EventService = {
     async CreateEvent(CreateEventCommand){
         const url = CONFIG.ROUTES.EVENT.POST;
         return await baseFetch(url, 'POST', CreateEventCommand);
+    },
+
+    async GetSectorsByEventId(eventId) {
+        const url = CONFIG.ROUTES.SECTOR.GET_BY_EVENT_ID(eventId);
+        return await baseFetch(url, 'GET');
     }
 }

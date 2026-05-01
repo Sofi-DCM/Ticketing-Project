@@ -48,7 +48,6 @@ body{
     thead th {  
         vertical-align: middle; 
         padding: 0.7rem;         
-        position: sticky;
         top: 0;
         background: rgb(98, 98, 98); 
         z-index: 20;

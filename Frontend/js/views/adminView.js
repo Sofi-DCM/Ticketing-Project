@@ -1,21 +1,20 @@
-import { UserService} from "../services/userService.js"; //si da error en el html agregar Type="Module"
+import { UserDataService , UserService } from "../services/userService.js"; 
 import { Toast } from "../tools/toast.js";
 import { initEventModule } from '../modules/eventModule.js';
 import { initAuditModule } from '../modules/auditModule.js';
-import { initUserButtonModule } from "../modules/userButtonModule.js";
 
-//tomar los botones
+//para asegurar que si alguien quiere entrar sin estar logueado no pueda
+if(!UserDataService.getData()) window.location.href = "../../index.html";
+
 const buttonEvent = document.getElementById('createEvent');
 const buttonAudit = document.getElementById('seeAudit');
+const buttonSesion = document.getElementById('sesion');
 const userContainer = document.getElementById('userContainer');
 
 buttonEvent.addEventListener('click', () => {
-    // Cambiamos la clase del body para activar el CSS correcto
     document.body.className = 'event-mod';
-    // configuramos css de los botones
     buttonEvent.className = 'btn fw-bold button-custom button-create-event-selected';
     buttonAudit.className = 'btn fw-bold button-custom button-audit';
-    // ejecutar el módulo
     initEventModule();
 });
 
@@ -25,4 +24,10 @@ buttonAudit.addEventListener('click', () => {
     buttonAudit.className = 'btn fw-bold button-custom button-audit-selected';
     initAuditModule();
 });
+
+buttonSesion.addEventListener('click', (e) => {
+    e.preventDefault();
+    UserDataService.clearData();
+    window.location.href = e.currentTarget.href;
+})
 

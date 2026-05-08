@@ -41,10 +41,11 @@ namespace Infrastructure.Repositories
             return rowsAffected > 0;
         }
 
-        public async Task ReleaseSeatAsync(Guid seatId, CancellationToken ct)
+        public async Task ReleaseSeatsAsync(IEnumerable<Guid> seatsIds, CancellationToken ct)
         {
+            if (seatsIds == null || !seatsIds.Any()) return;
             await _context.Seats
-                .Where(s => s.Id == seatId && s.Status == SeatStatusConstants.Reserved)
+                .Where(s => seatsIds.Contains(s.Id) && s.Status == SeatStatusConstants.Reserved)
                 .ExecuteUpdateAsync(setters => setters
                     .SetProperty(s => s.Status, SeatStatusConstants.Available)
                     .SetProperty(s => s.Version, s => s.Version + 1), ct);

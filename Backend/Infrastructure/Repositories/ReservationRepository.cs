@@ -1,5 +1,6 @@
 ﻿
 using Application.Interfaces.Repositories;
+using Application.Response;
 using Domain.Constants;
 using Domain.Entities;
 using Infrastructure.Persistence;
@@ -23,18 +24,20 @@ namespace Infrastructure.Repositories
             return reservation.Id;
         }
 
-        public async Task<ICollection<Reservation>> GetExpiredPendingReservationsAsync(CancellationToken ct)
+        public async Task<ICollection<ReservationExpiredInfo>> GetExpiredPendingReservationsAsync(CancellationToken ct)
         {
             return await _context.Reservations
                 .Where(r => r.Status == ReservationConstants.Pending
                             && r.ExpiresAt <= DateTime.UtcNow)
+                .Select(r => new ReservationExpiredInfo { Id = r.Id, UserId = r.UserId, SeatId = r.SeatId })
                 .ToListAsync(ct);
         }
 
-        public async Task UpdateReservationAsync(Reservation reservation, CancellationToken ct)
+        public async Task ExpireReservationsAsync(IEnumerable<Guid> ids, CancellationToken ct) 
         {
-            _context.Reservations.Update(reservation);
-            await _context.SaveChangesAsync(ct);
+            await _context.Reservations
+                .Where(r => ids.Contains(r.Id))
+                .ExecuteUpdateAsync(setters => setters.SetProperty(r => r.Status, ReservationConstants.Expired), ct);
         }
     }
 }

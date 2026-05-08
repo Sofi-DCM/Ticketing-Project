@@ -1,4 +1,5 @@
 ﻿
+using Application.Response;
 using Domain.Entities;
 
 namespace Application.Interfaces.Repositories
@@ -7,8 +8,8 @@ namespace Application.Interfaces.Repositories
     {
         public Task<Guid> InsertReservationAsync(Reservation reservation, CancellationToken ct);
 
-        Task<ICollection<Reservation>> GetExpiredPendingReservationsAsync(CancellationToken ct);
+        Task<ICollection<ReservationExpiredInfo>> GetExpiredPendingReservationsAsync(CancellationToken ct);
 
-        Task UpdateReservationAsync(Reservation reservation, CancellationToken ct);
+        Task ExpireReservationsAsync(IEnumerable<Guid> ids, CancellationToken ct);
     }
 }

@@ -14,9 +14,17 @@ namespace Application.UseCase._AuditLog.Commands.CreateAuditLog
             _repository=repository;
         }
 
-        public async Task HandleAsync(CreateAuditLogCommand command)
+        public async Task HandleAsync(IReadOnlyList<CreateAuditLogCommand> commands, CancellationToken ct = default)
         {
-            var newAudit = new AuditLog 
+            if (!commands.Any()) return;
+
+            var newAuditLogs = commands.Select(MapToAuditLogEntity).ToList();
+
+            await _repository.InsertAllAsync(newAuditLogs, ct);
+        }
+
+        private static AuditLog MapToAuditLogEntity(CreateAuditLogCommand command) { 
+            return new AuditLog
             {
                 UserId = command.UserId,
                 Action = command.Action,
@@ -25,8 +33,6 @@ namespace Application.UseCase._AuditLog.Commands.CreateAuditLog
                 Details = command.Details,
                 CreatedAt = DateTime.Now,
             };
-
-            await _repository.InsertAsync(newAudit);
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿using Application.Interfaces.Handlers._AuditLog;
+﻿
+using Application.Interfaces;
+using Application.Interfaces.Handlers._AuditLog;
 using Application.Interfaces.Handlers._Reservation;
 using Application.Interfaces.Handlers._Seat;
 using Application.Interfaces.Repositories;
@@ -6,6 +8,7 @@ using Application.Response;
 using Application.UseCase._AuditLog.Commands.CreateAuditLog;
 using Domain.Constants;
 using Domain.Entities;
+using Domain.Exceptions;
 using System.Text.Json;
 
 namespace Application.UseCase._Reservation.Commands.CreateReservation
@@ -15,25 +18,37 @@ namespace Application.UseCase._Reservation.Commands.CreateReservation
         private readonly IReservationRepository _repository;
         private readonly ICreateAuditLogHandler _createAuditLogHandler;
         private readonly IChangeSeatStatusHandler _changeSeatStatusHandler;
+        private readonly IUserRepository _userRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
         public CreateReservationHandler(
             IReservationRepository reservationRepository,
             ICreateAuditLogHandler createAuditLogHandler,
-            IChangeSeatStatusHandler changeSeatStatusHandler)
+            IChangeSeatStatusHandler changeSeatStatusHandler,
+            IUserRepository userRepository,
+            IUnitOfWork unitOfWork)
         {
             _repository = reservationRepository;
             _createAuditLogHandler = createAuditLogHandler;
             _changeSeatStatusHandler = changeSeatStatusHandler;
+            _userRepository = userRepository;
+            _unitOfWork=unitOfWork;
         }
 
         public async Task<ReservationResponseDto> HandleAsync(CreateReservationCommand command, CancellationToken ct)
         {
+            if (command.UserId <= 0)
+                throw new ArgumentException("Los id deben ser positivos");
+
+            if (!await _userRepository.ExistsByIdAsync(command.UserId, ct))
+                throw new NotFoundException($"No existe un usuario con id: {command.UserId}");
+
+            using var transaction = await _unitOfWork.BeginTransactionAsync();
+
             try
             {
-                // enviar a que se modifique el estado de asiento
-                // si alguien ya lo modifico el handler de asiento lanza excepcion de conflicto que toma el middleware
                 await _changeSeatStatusHandler.HandleAsync(command.SeatId, ct);
-                // hacer la reserva en repository
+
                 var newReservation = new Reservation
                 {
                     UserId = command.UserId,
@@ -45,15 +60,23 @@ namespace Application.UseCase._Reservation.Commands.CreateReservation
 
                 var reservationId = await _repository.InsertReservationAsync(newReservation, ct);
 
-                // crear auditoria de conseguido
                 await _createAuditLogHandler.HandleAsync(MapToAuditLogCommand(command, true, reservationId));
+
+                await _unitOfWork.SaveChangesAsync();
+                await transaction.CommitAsync();
 
                 return MapToResponseDto(newReservation);
             }
             catch (InvalidOperationException) //a futuro es DbUpdateConcurrencyException
             {
-                //si se rompe porque el asiento ya esta reservado 
+                await transaction.RollbackAsync();
+
                 await _createAuditLogHandler.HandleAsync(MapToAuditLogCommand(command, false));
+                throw;
+            }
+            catch (Exception) 
+            {
+                await transaction.RollbackAsync();
                 throw;
             }
         }

@@ -1,9 +1,5 @@
-﻿using Application.UseCase._Sector.Commands.CreateSector;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
+using Application.UseCase._Sector.Commands.CreateSector;
 
 namespace Application.UseCase._Event.Commands.CreateEvent
 {

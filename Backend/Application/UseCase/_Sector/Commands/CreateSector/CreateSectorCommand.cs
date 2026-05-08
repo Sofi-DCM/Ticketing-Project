@@ -1,5 +1,4 @@
 ﻿
-
 namespace Application.UseCase._Sector.Commands.CreateSector
 {
     public class CreateSectorCommand

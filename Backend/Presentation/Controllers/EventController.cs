@@ -1,5 +1,4 @@
-﻿using Application.UseCase._Event.Commands.CreateEvent;
-
+﻿
 namespace Presentation.Controllers
 {
     [Route("api/v1/events")]

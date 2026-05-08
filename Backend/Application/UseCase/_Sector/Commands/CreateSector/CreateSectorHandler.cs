@@ -1,13 +1,9 @@
-﻿using Application.Interfaces.Handlers._Seat;
+﻿
+using Application.Interfaces.Handlers._Seat;
 using Application.Interfaces.Handlers._Sector;
 using Application.Interfaces.Repositories;
 using Application.UseCase._Seat.Commands.CreateSeatsForSector;
 using Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.UseCase._Sector.Commands.CreateSector
 {

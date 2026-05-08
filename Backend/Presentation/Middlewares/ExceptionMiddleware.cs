@@ -1,4 +1,5 @@
-﻿namespace Presentation.Middlewares
+﻿
+namespace Presentation.Middlewares
 {
     public class ExceptionMiddleware
     {

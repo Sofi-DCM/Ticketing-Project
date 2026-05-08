@@ -1,11 +1,8 @@
-﻿using Application.Interfaces.Handlers._Sector;
+﻿
+using Application.Interfaces.Handlers._Sector;
 using Application.Interfaces.Repositories;
 using Application.Response;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace Application.UseCase._Sector.Queries
 {
@@ -20,6 +17,16 @@ namespace Application.UseCase._Sector.Queries
 
         public async Task<List<SectorResponseDto>> HandleAsync(int eventId, CancellationToken ct = default)
         {
+            if (eventId <= 0)
+                throw new ArgumentException("Los id deben ser positivos");
+
+            var eventExists = await _repository.EventExistsAsync(eventId);
+
+            if (!eventExists)
+            {
+                throw new KeyNotFoundException($"No existe un evento con id {eventId}");
+            }
+
             var sectors = await _repository.GetSectorsByEventIdAsync(eventId, ct);
 
             return sectors.Select(s => new SectorResponseDto

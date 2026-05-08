@@ -1,4 +1,5 @@
-﻿namespace Application.UseCase._Reservation.Commands.CreateReservation
+﻿
+namespace Application.UseCase._Reservation.Commands.CreateReservation
 {
     public class CreateReservationCommand
     {

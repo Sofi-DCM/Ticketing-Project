@@ -1,10 +1,5 @@
-﻿using Application.Response;
-using Application.UseCase._User.Commands.CreateUser;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
+using Application.Response;
 
 namespace Application.Interfaces.Handlers._User
 {

@@ -2,8 +2,11 @@
 using Application.Interfaces.Handlers._AuditLog;
 using Application.Interfaces.Handlers._Reservation;
 using Application.Interfaces.Repositories;
+using Application.Response;
 using Application.UseCase._AuditLog.Commands.CreateAuditLog;
+using Application.UseCase._Reservation.Commands.CreateReservation;
 using Domain.Constants;
+using Domain.Entities;
 using System.Text.Json;
 
 namespace Application.UseCase._Reservation.Commands.ExpireReservations
@@ -29,22 +32,28 @@ namespace Application.UseCase._Reservation.Commands.ExpireReservations
             var expiredReservations =
                 await _reservationRepository.GetExpiredPendingReservationsAsync(ct);
 
-            foreach (var reservation in expiredReservations)
+            if (expiredReservations.Count == 0) return;
+
+            var reservationsIds = expiredReservations.Select(r => r.Id).ToList();
+            var seatsIds = expiredReservations.Select(r => r.SeatId).ToList();
+            var auditLogsCommands = expiredReservations.Select(MapToAuditLogCommand).ToList();
+
+            await _reservationRepository.ExpireReservationsAsync(reservationsIds, ct);
+        
+            await _seatRepository.ReleaseSeatsAsync(seatsIds, ct);
+           
+            await _createAuditLogHandler.HandleAsync(auditLogsCommands, ct);
+        }
+
+        private static CreateAuditLogCommand MapToAuditLogCommand(ReservationExpiredInfo reservation) 
+        {
+            return new CreateAuditLogCommand
             {
-                reservation.Status = ReservationConstants.Expired;
-
-                await _reservationRepository.UpdateReservationAsync(reservation, ct);
-
-                await _seatRepository.ReleaseSeatAsync(reservation.SeatId, ct);
-
-                await _createAuditLogHandler.HandleAsync(new CreateAuditLogCommand
-                {
-                    Action = AuditLogConstants.Actions.ReserveExpired,
-                    EntityType = AuditLogConstants.Entities.Seat,
-                    EntityId = reservation.SeatId.ToString(),
-                    Details = JsonSerializer.Serialize(new { reservation.UserId, reservation.SeatId, reservation.Id })
-                });
-            }
+                Action = AuditLogConstants.Actions.ReserveExpired,
+                EntityType = AuditLogConstants.Entities.Seat,
+                EntityId = reservation.SeatId.ToString(),
+                Details = JsonSerializer.Serialize(new { reservation.UserId, reservation.SeatId, reservation.Id })
+            };
         }
     }
 }

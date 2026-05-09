@@ -29,16 +29,17 @@ namespace Infrastructure.Repositories
                 .ToListAsync(ct);
         }
 
-        public async Task<bool> PatchSeatStateAsync(Guid seatId, CancellationToken ct)
+        public async Task PatchSeatStateAsync(Guid seatId, CancellationToken ct)
         {
-            int rowsAffected = await _context.Seats
-                .Where(s => s.Id == seatId && s.Status == SeatStatusConstants.Available)
-                .ExecuteUpdateAsync(setters => setters
-                    .SetProperty(s => s.Status, SeatStatusConstants.Reserved), ct);
-            // a futuro se busca el where tambien con version y tambien se incrementa
+            var seat = await _context.Seats
+                .FirstOrDefaultAsync(s => s.Id == seatId && s.Status == SeatStatusConstants.Available, ct);
 
-            // Si rowsAffected es 0, significa que el estado no coincidio por eso no se modifico
-            return rowsAffected > 0;
+            if(seat == null) throw new DbUpdateConcurrencyException();
+
+            seat.Status = SeatStatusConstants.Reserved;
+            seat.Version++;
+
+            await _context.SaveChangesAsync();
         }
 
         public async Task ReleaseSeatsAsync(IEnumerable<Guid> seatsIds, CancellationToken ct)

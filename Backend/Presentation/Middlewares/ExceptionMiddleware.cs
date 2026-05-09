@@ -48,7 +48,8 @@ namespace Presentation.Middlewares
                 NotFoundException => (int)HttpStatusCode.NotFound,
                 // --- 409 Conflict ---
                 DuplicateNameException => (int)HttpStatusCode.Conflict,
-                InvalidOperationException => (int)HttpStatusCode.Conflict, //a futuro es DbUpdateConcurrencyException
+                InvalidOperationException => (int)HttpStatusCode.Conflict, 
+                DbUpdateConcurrencyException => (int)HttpStatusCode.Conflict,
                 ConflictException => (int)HttpStatusCode.Conflict,
                 // --- 500 Server Error ---
                 _ => (int)HttpStatusCode.InternalServerError         

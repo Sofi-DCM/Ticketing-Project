@@ -18,8 +18,7 @@ namespace Application.UseCase._Seat.Commands.ChangeSeatStatus
             if (!await _repository.ExistsByIdAsync(seatId))
                 throw new KeyNotFoundException($"No existe un asiento con id : {seatId}");
 
-            if (!await _repository.PatchSeatStateAsync(seatId, ct))
-                throw new InvalidOperationException($"El asiento con Id : {seatId} ya esta reservado");
+            await _repository.PatchSeatStateAsync(seatId, ct);
         }
     }
 }

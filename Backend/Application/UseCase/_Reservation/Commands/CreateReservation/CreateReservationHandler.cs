@@ -9,6 +9,7 @@ using Application.UseCase._AuditLog.Commands.CreateAuditLog;
 using Domain.Constants;
 using Domain.Entities;
 using Domain.Exceptions;
+using Microsoft.EntityFrameworkCore;
 using System.Text.Json;
 
 namespace Application.UseCase._Reservation.Commands.CreateReservation
@@ -67,7 +68,7 @@ namespace Application.UseCase._Reservation.Commands.CreateReservation
 
                 return MapToResponseDto(newReservation);
             }
-            catch (InvalidOperationException) //a futuro es DbUpdateConcurrencyException
+            catch (DbUpdateConcurrencyException)
             {
                 await transaction.RollbackAsync();
 

@@ -10,6 +10,8 @@ global using System.Data;
 global using System.Net;
 global using System.Text.Json;
 global using Application.Response;
+global using Application.Interfaces.Payments;
+global using Infrastructure.Payments;
 
 
 // ----- for dependency injection -----

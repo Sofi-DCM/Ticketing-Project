@@ -1,5 +1,6 @@
 
 using Application.Interfaces;
+using Application.UseCase._Reservation.Commands.ConfirmPayment;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -48,6 +49,7 @@ builder.Services.AddScoped<ICreateEventHandler, CreateEventHandler>();
 // Reservation
 builder.Services.AddScoped<IReservationRepository, ReservationRepository>();
 builder.Services.AddScoped<ICreateReservationHandler, CreateReservationHandler>();
+builder.Services.AddScoped<IConfirmPaymentHandler, ConfirmPaymentHandler>();
 
 //Seat
 builder.Services.AddScoped<ISeatRepository, SeatRepository>();
@@ -61,6 +63,9 @@ builder.Services.AddHostedService<ReservationExpirationBackgroundService>();
 builder.Services.AddScoped<ISectorRepository, SectorRepository>();
 builder.Services.AddScoped<ICreateSectorHandler, CreateSectorHandler>();
 builder.Services.AddScoped<IGetSectorsByEventIdHandler, GetSectorsByEventIdHandler>();
+
+// -------- Payment Simulation --------
+builder.Services.AddScoped<IPaymentSimulator, SimulatedPayment>();
 
 var app = builder.Build();
 

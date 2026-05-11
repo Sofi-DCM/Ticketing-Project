@@ -39,5 +39,15 @@ namespace Infrastructure.Repositories
                 .Where(r => ids.Contains(r.Id))
                 .ExecuteUpdateAsync(setters => setters.SetProperty(r => r.Status, ReservationConstants.Expired), ct);
         }
+
+        public async Task<Reservation?> GetByIdWithSeatAsync(Guid reservationId, CancellationToken ct)
+        {
+            return await _context.Reservations
+                .Include(r => r.Seat)
+                    .ThenInclude(s => s.Sector)
+                .FirstOrDefaultAsync(
+                    r => r.Id == reservationId,
+                    ct);
+        }
     }
 }

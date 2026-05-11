@@ -11,5 +11,6 @@ namespace Application.Interfaces.Repositories
         Task<ICollection<ReservationExpiredInfo>> GetExpiredPendingReservationsAsync(CancellationToken ct);
 
         Task ExpireReservationsAsync(IEnumerable<Guid> ids, CancellationToken ct);
+        Task<Reservation?> GetByIdWithSeatAsync(Guid reservationId, CancellationToken ct);
     }
 }

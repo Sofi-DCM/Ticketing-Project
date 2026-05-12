@@ -14,7 +14,6 @@ class SeatMapView {
         this.eventId = params.get("eventId") || 1;
         this.initBackButton();
         initUserButtonModule(this.containerUser, false);
-        //this.renderUserButton();
         this.init();
     }
 
@@ -112,6 +111,23 @@ class SeatMapView {
         container.appendChild(row);
     }
 
+    async refreshSectorSeats(sector, content, getExpanded) {
+        content.innerHTML = "";
+        const onlyRow = !getExpanded();
+        const updatedSeats = await SeatService.GetSeatsBySector(sector.id, onlyRow);
+        if (getExpanded()) {
+            const groupedRows = this.groupSeatsByRow(updatedSeats);
+            const rows = Object.keys(groupedRows).sort((a, b) => {
+                return this.rowIdentifierToNumber(a) - this.rowIdentifierToNumber(b);
+            });
+            rows.forEach(rowKey => {
+                this.renderSeatRow(content, groupedRows[rowKey], sector, getExpanded);
+            });
+        } else {
+            this.renderSeatRow(content, updatedSeats, sector, getExpanded);
+        }
+    }
+
     groupSeatsByRow(seats) {
         const grouped = {};
         seats.forEach(seat => {
@@ -175,8 +191,9 @@ class SeatMapView {
                 }
             } catch (error) {
                 console.error(error);
-                Toast.show(error.message || "No se pudo reservar el asiento", "error");
+                Toast.show(error.message || "La butaca ya fue reservada. Intente nuevamente", "error");
                 modal.classList.add("hidden");
+                await this.refreshSectorSeats(sector, content, getExpanded);
             }
         };
         cancelBtn.onclick = () => {
@@ -196,45 +213,5 @@ class SeatMapView {
             }
         });
     }
-
-    /*
-    getWarningUserHTML() {
-        return `
-            <a href="../Html/LogView.html"
-            class="d-flex align-items-center user-button"
-            id="login">
-                <div class="user-avatar-container">
-                    <img src="../Images/WarningProfile.PNG"
-                        alt="Profile"
-                        class="user-avatar">
-                </div>
-                <span class="user-name">LogIn</span>
-            </a>
-        `;
-    }
-
-    getLogedUserHTML(userName) {
-        return `
-            <a href="../Html/LogView.html"
-            class="d-flex align-items-center user-button"
-            id="login">
-                <div class="user-avatar-container">
-                    <img src="../Images/UserProfile.PNG"
-                        alt="Profile"
-                        class="user-avatar">
-                </div>
-                <span class="user-name">${userName}</span>
-            </a>
-        `;
-    }
-
-    renderUserButton() {
-        const storageData = UserDataService.getData();
-        if (!storageData) {
-            this.containerUser.innerHTML = this.getWarningUserHTML();
-        } else {
-            this.containerUser.innerHTML = this.getLogedUserHTML(storageData.name);
-        }
-    }*/
 }
 new SeatMapView();

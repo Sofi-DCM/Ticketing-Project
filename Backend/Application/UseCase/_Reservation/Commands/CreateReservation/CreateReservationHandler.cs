@@ -73,7 +73,7 @@ namespace Application.UseCase._Reservation.Commands.CreateReservation
                 await transaction.RollbackAsync();
 
                 await _createAuditLogHandler.HandleAsync(MapToAuditLogCommand(command, false));
-                throw;
+                throw new ConflictException("La butaca ya fue reservada por otro usuario. Intente nuevamente");
             }
             catch (Exception) 
             {

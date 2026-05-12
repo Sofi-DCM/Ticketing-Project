@@ -66,17 +66,12 @@ class SeatMapView {
             button.className = "show-more-btn";
             button.textContent = "Ver más";
             let expanded = false;
-            let allSeatsLoaded = false;
-            let allSeats = [];
                 button.addEventListener("click", async () => {
                     content.innerHTML = "";
                     if (!expanded) {
-                    if (!allSeatsLoaded) {
-                        allSeats = await SeatService.GetSeatsBySector(sector.id, false);
-                        allSeatsLoaded = true;
-                    }
-                    const groupedRows = this.groupSeatsByRow(allSeats);
-                    const rows = Object.keys(groupedRows).sort((a, b) => {
+                        const updatedSeats = await SeatService.GetSeatsBySector(sector.id, false);
+                        const groupedRows = this.groupSeatsByRow(updatedSeats);
+                        const rows = Object.keys(groupedRows).sort((a, b) => {
                         return this.rowIdentifierToNumber(a) - this.rowIdentifierToNumber(b);
                     });
                     rows.forEach(rowKey => {
@@ -85,7 +80,8 @@ class SeatMapView {
                     button.textContent = "Ver menos";
                     expanded = true;
                 } else {
-                    this.renderSeatRow(content, firstRowSeats, sector, () => expanded);
+                    const updatedFirstRowSeats = await SeatService.GetSeatsBySector(sector.id, true);
+                    this.renderSeatRow(content, updatedFirstRowSeats, sector, () => expanded);
                     button.textContent = "Ver más";
                     expanded = false;
                 }

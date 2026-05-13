@@ -1,0 +1,77 @@
+@media (max-width: 576px) {
+  /* --- LogView --- */
+  .login-container {
+    justify-content: center;  
+    padding: 1rem;
+  }
+  .glass-box {
+    max-width: 100%;
+  }
+
+  /* --- IndexView --- */
+  
+  .header-section {
+    flex-direction: row; 
+    align-items: flex-start !important;
+    gap: 1rem;
+  }
+  .filter-bar {
+    flex-direction: row; 
+    justify-content: flex-start; 
+  }
+
+  .filter-bar button {
+    width: auto; 
+    flex-shrink: 0; 
+  }
+
+  /* Permitir scroll en la página si el contenido es muy alto en móviles */
+  body { 
+    overflow-y: auto;
+    height: auto;
+  }
+
+  .table-container {
+    max-width: 100%;
+    overflow-x: auto; /* Scroll horizontal para la tabla si no entra */
+  }
+
+  /* --- AdminView --- */
+  .sector-form {
+    flex: 1 1 100%; 
+    max-width: 100%;
+    margin-right: 0; 
+  }
+
+  #customForm .form-control {
+    max-width: 100%; 
+  }
+  #customFormEvent .form-control{
+    max-width: 100%; 
+  }
+
+  .custom-Form-Event{
+    flex: 100%; 
+    max-width: 100%;
+    margin-right: 0; 
+  }
+
+  .main-event-container{
+    justify-content: center !important;
+    align-items: center !important;
+  }
+
+  .text-obligatory{
+    display: flex !important;
+    flex-direction: column;
+    text-align: center;
+  }
+    
+}
+
+/* Responsive de seatMapView*/
+@media (max-width: 768px) {
+    .seat-map {
+        grid-template-columns: repeat(5, 50px);
+    }
+}

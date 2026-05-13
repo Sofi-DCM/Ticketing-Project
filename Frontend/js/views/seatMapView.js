@@ -20,6 +20,19 @@ class SeatMapView {
     async init() {
         try {
             await this.loadEventData();
+            //detectar cambios en el timer (agregado, o un timer menos)
+            window.addEventListener('storage', async (event) => {
+                if (event.key === 'activeReservations') {
+                    console.log("Cambio en reservas detectado desde otra pestaña. Actualizando mapa...");
+                    const sectors = await EventService.GetSectorsByEventId(this.eventId);
+                    await this.renderSectors(sectors);
+                }
+            });
+            window.addEventListener('reservationExpired', async () => {
+                console.log("Cambio en reservas detectado desde esta pestaña. Actualizando mapa...");
+                const sectors = await EventService.GetSectorsByEventId(this.eventId);
+                await this.renderSectors(sectors);
+            })
         }catch (error) {
             console.error(error);
             Toast.show("No se pudo cargar el evento", "error");
@@ -174,6 +187,18 @@ class SeatMapView {
                 );
                 Toast.show(`Reservaste el asiento ${seatName}`,"success");
                 modal.classList.add("hidden");
+                
+                // crear el timer 
+                const expiration = Date.now() + (5 * 60 * 1000);
+                let activeTimers = JSON.parse(localStorage.getItem('activeReservations') || "[]");
+
+                activeTimers.push({
+                    seatId: seat.id,
+                    name: `${seat.rowIdentifier}${seat.seatNumber}`,
+                    endTime: expiration
+                });
+                localStorage.setItem('activeReservations', JSON.stringify(activeTimers));
+
                 console.log("Actualizando SOLO sector:", sector.name)
                 content.innerHTML = "";
                 const onlyRow = !getExpanded();
@@ -191,7 +216,8 @@ class SeatMapView {
                 }
             } catch (error) {
                 console.error(error);
-                Toast.show(error.message || "La butaca ya fue reservada. Intente nuevamente", "error");
+                if(error.status == 409) Toast.show("La butaca ya fue reservada. Intente nuevamente", "error");
+                else Toast.show(error.message , "error");
                 modal.classList.add("hidden");
                 await this.refreshSectorSeats(sector, content, getExpanded);
             }

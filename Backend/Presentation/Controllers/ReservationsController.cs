@@ -24,12 +24,13 @@ namespace Presentation.Controllers
             return Created(string.Empty, result);
         }
         [HttpPost("{reservationId}/payment")]
-        public async Task<IActionResult> ConfirmPayment(Guid reservationId, CancellationToken cancellationToken)
+        public async Task<IActionResult> ConfirmPayment(Guid reservationId, int userId, CancellationToken cancellationToken)
         {
             await _confirmPaymentHandler.HandleAsync(
                 new ConfirmPaymentRequest
                 {
-                    ReservationId = reservationId
+                    ReservationId = reservationId,
+                    UserId = userId
                 },
                 cancellationToken);
 

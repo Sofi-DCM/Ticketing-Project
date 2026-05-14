@@ -42,6 +42,9 @@ namespace Application.UseCase._Reservation.Commands.ConfirmPayment
                 if (reservation == null)
                     throw new NotFoundException("No existe la reserva.");
 
+                if (reservation.UserId != request.UserId)
+                    throw new UnauthorizedException("La reserva no pertenece a ese usuario");
+
                 if (reservation.Status == ReservationConstants.Paid)
                     throw new BadRequestException("La reserva ya fue pagada.");
 
@@ -64,8 +67,8 @@ namespace Application.UseCase._Reservation.Commands.ConfirmPayment
                     new CreateAuditLogCommand
                     {
                         UserId = reservation.UserId,
-                        Action = "PAYMENT_CONFIRMED",
-                        EntityType = "Reservation",
+                        Action = AuditLogConstants.Actions.PaymentConfirmed,
+                        EntityType = AuditLogConstants.Entities.Reservation,
                         EntityId = reservation.Id.ToString(),
                         Details = JsonSerializer.Serialize(new
                         {

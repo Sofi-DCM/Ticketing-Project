@@ -10,6 +10,7 @@ namespace Domain.Constants
             public const string ReserveSuccess = "RESERVE_SUCCESS";
             public const string ReserveAttemp = "RESERVE_ATTEMP";
             public const string ReserveExpired = "RESERVE_EXPIRED";
+            public const string PaymentConfirmed = "PAYMENT_CONFIRMED";
         }
 
         public static class Entities

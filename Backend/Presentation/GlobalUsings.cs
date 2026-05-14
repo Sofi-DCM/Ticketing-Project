@@ -50,6 +50,7 @@ global using Application.Interfaces.Handlers._Event;
 
 global using Application.UseCase._Event.Queries.GetActiveEvents;
 global using Application.UseCase._Event.Commands.CreateEvent;
+global using Application.UseCase._Event.Queries.GetEventById;
 
 //--- Sector
 global using Application.Interfaces.Handlers._Sector;

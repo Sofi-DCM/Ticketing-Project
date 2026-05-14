@@ -7,6 +7,7 @@ namespace Application.Interfaces.Repositories
     public interface IEventRepository
     {
         public Task<(ICollection<Event>? events , int total)> GetActiveEventsAsync(GetActiveEventsQuery query, CancellationToken ct = default);
-        Task<int> InsertEventAsync(Event newEvent, CancellationToken ct);
+        Task<int> InsertEventAsync(Event newEvent, CancellationToken ct = default);
+        public Task<Event?> GetEventByIdAsync(int id, CancellationToken ct = default);
     }
 }

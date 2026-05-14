@@ -17,13 +17,13 @@ namespace Infrastructure.Repositories
             _context=context;
         }
 
-        public async Task<(ICollection<Event>?,int)> GetActiveEventsAsync(GetActiveEventsQuery queryDto, CancellationToken ct = default)
+        public async Task<(ICollection<Event>?, int)> GetActiveEventsAsync(GetActiveEventsQuery queryDto, CancellationToken ct = default)
         {
             var query = _context.Events
                 .AsNoTracking()
                 .Where(e => e.Status == EventStatusConstants.Active);
 
-            query = queryDto.SortBy switch 
+            query = queryDto.SortBy switch
             {
                 SortEventsBy.DateAsc => query.OrderBy(e => e.EventDate).ThenByDescending(e => e.Id),
                 SortEventsBy.DateDesc => query.OrderByDescending(e => e.EventDate).ThenByDescending(e => e.Id),
@@ -48,6 +48,11 @@ namespace Infrastructure.Repositories
             await _context.SaveChangesAsync(ct);
 
             return newEvent.Id;
+        }
+        public async Task<Event?> GetEventByIdAsync(int id, CancellationToken ct = default)
+        {
+            return await _context.Events.FirstOrDefaultAsync(e => e.Id == id, ct);
+
         }
     }
 }

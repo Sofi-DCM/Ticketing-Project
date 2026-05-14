@@ -45,6 +45,7 @@ builder.Services.AddScoped<ICreateAuditLogHandler, CreateAuditLogHandler>();
 builder.Services.AddScoped<IEventRepository, EventRepository>();
 builder.Services.AddScoped<IGetActiveEventsHandler, GetActiveEventsHandler>();
 builder.Services.AddScoped<ICreateEventHandler, CreateEventHandler>();
+builder.Services.AddScoped<IGetEventByIdHandler, GetEventByIdHandler>();    
 
 // Reservation
 builder.Services.AddScoped<IReservationRepository, ReservationRepository>();

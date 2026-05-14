@@ -12,6 +12,7 @@ class SeatMapView {
         this.containerUser = document.getElementById("userContainer");
         const params = new URLSearchParams(window.location.search);
         this.eventId = params.get("eventId") || 1;
+        this.eventName = "name";
         this.initBackButton();
         initUserButtonModule(this.containerUser, false);
         this.init();
@@ -40,14 +41,17 @@ class SeatMapView {
     }
 
     async loadEventData() {
-        const eventsResponse = await EventService.GetActiveEvents(1, 50, "Newest");
-        const events = eventsResponse.events || [];
-        const event = events.find(e => Number(e.id) === Number(this.eventId));
-        if (event) {
-            this.renderEventInfo(event);
+        try{
+            const eventResponse = await EventService.GetEventById(this.eventId);
+            this.eventName = eventResponse.name;
+            this.renderEventInfo(eventResponse);
+
+            const sectors = await EventService.GetSectorsByEventId(this.eventId);
+            await this.renderSectors(sectors);
         }
-        const sectors = await EventService.GetSectorsByEventId(this.eventId);
-        await this.renderSectors(sectors);
+        catch(error){
+            Toast.show(error.message, "error");
+        }
     }
 
     renderEventInfo(event) {
@@ -185,9 +189,6 @@ class SeatMapView {
                     userId,
                     seat.id
                 );
-                Toast.show(`Reservaste el asiento ${seatName}`,"success");
-                modal.classList.add("hidden");
-                
                 // crear el timer 
                 const expiration = Date.now() + (5 * 60 * 1000);
                 let activeTimers = JSON.parse(localStorage.getItem('activeReservations') || "[]");
@@ -195,9 +196,16 @@ class SeatMapView {
                 activeTimers.push({
                     seatId: seat.id,
                     name: `${seat.rowIdentifier}${seat.seatNumber}`,
+                    eventName : this.eventName,
+                    sector : sector.name,
                     endTime: expiration
                 });
                 localStorage.setItem('activeReservations', JSON.stringify(activeTimers));
+
+                Toast.show(`Reservaste el asiento ${seatName}`,"success");
+                modal.classList.add("hidden");
+                
+
 
                 console.log("Actualizando SOLO sector:", sector.name)
                 content.innerHTML = "";

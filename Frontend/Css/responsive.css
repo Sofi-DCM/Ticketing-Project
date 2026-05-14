@@ -66,7 +66,11 @@
     flex-direction: column;
     text-align: center;
   }
-    
+  .reservation-container, 
+    .payment-container {
+        max-width: 100%; /* Al estar uno sobre otro, que usen todo el ancho */
+        flex: 1 1 100%;
+    }
 }
 
 /* Responsive de seatMapView*/

@@ -1,0 +1,83 @@
+@import '../Variables.css';
+body{
+    background: var(--color-background); 
+    font-family: 'Poppins', sans-serif;
+    color: white;
+    margin: 0;
+    height: 100vh;
+}
+
+.main-container {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    h1 em{
+        color: var(--color-soft-green);
+    }
+}
+
+.cart-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    width: 100%;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+.reservation-container {
+    flex: 3 1 600px;    
+    min-width: 300px;
+    padding: 1rem;
+    background-color: #333;
+    border-radius: 15px;
+}
+.table-container {
+    flex-grow: 1;
+    overflow-y: auto;    
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 15px;
+    box-shadow: 0 4px 14px var(--color-translucent-grey);
+}
+.custom-table {
+    margin: 0;
+    thead th {  
+        vertical-align: middle; 
+        padding: 0.7rem;         
+        position: sticky;
+        top: 0;
+        background: rgb(98, 98, 98); 
+        z-index: 20;
+        border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+        color: #bec3c7;
+        font-size: 1rem;
+        letter-spacing: 1px;
+    }
+    tbody td {
+        text-align: left;       
+        vertical-align: middle; 
+        top: 0;
+        background: rgba(255, 255, 255, 0.048); 
+        z-index: 10;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+        color: #b8bbbe;
+        font-size: 0.8rem;
+        letter-spacing: 1px;
+    }
+}
+.small-cell{
+    text-align: center;
+    width: 15%;
+}
+
+.payment-container {
+    display: flex;
+    flex: 1 1 250px; 
+    max-width: 30%;    
+    min-width: 300px;
+    background-color: #444;
+    border-radius: 15px;
+    align-items: center;
+    flex-direction: column;
+}

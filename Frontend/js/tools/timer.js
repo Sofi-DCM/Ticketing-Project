@@ -4,9 +4,9 @@ import { Toast } from "./toast.js";
 function initGlobalTimer() {
     const superContainer = document.querySelector(".timer-container");
     const container = document.getElementById("timerContainer");
+    const cartTableBody = document.getElementById("tableBody");
 
     function update() {
-        
         if (UserDataService.getData() == null) {
             localStorage.removeItem('activeReservations');
             if (superContainer) superContainer.style.display = "none";
@@ -28,21 +28,39 @@ function initGlobalTimer() {
             window.dispatchEvent(new CustomEvent('reservationExpired'));
         }
         
-        if (!container || !superContainer) return; 
+        if (!container && !superContainer && !cartTableBody) return; 
 
-        if (valid.length === 0) {
-            container.innerHTML = "";
-            superContainer.style.display = "none";
-            return;
+        if( container && superContainer) {
+            if (valid.length === 0) {
+                container.innerHTML = "";
+                superContainer.style.display = "none";
+                return;
+            }
+
+            superContainer.style.display = "flex";
+            container.innerHTML = valid.map(t => {
+                const diff = Math.round((t.endTime - now) / 1000);
+                const m = Math.floor(diff / 60);
+                const s = diff % 60;
+                return `<div class="badge d-flex timer-custom m-1"><em>Asiento ${t.name} -</em><strong> ${m}:${s < 10 ? '0' : ''}${s}</strong></div>`;
+            }).join('');
         }
-
-        superContainer.style.display = "flex";
-        container.innerHTML = valid.map(t => {
-            const diff = Math.round((t.endTime - now) / 1000);
-            const m = Math.floor(diff / 60);
-            const s = diff % 60;
-            return `<div class="badge d-flex timer-custom m-1"><em>Asiento ${t.name} -</em><strong> ${m}:${s < 10 ? '0' : ''}${s}</strong></div>`;
-        }).join('');
+        else if(cartTableBody){
+            if (valid.length === 0) {
+                return;
+            }
+            const timerCells = cartTableBody.querySelectorAll("#timer");
+            let i = 0;
+            for(const c of timerCells){
+                const t = valid[i];
+                const diff = Math.round((t.endTime - now) / 1000);
+                const m = Math.floor(diff / 60);
+                const s = diff % 60;
+                c.innerHTML = `${m} : ${s}`;
+                i += 1;
+            }
+        }
+        
     }
     setInterval(update, 1000);
     update();

@@ -185,16 +185,17 @@ class SeatMapView {
                 console.log("Seat completo:", seat);
                 console.log("seat.id:", seat.id);
                 console.log("seat.Id:", seat.Id);
-                await ReservationService.CreateReservation(
-                    userId,
-                    seat.id
-                );
+                const response = await ReservationService.CreateReservation(
+                                    userId,
+                                    seat.id
+                                );
                 // crear el timer 
-                const expiration = Date.now() + (5 * 60 * 1000);
+                const expiration = new Date(response.expiresAt).getTime();
                 let activeTimers = JSON.parse(localStorage.getItem('activeReservations') || "[]");
 
                 activeTimers.push({
                     seatId: seat.id,
+                    reservationId: response.reservationId,
                     name: `${seat.rowIdentifier}${seat.seatNumber}`,
                     eventName : this.eventName,
                     sector : sector.name,

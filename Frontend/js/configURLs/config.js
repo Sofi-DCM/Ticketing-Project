@@ -17,6 +17,7 @@ export const CONFIG = {
             GET_CATALOG:  (page, size, sort) => 
                 `${BASE_API}/events?pageNumber=${page}&pageSize=${size}&sortBy=${sort}`,    // GET GetActiveEvents
             POST:  `${BASE_API}/events`,
+            GET_BY_ID: (id) => `${BASE_API}/events/${id}` // GET GetEventById
         },
 
         //Rutas del SectorController
@@ -33,7 +34,8 @@ export const CONFIG = {
 
         // Rutas del ReservationController
         RESERVATION: {
-            CREATE: `${BASE_API}/reservations`
+            CREATE: `${BASE_API}/reservations`,
+            PAY: (reservationId) => `${BASE_API}/reservations/${reservationId}/payment` 
         }
     }
 };

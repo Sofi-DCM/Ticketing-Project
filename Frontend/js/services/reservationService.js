@@ -9,5 +9,10 @@ export const ReservationService = {
             "POST",
             body
         );
+    },
+    async PayReservation(reservationId, userId) {
+        const body = {userId};
+        const url = CONFIG.ROUTES.RESERVATION.PAY(reservationId);
+        return await baseFetch(url, "POST", body);
     }
 };

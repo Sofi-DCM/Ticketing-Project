@@ -116,16 +116,18 @@ class UserForm {
                     email: data.email,
                     passwordHash : data.password
                 };
-                userId = await UserService.CreateUser(command);
+                const response = await UserService.CreateUser(command);
+                userId = response.id;
+                console.log(userId);
             }
             UserDataService.saveData(userId, data.name);
             Toast.show("¡Bienvenido "+ data.name +"!");
             //redireccion a la pagina anterior (normalmente el index catalogo)
-            setTimeout(() => {            
-                if (document.referrer) {
+            setTimeout(() => {   
+                if (this.isLogin && document.referrer){
                     window.location.href = document.referrer; //va directo a la pagina anterior
                 } else {
-                    window.location.href = "index.html"; // Backup por si no hay historial
+                    window.location.href = "../../index.html"; // Backup por si no hay historial
                 }
             },3000);
         } catch (error) 

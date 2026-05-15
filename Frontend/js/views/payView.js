@@ -20,7 +20,7 @@ class Payment {
             if (document.referrer) {
                 window.location.href = document.referrer; 
             } else {
-                window.location.href = "index.html"; 
+                window.location.href = "../../index.html"; 
             }
         }
         if(!this.tableBody || !this.paymentContainer) Toast.show("error al cargar recursos", "error");
@@ -36,6 +36,20 @@ class Payment {
         })
     }
 
+    initCancelButtonListeners(){
+        this.tableBody.querySelectorAll('.button-delete-event').forEach(button => {
+            button.addEventListener('click', async (e) => {
+                const reservationId = button.id; // Es mejor usar la referencia directa al botón
+
+                const tr = button.closest('tr');
+                const seatCell = tr.querySelector('.seatName');
+                const seatName = seatCell.innerHTML;
+
+                await this.handleCancelReservation(reservationId, seatName);
+            })
+        });
+    }
+
     renderReservations(){
         const reservations = ReservationTimerService.GetReservations();
         this.tableBody.innerHTML = '';
@@ -44,10 +58,11 @@ class Payment {
             for(const r of reservations){
                 this.tableBody.innerHTML += this.getReservationHtml(r);
             }
+            this.initCancelButtonListeners();
         } 
         else{
             Toast.show("Carrito vacio", "info");
-            this.tableBody.innerHTML = '<tr><td colspan="5" style="text-align:center;">No hay reservas</td></tr>';
+            this.tableBody.innerHTML = '<tr><td colspan="6" style="text-align:center;">No hay reservas</td></tr>';
         }
     }
 //agregar listeners a botones de liberar reservas
@@ -57,8 +72,9 @@ class Payment {
                 <td class="cell-text">${r.eventName}</td>
                 <td class="cell-text">${r.sectorName}</td>
                 <td style="text-align: center;">${r.sectorPrice}</td>
-                <td style="text-align: center;">${r.seatName}</td>
+                <td class="seatName" style="text-align: center;">${r.seatName}</td>
                 <td id="timer" style="color: var(--color-strong-pink);text-align:center;"></td>
+                <td style="text-align:center;"><button id="${r.reservationId}" class="btn rounded-pill button-delete-event">-</button></td>
             </tr> 
         `
     }
@@ -85,6 +101,18 @@ class Payment {
             Toast.show(error.message, "error");
         }
     }
-}
 
+    async handleCancelReservation(reservationId, seatName){
+        try{
+            const userData = UserDataService.getData();
+            await ReservationService.CancelReservation(reservationId, userData.id);
+            ReservationTimerService.DeleteReservation(reservationId);
+            Toast.show(`Reserva asiento ${seatName} cancelada`);
+            this.renderReservations();
+        }
+        catch(error){
+            Toast.show(error.message, "error");
+        }
+    }
+}
 new Payment();

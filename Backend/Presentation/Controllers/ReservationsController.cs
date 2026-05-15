@@ -51,7 +51,10 @@ namespace Presentation.Controllers
         public async Task<IActionResult> CancelReservation(Guid id, [FromBody] int userId, CancellationToken cancellationToken)
         {
             await _cancelReservationHandler.HandleAsync(id, userId, cancellationToken);
-            return Ok();
+            return Ok(new
+            {
+                Message = "Reserva cancelada correctamente."
+            });
         }
     }
 }

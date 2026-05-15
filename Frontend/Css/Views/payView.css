@@ -71,7 +71,7 @@ body{
     width: 10%;
 }
 .big-cell{
-    width: 35%;
+    width: 30%;
 }
 .cell-text{
     word-break: break-word; /* Rompe palabras largas si es necesario */

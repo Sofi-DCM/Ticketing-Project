@@ -14,7 +14,6 @@ function initGlobalTimer() {
             return;
         }
         const reservations = ReservationTimerService.GetReservations();
-        console.log(reservations);
         const now = Date.now();
 
         const valid = reservations.filter(t => t.expiresAt > now);

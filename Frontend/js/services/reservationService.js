@@ -14,6 +14,11 @@ export const ReservationService = {
         const body = userId;
         const url = CONFIG.ROUTES.RESERVATION.PAY(reservationId);
         return await baseFetch(url, "POST", body);
+    },
+    async CancelReservation(reservationId, userId){
+        const body = userId;
+        const url = CONFIG.ROUTES.RESERVATION.CANCEL(reservationId);
+        return await baseFetch(url, 'PATCH', body);
     }
 };
 
@@ -23,10 +28,14 @@ export const ReservationTimerService = {
         sessionStorage.setItem('activeReservations', JSON.stringify(reservations));
     },
     GetReservations() {
-        console.log("me lo piden");
         return  JSON.parse(sessionStorage.getItem('activeReservations') || "[]");
     },
     ClearReservations(){
         sessionStorage.removeItem('activeReservations');
+    },
+    DeleteReservation(reservationId){
+        const reservations = this.GetReservations();
+        const valid = reservations.filter(t => t.reservationId != reservationId);
+        this.UpdateReservations(valid);
     }
 }

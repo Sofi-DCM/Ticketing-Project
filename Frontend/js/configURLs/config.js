@@ -36,7 +36,8 @@ export const CONFIG = {
         // Rutas del ReservationController
         RESERVATION: {
             CREATE: `${BASE_API}/reservations`,
-            PAY: (reservationId) => `${BASE_API}/reservations/${reservationId}/payment` 
+            PAY: (reservationId) => `${BASE_API}/reservations/${reservationId}/payment`,
+            CANCEL: (reservationId) => `${BASE_API}/reservations/${reservationId}/cancellation`
         }
     }
 };

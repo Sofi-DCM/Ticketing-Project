@@ -8,10 +8,15 @@ namespace Presentation.Controllers
     {
         private readonly ICreateReservationHandler _createReservationHandler;
         private readonly IConfirmPaymentHandler _confirmPaymentHandler;
-        public ReservationsController(ICreateReservationHandler createReservationHandler, IConfirmPaymentHandler confirmPaymentHandler)
+        private readonly ICancelReservationHandler _cancelReservationHandler;
+        public ReservationsController(
+            ICreateReservationHandler createReservationHandler, 
+            IConfirmPaymentHandler confirmPaymentHandler, 
+            ICancelReservationHandler cancelReservationHandler)
         {
             _createReservationHandler = createReservationHandler;
             _confirmPaymentHandler = confirmPaymentHandler;
+            _cancelReservationHandler = cancelReservationHandler;
         }
 
         [HttpPost]
@@ -23,6 +28,7 @@ namespace Presentation.Controllers
 
             return Created(string.Empty, result);
         }
+
         [HttpPost("{reservationId}/payment")]
         public async Task<IActionResult> ConfirmPayment(Guid reservationId,[FromBody] int userId, CancellationToken cancellationToken)
         {
@@ -38,6 +44,14 @@ namespace Presentation.Controllers
             {
                 Message = "Pago confirmado correctamente."
             });
+        }
+
+        
+        [HttpPatch("{id}/cancellation")]
+        public async Task<IActionResult> CancelReservation(Guid id, [FromBody] int userId, CancellationToken cancellationToken)
+        {
+            await _cancelReservationHandler.HandleAsync(id, userId, cancellationToken);
+            return Ok();
         }
     }
 }

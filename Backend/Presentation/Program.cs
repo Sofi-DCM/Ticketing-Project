@@ -52,6 +52,7 @@ builder.Services.AddScoped<IGetEventByIdHandler, GetEventByIdHandler>();
 builder.Services.AddScoped<IReservationRepository, ReservationRepository>();
 builder.Services.AddScoped<ICreateReservationHandler, CreateReservationHandler>();
 builder.Services.AddScoped<IConfirmPaymentHandler, ConfirmPaymentHandler>();
+builder.Services.AddScoped<ICancelReservationHandler, CancelReservationHandler>();
 
 //Seat
 builder.Services.AddScoped<ISeatRepository, SeatRepository>();

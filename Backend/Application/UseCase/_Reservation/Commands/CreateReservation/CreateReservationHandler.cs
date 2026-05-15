@@ -6,6 +6,7 @@ using Application.Interfaces.Handlers._Seat;
 using Application.Interfaces.Repositories;
 using Application.Response;
 using Application.UseCase._AuditLog.Commands.CreateAuditLog;
+using Application.UseCase._Seat.Commands.ChangeSeatStatus;
 using Domain.Constants;
 using Domain.Entities;
 using Domain.Exceptions;
@@ -48,7 +49,7 @@ namespace Application.UseCase._Reservation.Commands.CreateReservation
 
             try
             {
-                await _changeSeatStatusHandler.HandleAsync(command.SeatId, ct);
+                await _changeSeatStatusHandler.HandleAsync(new ChangeSeatStatusCommand { SeatId = command.SeatId }, ct);
 
                 var newReservation = new Reservation
                 {

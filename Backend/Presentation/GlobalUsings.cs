@@ -36,7 +36,7 @@ global using Application.UseCase._AuditLog.Commands.CreateAuditLog;
 global using Application.Interfaces.Handlers._Reservation;
 
 global using Application.UseCase._Reservation.Commands.CreateReservation;
-
+global using Application.UseCase._Reservation.Commands.CancelReservation;
 //--- Seat
 global using Application.Interfaces.Handlers._Seat;
 

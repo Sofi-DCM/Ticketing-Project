@@ -1,8 +1,11 @@
 ﻿
 using Application.Interfaces.Repositories;
 using Application.Response;
+using Application.UseCase._User.Queries.GetUserById;
+using Azure.Core;
 using Domain.Constants;
 using Domain.Entities;
+using Domain.Exceptions;
 using Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 
@@ -62,6 +65,21 @@ namespace Infrastructure.Repositories
                     SectorPrice = r.Seat.Sector.Price,
                     ExpiresAt = r.ExpiresAt
                 }).ToListAsync(ct);
+        }
+
+        public async Task<Guid?> CancelReservationAsync(Guid id, int userId, CancellationToken ct)
+        {
+            var reservation = await _context.Reservations.FirstOrDefaultAsync(r => r.Id == id);
+            if (reservation != null)
+            {
+                if (reservation.UserId != userId)
+                    throw new UnauthorizedException("La reserva no pertenece a ese usuario");
+
+                reservation.Status = ReservationConstants.Expired;
+                await _context.SaveChangesAsync();
+                return reservation.SeatId;
+            }
+            return null;
         }
     }
 }

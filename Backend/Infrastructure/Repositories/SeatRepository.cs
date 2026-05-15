@@ -1,5 +1,6 @@
 ﻿
 using Application.Interfaces.Repositories;
+using Application.UseCase._Seat.Commands.ChangeSeatStatus;
 using Domain.Constants;
 using Domain.Entities;
 using Infrastructure.Persistence;
@@ -29,14 +30,14 @@ namespace Infrastructure.Repositories
                 .ToListAsync(ct);
         }
 
-        public async Task PatchSeatStateAsync(Guid seatId, CancellationToken ct)
+        public async Task PatchSeatStateAsync(ChangeSeatStatusCommand command, CancellationToken ct)
         {
             var seat = await _context.Seats
-                .FirstOrDefaultAsync(s => s.Id == seatId && s.Status == SeatStatusConstants.Available, ct);
+                .FirstOrDefaultAsync(s => s.Id == command.SeatId && s.Status == command.OriginalStatus, ct);
 
             if(seat == null) throw new DbUpdateConcurrencyException();
 
-            seat.Status = SeatStatusConstants.Reserved;
+            seat.Status = command.PatchStatus;
             seat.Version++;
 
             await _context.SaveChangesAsync();

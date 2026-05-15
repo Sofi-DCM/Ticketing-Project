@@ -13,12 +13,12 @@ namespace Application.UseCase._Seat.Commands.ChangeSeatStatus
             _repository = repository;
         }
 
-        public async Task HandleAsync(Guid seatId, CancellationToken ct)
+        public async Task HandleAsync(ChangeSeatStatusCommand command, CancellationToken ct)
         {
-            if (!await _repository.ExistsByIdAsync(seatId))
-                throw new KeyNotFoundException($"No existe un asiento con id : {seatId}");
+            if (!await _repository.ExistsByIdAsync(command.SeatId))
+                throw new KeyNotFoundException($"No existe un asiento con id : {command.SeatId}");
 
-            await _repository.PatchSeatStateAsync(seatId, ct);
+            await _repository.PatchSeatStateAsync(command, ct);
         }
     }
 }

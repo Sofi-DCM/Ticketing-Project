@@ -7,12 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="UseCase\_AuditLog\Queries\**" />
-    <EmbeddedResource Remove="UseCase\_AuditLog\Queries\**" />
-    <None Remove="UseCase\_AuditLog\Queries\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Domain\Domain.csproj" />
   </ItemGroup>
 

@@ -31,6 +31,7 @@ global using Application.UseCase._User.Queries.GetUserReservationsById;
 global using Application.Interfaces.Handlers._AuditLog;
 
 global using Application.UseCase._AuditLog.Commands.CreateAuditLog;
+global using Application.UseCase._AuditLog.Queries.GetAuditLogsPaginated;
 
 //--- Reservation
 global using Application.Interfaces.Handlers._Reservation;

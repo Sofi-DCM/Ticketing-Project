@@ -41,6 +41,7 @@ builder.Services.AddScoped<IGetUserReservationsByIdHandler, GetUserReservationsB
 //AuditLog
 builder.Services.AddScoped<IAuditLogRepository, AuditLogRepository>();
 builder.Services.AddScoped<ICreateAuditLogHandler, CreateAuditLogHandler>();
+builder.Services.AddScoped<IGetAuditLogsPaginatedHandler, GetAuditLogsPaginatedHandler>();
 
 //Event
 builder.Services.AddScoped<IEventRepository, EventRepository>();

@@ -1,5 +1,6 @@
 import { UserDataService } from "../services/userService.js";
 import { Toast } from "./toast.js";
+import { ReservationTimerService } from "../services/reservationService.js";
 
 function initGlobalTimer() {
     const superContainer = document.querySelector(".timer-container");
@@ -18,10 +19,9 @@ function initGlobalTimer() {
         const valid = reservations.filter(t => t.endTime > now);
 
         if (valid.length !== reservations.length) {
+            ReservationTimerService.UpdateReservations(valid);
+
             const expired = reservations.filter(t => t.endTime <= now);
-
-            localStorage.setItem('activeReservations', JSON.stringify(valid));
-
             for (const t of expired) {
                 Toast.show(`Expiró reserva de asiento ${t.name}`, "info");
             }
@@ -46,9 +46,6 @@ function initGlobalTimer() {
             }).join('');
         }
         else if(cartTableBody){
-            if (valid.length === 0) {
-                return;
-            }
             const timerCells = cartTableBody.querySelectorAll("#timer");
             let i = 0;
             for(const c of timerCells){

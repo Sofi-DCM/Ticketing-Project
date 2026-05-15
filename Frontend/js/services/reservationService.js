@@ -11,8 +11,21 @@ export const ReservationService = {
         );
     },
     async PayReservation(reservationId, userId) {
-        const body = {userId};
+        const body = userId;
         const url = CONFIG.ROUTES.RESERVATION.PAY(reservationId);
         return await baseFetch(url, "POST", body);
     }
 };
+
+export const ReservationTimerService = {
+    UpdateReservations(reservations){
+        if(!reservations) return;
+        localStorage.setItem('activeReservations', JSON.stringify(reservations));
+    },
+    GetReservations() {
+        return  JSON.parse(localStorage.getItem('activeReservations') || "[]");
+    },
+    ClearReservations(){
+        localStorage.removeItem('activeReservations');
+    }
+}

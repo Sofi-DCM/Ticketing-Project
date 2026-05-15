@@ -8,15 +8,18 @@ namespace Presentation.Controllers
         private readonly ICreateUserHandler _createUserHandler;
         private readonly IGetUserByIdHandler _getUserByIdHandler;
         private readonly IValidateUserCredentialsHandler _validateUserCredentialsHandler;
+        private readonly IGetUserReservationsByIdHandler _getUserReservationsByIdHandler;
 
         public UserController(
-            ICreateUserHandler createUserHandler, 
-            IGetUserByIdHandler getUserByIdHandler, 
-            IValidateUserCredentialsHandler validateUserCredentialsHandler)
+            ICreateUserHandler createUserHandler,
+            IGetUserByIdHandler getUserByIdHandler,
+            IValidateUserCredentialsHandler validateUserCredentialsHandler,
+            IGetUserReservationsByIdHandler getUserReservationsByIdHandler)
         {
             _createUserHandler=createUserHandler;
             _getUserByIdHandler=getUserByIdHandler;
             _validateUserCredentialsHandler=validateUserCredentialsHandler;
+            _getUserReservationsByIdHandler = getUserReservationsByIdHandler;
         }
 
         [HttpPost]
@@ -44,6 +47,13 @@ namespace Presentation.Controllers
             return Ok(response);
         }
 
+        [HttpGet("{id}/reservations")]
+        public async Task<IActionResult> GetUserReservationsById(int id, CancellationToken ct = default)
+        {
+            var response = await _getUserReservationsByIdHandler.HandleAsync(id, ct);
+
+            return Ok(response);
+        }
 
     }
 }

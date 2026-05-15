@@ -49,5 +49,19 @@ namespace Infrastructure.Repositories
                     r => r.Id == reservationId,
                     ct);
         }
+
+        public async Task<IList<UserReservationResponse>> GetReservationsByUserIdAsync(int userId, CancellationToken ct)
+        {
+            return await _context.Reservations
+                .Where(r => r.UserId == userId && r.ExpiresAt > DateTime.UtcNow && r.Status == ReservationConstants.Pending)
+                .Select(r => new UserReservationResponse { 
+                    ReservationId = r.Id,
+                    SeatName = r.Seat.RowIdentifier + r.Seat.SeatNumber,
+                    EventName = r.Seat.Sector.Event.Name,
+                    SectorName = r.Seat.Sector.Name,
+                    SectorPrice = r.Seat.Sector.Price,
+                    ExpiresAt = r.ExpiresAt
+                }).ToListAsync(ct);
+        }
     }
 }

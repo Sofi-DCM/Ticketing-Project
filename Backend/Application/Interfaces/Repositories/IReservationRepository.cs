@@ -12,5 +12,6 @@ namespace Application.Interfaces.Repositories
 
         Task ExpireReservationsAsync(IEnumerable<Guid> ids, CancellationToken ct);
         Task<Reservation?> GetByIdWithSeatAsync(Guid reservationId, CancellationToken ct);
+        public Task<IList<UserReservationResponse>> GetReservationsByUserIdAsync(int userId, CancellationToken ct);
     }
 }

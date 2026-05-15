@@ -1,6 +1,6 @@
 import { SeatService } from "../services/seatService.js";
 import { EventService } from "../services/eventService.js";
-import { ReservationService } from "../services/reservationService.js";
+import { ReservationService, ReservationTimerService } from "../services/reservationService.js";
 import { Toast } from "../tools/toast.js";
 import { UserDataService } from "../services/userService.js";
 import { initUserButtonModule } from "../modules/userButtonModule.js";
@@ -191,17 +191,17 @@ class SeatMapView {
                                 );
                 // crear el timer 
                 const expiration = new Date(response.expiresAt).getTime();
-                let activeTimers = JSON.parse(localStorage.getItem('activeReservations') || "[]");
+                let activeTimers = ReservationTimerService.GetReservations();
 
                 activeTimers.push({
-                    seatId: seat.id,
                     reservationId: response.reservationId,
-                    name: `${seat.rowIdentifier}${seat.seatNumber}`,
+                    seatName: `${seat.rowIdentifier}${seat.seatNumber}`,
                     eventName : this.eventName,
-                    sector : sector.name,
-                    endTime: expiration
+                    sectorName : sector.name,
+                    sectorPrice : Number(sector.price).toLocaleString("es-AR"),
+                    expiresAt: expiration
                 });
-                localStorage.setItem('activeReservations', JSON.stringify(activeTimers));
+                ReservationTimerService.UpdateReservations(activeTimers);
 
                 Toast.show(`Reservaste el asiento ${seatName}`,"success");
                 modal.classList.add("hidden");

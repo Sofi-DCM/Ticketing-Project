@@ -54,5 +54,9 @@ export const UserService = {
     async GetUserById(id) {
         const url = CONFIG.ROUTES.USER.BY_ID(id);
         return await baseFetch(url, 'GET');
+    },
+    async GetUserReservationsById(id) {
+        const url = CONFIG.ROUTES.USER.GET_RESERVATIONS(id);
+        return await baseFetch(url, 'GET'); 
     }
 };

@@ -9,21 +9,22 @@ function initGlobalTimer() {
 
     function update() {
         if (UserDataService.getData() == null) {
-            localStorage.removeItem('activeReservations');
+            ReservationTimerService.ClearReservations();
             if (superContainer) superContainer.style.display = "none";
             return;
         }
-        const reservations = JSON.parse(localStorage.getItem('activeReservations') || "[]");
+        const reservations = ReservationTimerService.GetReservations();
+        console.log(reservations);
         const now = Date.now();
 
-        const valid = reservations.filter(t => t.endTime > now);
+        const valid = reservations.filter(t => t.expiresAt > now);
 
         if (valid.length !== reservations.length) {
             ReservationTimerService.UpdateReservations(valid);
 
-            const expired = reservations.filter(t => t.endTime <= now);
+            const expired = reservations.filter(t => t.expiresAt <= now);
             for (const t of expired) {
-                Toast.show(`Expiró reserva de asiento ${t.name}`, "info");
+                Toast.show(`Expiró reserva de asiento ${t.seatName}`, "info");
             }
             window.dispatchEvent(new CustomEvent('reservationExpired'));
         }
@@ -39,10 +40,10 @@ function initGlobalTimer() {
 
             superContainer.style.display = "flex";
             container.innerHTML = valid.map(t => {
-                const diff = Math.round((t.endTime - now) / 1000);
+                const diff = Math.round((t.expiresAt - now) / 1000);
                 const m = Math.floor(diff / 60);
                 const s = diff % 60;
-                return `<div class="badge d-flex timer-custom m-1"><em>Asiento ${t.name} -</em><strong> ${m}:${s < 10 ? '0' : ''}${s}</strong></div>`;
+                return `<div class="badge d-flex timer-custom m-1"><em>Asiento ${t.seatName} -</em><strong> ${m}:${s < 10 ? '0' : ''}${s}</strong></div>`;
             }).join('');
         }
         else if(cartTableBody){
@@ -50,7 +51,7 @@ function initGlobalTimer() {
             let i = 0;
             for(const c of timerCells){
                 const t = valid[i];
-                const diff = Math.round((t.endTime - now) / 1000);
+                const diff = Math.round((t.expiresAt - now) / 1000);
                 const m = Math.floor(diff / 60);
                 const s = diff % 60;
                 c.innerHTML = `${m} : ${s}`;

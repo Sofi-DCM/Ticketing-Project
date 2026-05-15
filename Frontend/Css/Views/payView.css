@@ -68,7 +68,15 @@ body{
 }
 .small-cell{
     text-align: center;
-    width: 15%;
+    width: 10%;
+}
+.big-cell{
+    width: 35%;
+}
+.cell-text{
+    word-break: break-word; /* Rompe palabras largas si es necesario */
+    overflow-wrap: break-word; /* Alternativa moderna y estándar */
+    white-space: normal; /* Asegura el comportamiento de envoltura estándar */
 }
 
 .payment-container {

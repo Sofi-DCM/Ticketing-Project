@@ -20,12 +20,13 @@ export const ReservationService = {
 export const ReservationTimerService = {
     UpdateReservations(reservations){
         if(!reservations) return;
-        localStorage.setItem('activeReservations', JSON.stringify(reservations));
+        sessionStorage.setItem('activeReservations', JSON.stringify(reservations));
     },
     GetReservations() {
-        return  JSON.parse(localStorage.getItem('activeReservations') || "[]");
+        console.log("me lo piden");
+        return  JSON.parse(sessionStorage.getItem('activeReservations') || "[]");
     },
     ClearReservations(){
-        localStorage.removeItem('activeReservations');
+        sessionStorage.removeItem('activeReservations');
     }
 }

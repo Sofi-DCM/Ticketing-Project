@@ -1,6 +1,7 @@
 // importaciones
 import { UserDataService, UserService} from "../services/userService.js"; //si da error en el html agregar Type="Module"
 import { Toast } from "../tools/toast.js";
+import { ReservationTimerService } from "../services/reservationService.js";
 
 
 class UserForm {
@@ -99,7 +100,16 @@ class UserForm {
             let userId = null;
             if (this.isLogin) {
                 userId = await UserService.ValidateUserCredentials(data.name, data.password);
-                
+                //obtener reservaciones activas por si cerro sesion por error
+                const reservations = await UserService.GetUserReservationsById(userId);
+                if(reservations.length > 0) {
+                    for(const r of reservations){
+                        const dateStr = r.expiresAt.endsWith('Z') ? r.expiresAt : r.expiresAt + 'Z';
+                        r.expiresAt = new Date(dateStr).getTime();
+                    }
+                    ReservationTimerService.UpdateReservations(reservations);
+                    Toast.show("reservaciones cargadas");
+                }
             } else {
                 const command = {
                     name: data.name, 
@@ -116,7 +126,8 @@ class UserForm {
                     window.location.href = document.referrer; //va directo a la pagina anterior
                 } else {
                     window.location.href = "index.html"; // Backup por si no hay historial
-            }},3000);
+                }
+            },3000);
         } catch (error) 
         {
             const message = error.message || "Ocurrió un error inesperado";

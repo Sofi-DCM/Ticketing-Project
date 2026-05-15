@@ -47,16 +47,17 @@ class Payment {
         } 
         else{
             Toast.show("Carrito vacio", "info");
-            this.tableBody.innerHTML = '<tr><td colspan="4" style="text-align:center;">No hay reservas</td></tr>';
+            this.tableBody.innerHTML = '<tr><td colspan="5" style="text-align:center;">No hay reservas</td></tr>';
         }
     }
 //agregar listeners a botones de liberar reservas
     getReservationHtml(r){
         return `
             <tr>
-                <td>${r.eventName}</td>
-                <td>${r.sector}</td>
-                <td style="text-align: center;">${r.name}</td>
+                <td class="cell-text">${r.eventName}</td>
+                <td class="cell-text">${r.sectorName}</td>
+                <td style="text-align: center;">${r.sectorPrice}</td>
+                <td style="text-align: center;">${r.seatName}</td>
                 <td id="timer" style="color: var(--color-strong-pink);text-align:center;"></td>
             </tr> 
         `

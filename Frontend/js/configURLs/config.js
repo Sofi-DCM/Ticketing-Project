@@ -9,7 +9,8 @@ export const CONFIG = {
         USER: {
             REGISTER:    `${BASE_API}/users`,           // POST CreateUser
             VALIDATE:   (name,password) =>  `${BASE_API}/users/validate?name=${encodeURIComponent(name)}&password=${encodeURIComponent(password)}`,  // GET ValidateUserCredentials
-            BY_ID:  (id) => `${BASE_API}/users/${id}`    // GET GetUserById
+            BY_ID:  (id) => `${BASE_API}/users/${id}`,    // GET GetUserById
+            GET_RESERVATIONS: (id) => `${BASE_API}/users/${id}/reservations`
         },
 
         // Rutas del EventController

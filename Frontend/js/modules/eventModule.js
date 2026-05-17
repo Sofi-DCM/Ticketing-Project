@@ -1,6 +1,7 @@
 import { Toast } from "../tools/toast.js";
 import { UserDataService, UserService } from "../services/userService.js";
 import { EventService } from "../services/eventService.js";
+import { lockButton } from "../tools/buttonLock.js";
 
 export function initEventModule(){
     const manager = new eventModule();
@@ -120,11 +121,14 @@ class eventModule{
     initButtonListeners(container){
         const createButton = container.querySelector('#mainForm');
         createButton.addEventListener('submit', (e) => {
+            
             e.preventDefault();
             console.log("boton crear funciona");
             const form = container.querySelector('#mainForm');
             const data = Object.fromEntries(new FormData(form).entries());
-            this.mapEventCommand(data);
+            lockButton(SubmitEvent, async () => {
+                await this.mapEventCommand(data);
+            });
         });
 
         const addSectorButton = container.querySelector('#addSector');

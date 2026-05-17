@@ -2,6 +2,7 @@
 import { UserDataService, UserService} from "../services/userService.js"; //si da error en el html agregar Type="Module"
 import { Toast } from "../tools/toast.js";
 import { ReservationTimerService } from "../services/reservationService.js";
+import { lockButton } from "../tools/buttonLock.js";
 
 
 class UserForm {
@@ -85,13 +86,16 @@ class UserForm {
 
         // Listener para el envío del formulario
         const form = this.container.querySelector('#userForm');
-        form.addEventListener('submit', (e) => {
+        form.addEventListener('submit', async (e) => {
             e.preventDefault();
-            this.handleSubmit();
+            const submitButton = form.querySelector('button[type="submit"]');
+            await this.handleSubmit();
         });
     }
 
     async handleSubmit() {
+        const submitButton = this.container.querySelector('button[type="submit"]');
+        await lockButton( submitButton, async () => {
         const formElement = this.container.querySelector('#userForm'); //extraer datos
         const formData = new FormData(formElement); //crea objeto especial con pares clave/valor
         const data = Object.fromEntries(formData.entries()); //lo transforma en un objeto javaScript {}
@@ -130,14 +134,15 @@ class UserForm {
                     window.location.href = "../../index.html"; // Backup por si no hay historial
                 }
             },3000);
+            await new Promise(resolve => setTimeout(resolve, 3000));
         } catch (error) 
         {
             const message = error.message || "Ocurrió un error inesperado";
             Toast.show(message, "error");
             console.error(`Error ${error.status}:`, error);
-        }
+        }});
     }
-}
+};
 
 // Uso:
 const app = new UserForm('userFormBox');

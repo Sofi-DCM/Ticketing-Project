@@ -32,7 +32,7 @@ class Payment {
     initListeners(){
         this.payButton.addEventListener('click', (e) => {
             lockButton(e.currentTarget, async () => {
-                this.handlePayment();
+                await this.handlePayment();
             }
         );
             

@@ -74,13 +74,16 @@ class Payment {
     initCancelButtonListeners(){
         this.tableBody.querySelectorAll('.button-delete-event').forEach(button => {
             button.addEventListener('click', async (e) => {
-                const reservationId = button.id; // Es mejor usar la referencia directa al botón
+                await lockButton(e.currentTarget, async () =>
+                {
+                    const reservationId = button.id; // Es mejor usar la referencia directa al botón
+                    const tr = button.closest('tr');
+                    const seatCell = tr.querySelector('.seatName');
+                    const seatName = seatCell.innerHTML;
+                    
+                    await this.handleCancelReservation(reservationId, seatName);
+                });
 
-                const tr = button.closest('tr');
-                const seatCell = tr.querySelector('.seatName');
-                const seatName = seatCell.innerHTML;
-
-                await this.handleCancelReservation(reservationId, seatName);
             })
         });
     }

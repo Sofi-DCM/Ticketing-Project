@@ -31,7 +31,7 @@ namespace Application.UseCase._AuditLog.Commands.CreateAuditLog
                 EntityType = command.EntityType,
                 EntityId = command.EntityId,
                 Details = command.Details,
-                CreatedAt = DateTime.Now,
+                CreatedAt = DateTime.UtcNow,
             };
         }
     }

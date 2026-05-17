@@ -21,7 +21,7 @@ namespace Infrastructure.Repositories
         {
             var query = _context.Events
                 .AsNoTracking()
-                .Where(e => e.Status == EventStatusConstants.Active);
+                .Where(e => e.EventDate > DateTime.UtcNow);
 
             query = queryDto.SortBy switch
             {

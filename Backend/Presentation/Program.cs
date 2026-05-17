@@ -133,7 +133,7 @@ using (var scope = app.Services.CreateScope())
             var newEvent = new Event
             {
                 Name = "The Eras Tour",
-                EventDate = DateTime.Now.AddMonths(3),
+                EventDate = DateTime.UtcNow.AddMonths(3),
                 Venue = "Movistar Arena",
                 Status = EventStatusConstants.Active
             };

@@ -4,6 +4,7 @@ body{
     background: var(--color-background); 
     font-family: 'Poppins', sans-serif;
     margin: 0;
+    overflow: hidden; 
     height: 100vh;
     padding: 1rem 5%; 
 }
@@ -143,3 +144,41 @@ body{
 .d-none { display: none !important; }
 
 
+
+
+.scroll-container {
+    width: 100%;
+    height: auto;
+}
+
+.scroll-container::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+.scroll-container::-webkit-scrollbar-thumb {
+    background: var(--color-strong-blue);
+    border-radius: 10px;
+}
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+    width: 100%;
+    max-height: 70vh; 
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-bottom: 20px; 
+    padding-right: 8px;
+}
+
+.card-item {
+    background-color: #ffffff;
+    border: 2px solid #a3e635;
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; 
+    box-sizing: border-box;
+    transition: transform 0.2s ease;
+}

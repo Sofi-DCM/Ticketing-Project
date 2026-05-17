@@ -38,6 +38,10 @@ export const CONFIG = {
             CREATE: `${BASE_API}/reservations`,
             PAY: (reservationId) => `${BASE_API}/reservations/${reservationId}/payment`,
             CANCEL: (reservationId) => `${BASE_API}/reservations/${reservationId}/cancellation`
+        },
+
+        AUDIT_LOG: {
+            GET: `${BASE_API}/auditlogs`
         }
     }
 };

@@ -32,10 +32,8 @@ class Payment {
     initListeners(){
         this.payButton.addEventListener('click', (e) => {
             lockButton(e.currentTarget, async () => {
-                this.handlePayment();
-            }
-        );
-            
+                await this.handlePayment();
+            });
         });
         this.onlyNumbers("cardNumber");
         this.onlyNumbers("cardDni");
@@ -178,6 +176,7 @@ class Payment {
             return;
         }
         try{
+            console.log("1er try");
             const user = UserDataService.getData();
             const reservations = ReservationTimerService.GetReservations();
             if(!reservations.length)
@@ -187,14 +186,18 @@ class Payment {
             }
             let paidCount = 0;
             let failedCount = 0;
+            let i = 1;
             for (const r of reservations)
             {
+                console.log("iteracion numero " + i);
                 try
                 {
+                    console.log("segundo try, pagando: "+ r);
                     await ReservationService.PayReservation(r.reservationId, user.id);
                     ReservationTimerService.DeleteReservation(r.reservationId);
                     paidCount++;
                 }catch (error) {
+                    console.log("fallo algo");
                     failedCount++;
                     console.error(error);
                     if (
@@ -203,6 +206,7 @@ class Payment {
                         error.status === 409
                     ) {
                         Toast.show(`La reserva ${r.seatName} expiró o ya fue pagada`,"error");
+                        console.log("fallo algo:"+error.status);
                         ReservationTimerService.DeleteReservation(r.reservationId);
                     }
                     else {
@@ -210,15 +214,18 @@ class Payment {
                     }
 
                 }
+               i++;
             }
             this.renderReservations();
             if(paidCount > 0)
             {
                 Toast.show(`${paidCount} asiento(s) pagado(s) correctamente`, "success");
+                console.log(`${paidCount} asiento(s) pagado(s) correctamente`);
             }
             if (failedCount > 0) 
             {
                 Toast.show(`${failedCount} pago(s) fallaron`,"error");
+                console.log(`${failedCount} pago(s) fallaron`);
             }
             window.dispatchEvent(new Event("reservationExpired"));
         }

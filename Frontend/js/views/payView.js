@@ -1,6 +1,7 @@
 import { Toast } from "../tools/toast.js";
 import { UserService, UserDataService } from "../services/userService.js";
 import { ReservationService, ReservationTimerService } from "../services/reservationService.js";
+import { lockButton } from "../tools/buttonLock.js";
 
 window.addEventListener('reservationExpired', async () => {
     console.log("Cambio en reservas detectado desde esta pestaña. Actualizando mapa...");
@@ -29,8 +30,12 @@ class Payment {
         this.renderReservations();
     }
     initListeners(){
-        this.payButton.addEventListener('click', () => {
-            this.handlePayment();
+        this.payButton.addEventListener('click', (e) => {
+            lockButton(e.currentTarget, async () => {
+                this.handlePayment();
+            }
+        );
+            
         });
         this.onlyNumbers("cardNumber");
         this.onlyNumbers("cardDni");

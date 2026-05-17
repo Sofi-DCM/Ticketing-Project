@@ -1,4 +1,5 @@
 ﻿
+using Application.UseCase._Seat.Commands.ChangeSeatStatus;
 using Domain.Entities;
 
 namespace Application.Interfaces.Repositories
@@ -6,9 +7,9 @@ namespace Application.Interfaces.Repositories
     public interface ISeatRepository
     {
         public Task<bool> ExistsByIdAsync(Guid seatId);
-        public Task<bool> PatchSeatStateAsync(Guid seatId, CancellationToken ct);
+        public Task PatchSeatStateAsync(ChangeSeatStatusCommand command, CancellationToken ct);
         Task<ICollection<Seat>> GetSeatsBySectorAsync(int sectorId, bool onlyRow, CancellationToken ct = default);
-        Task ReleaseSeatAsync(Guid seatId, CancellationToken ct);
+        Task ReleaseSeatsAsync(IEnumerable<Guid> seatsIds, CancellationToken ct);
         Task<bool> SectorExistsAsync(int sectorId, CancellationToken ct);
         public Task CreateSeatsAsync(ICollection<Seat> seats);
     }

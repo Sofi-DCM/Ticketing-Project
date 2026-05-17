@@ -1,5 +1,6 @@
 
 using Application.Interfaces;
+using Application.UseCase._Reservation.Commands.ConfirmPayment;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -35,19 +36,24 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ICreateUserHandler, CreateUserHandler>();
 builder.Services.AddScoped<IGetUserByIdHandler, GetUserByIdHandler>();
 builder.Services.AddScoped<IValidateUserCredentialsHandler, ValidateUserCredentialsHandler>();
+builder.Services.AddScoped<IGetUserReservationsByIdHandler, GetUserReservationsByIdHandler>();
 
 //AuditLog
 builder.Services.AddScoped<IAuditLogRepository, AuditLogRepository>();
 builder.Services.AddScoped<ICreateAuditLogHandler, CreateAuditLogHandler>();
+builder.Services.AddScoped<IGetAuditLogsPaginatedHandler, GetAuditLogsPaginatedHandler>();
 
 //Event
 builder.Services.AddScoped<IEventRepository, EventRepository>();
 builder.Services.AddScoped<IGetActiveEventsHandler, GetActiveEventsHandler>();
 builder.Services.AddScoped<ICreateEventHandler, CreateEventHandler>();
+builder.Services.AddScoped<IGetEventByIdHandler, GetEventByIdHandler>();    
 
 // Reservation
 builder.Services.AddScoped<IReservationRepository, ReservationRepository>();
 builder.Services.AddScoped<ICreateReservationHandler, CreateReservationHandler>();
+builder.Services.AddScoped<IConfirmPaymentHandler, ConfirmPaymentHandler>();
+builder.Services.AddScoped<ICancelReservationHandler, CancelReservationHandler>();
 
 //Seat
 builder.Services.AddScoped<ISeatRepository, SeatRepository>();
@@ -61,6 +67,9 @@ builder.Services.AddHostedService<ReservationExpirationBackgroundService>();
 builder.Services.AddScoped<ISectorRepository, SectorRepository>();
 builder.Services.AddScoped<ICreateSectorHandler, CreateSectorHandler>();
 builder.Services.AddScoped<IGetSectorsByEventIdHandler, GetSectorsByEventIdHandler>();
+
+// -------- Payment Simulation --------
+builder.Services.AddScoped<IPaymentSimulator, SimulatedPayment>();
 
 var app = builder.Build();
 
@@ -124,7 +133,7 @@ using (var scope = app.Services.CreateScope())
             var newEvent = new Event
             {
                 Name = "The Eras Tour",
-                EventDate = DateTime.Now.AddMonths(3),
+                EventDate = DateTime.UtcNow.AddMonths(3),
                 Venue = "Movistar Arena",
                 Status = EventStatusConstants.Active
             };

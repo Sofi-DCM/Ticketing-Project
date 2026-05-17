@@ -1,6 +1,6 @@
 import { SeatService } from "../services/seatService.js";
 import { EventService } from "../services/eventService.js";
-import { ReservationService } from "../services/reservationService.js";
+import { ReservationService, ReservationTimerService } from "../services/reservationService.js";
 import { Toast } from "../tools/toast.js";
 import { UserDataService } from "../services/userService.js";
 import { initUserButtonModule } from "../modules/userButtonModule.js";
@@ -12,15 +12,28 @@ class SeatMapView {
         this.containerUser = document.getElementById("userContainer");
         const params = new URLSearchParams(window.location.search);
         this.eventId = params.get("eventId") || 1;
+        this.eventName = "name";
         this.initBackButton();
         initUserButtonModule(this.containerUser, false);
-        //this.renderUserButton();
         this.init();
     }
 
     async init() {
         try {
             await this.loadEventData();
+            //detectar cambios en el timer (agregado, o un timer menos)
+            window.addEventListener('storage', async (event) => {
+                if (event.key === 'activeReservations') {
+                    console.log("Cambio en reservas detectado desde otra pestaña. Actualizando mapa...");
+                    const sectors = await EventService.GetSectorsByEventId(this.eventId);
+                    await this.renderSectors(sectors);
+                }
+            });
+            window.addEventListener('reservationExpired', async () => {
+                console.log("Cambio en reservas detectado desde esta pestaña. Actualizando mapa...");
+                const sectors = await EventService.GetSectorsByEventId(this.eventId);
+                await this.renderSectors(sectors);
+            })
         }catch (error) {
             console.error(error);
             Toast.show("No se pudo cargar el evento", "error");
@@ -28,14 +41,17 @@ class SeatMapView {
     }
 
     async loadEventData() {
-        const eventsResponse = await EventService.GetActiveEvents(1, 50, "Newest");
-        const events = eventsResponse.events || [];
-        const event = events.find(e => Number(e.id) === Number(this.eventId));
-        if (event) {
-            this.renderEventInfo(event);
+        try{
+            const eventResponse = await EventService.GetEventById(this.eventId);
+            this.eventName = eventResponse.name;
+            this.renderEventInfo(eventResponse);
+
+            const sectors = await EventService.GetSectorsByEventId(this.eventId);
+            await this.renderSectors(sectors);
         }
-        const sectors = await EventService.GetSectorsByEventId(this.eventId);
-        await this.renderSectors(sectors);
+        catch(error){
+            Toast.show(error.message, "error");
+        }
     }
 
     renderEventInfo(event) {
@@ -66,17 +82,12 @@ class SeatMapView {
             button.className = "show-more-btn";
             button.textContent = "Ver más";
             let expanded = false;
-            let allSeatsLoaded = false;
-            let allSeats = [];
                 button.addEventListener("click", async () => {
                     content.innerHTML = "";
                     if (!expanded) {
-                    if (!allSeatsLoaded) {
-                        allSeats = await SeatService.GetSeatsBySector(sector.id, false);
-                        allSeatsLoaded = true;
-                    }
-                    const groupedRows = this.groupSeatsByRow(allSeats);
-                    const rows = Object.keys(groupedRows).sort((a, b) => {
+                        const updatedSeats = await SeatService.GetSeatsBySector(sector.id, false);
+                        const groupedRows = this.groupSeatsByRow(updatedSeats);
+                        const rows = Object.keys(groupedRows).sort((a, b) => {
                         return this.rowIdentifierToNumber(a) - this.rowIdentifierToNumber(b);
                     });
                     rows.forEach(rowKey => {
@@ -85,7 +96,8 @@ class SeatMapView {
                     button.textContent = "Ver menos";
                     expanded = true;
                 } else {
-                    this.renderSeatRow(content, firstRowSeats, sector, () => expanded);
+                    const updatedFirstRowSeats = await SeatService.GetSeatsBySector(sector.id, true);
+                    this.renderSeatRow(content, updatedFirstRowSeats, sector, () => expanded);
                     button.textContent = "Ver más";
                     expanded = false;
                 }
@@ -114,6 +126,23 @@ class SeatMapView {
             row.appendChild(button);
         });
         container.appendChild(row);
+    }
+
+    async refreshSectorSeats(sector, content, getExpanded) {
+        content.innerHTML = "";
+        const onlyRow = !getExpanded();
+        const updatedSeats = await SeatService.GetSeatsBySector(sector.id, onlyRow);
+        if (getExpanded()) {
+            const groupedRows = this.groupSeatsByRow(updatedSeats);
+            const rows = Object.keys(groupedRows).sort((a, b) => {
+                return this.rowIdentifierToNumber(a) - this.rowIdentifierToNumber(b);
+            });
+            rows.forEach(rowKey => {
+                this.renderSeatRow(content, groupedRows[rowKey], sector, getExpanded);
+            });
+        } else {
+            this.renderSeatRow(content, updatedSeats, sector, getExpanded);
+        }
     }
 
     groupSeatsByRow(seats) {
@@ -156,12 +185,29 @@ class SeatMapView {
                 console.log("Seat completo:", seat);
                 console.log("seat.id:", seat.id);
                 console.log("seat.Id:", seat.Id);
-                await ReservationService.CreateReservation(
-                    userId,
-                    seat.id
-                );
+                const response = await ReservationService.CreateReservation(
+                                    userId,
+                                    seat.id
+                                );
+                // crear el timer 
+                const expiration = new Date(response.expiresAt).getTime();
+                let activeTimers = ReservationTimerService.GetReservations();
+
+                activeTimers.push({
+                    reservationId: response.reservationId,
+                    seatName: `${seat.rowIdentifier}${seat.seatNumber}`,
+                    eventName : this.eventName,
+                    sectorName : sector.name,
+                    sectorPrice : Number(sector.price).toLocaleString("es-AR"),
+                    expiresAt: expiration
+                });
+                ReservationTimerService.UpdateReservations(activeTimers);
+
                 Toast.show(`Reservaste el asiento ${seatName}`,"success");
                 modal.classList.add("hidden");
+                
+
+
                 console.log("Actualizando SOLO sector:", sector.name)
                 content.innerHTML = "";
                 const onlyRow = !getExpanded();
@@ -179,8 +225,10 @@ class SeatMapView {
                 }
             } catch (error) {
                 console.error(error);
-                Toast.show(error.message || "No se pudo reservar el asiento", "error");
+                if(error.status == 409) Toast.show("La butaca ya fue reservada. Intente nuevamente", "error");
+                else Toast.show(error.message , "error");
                 modal.classList.add("hidden");
+                await this.refreshSectorSeats(sector, content, getExpanded);
             }
         };
         cancelBtn.onclick = () => {
@@ -200,45 +248,5 @@ class SeatMapView {
             }
         });
     }
-
-    /*
-    getWarningUserHTML() {
-        return `
-            <a href="../Html/LogView.html"
-            class="d-flex align-items-center user-button"
-            id="login">
-                <div class="user-avatar-container">
-                    <img src="../Images/WarningProfile.PNG"
-                        alt="Profile"
-                        class="user-avatar">
-                </div>
-                <span class="user-name">LogIn</span>
-            </a>
-        `;
-    }
-
-    getLogedUserHTML(userName) {
-        return `
-            <a href="../Html/LogView.html"
-            class="d-flex align-items-center user-button"
-            id="login">
-                <div class="user-avatar-container">
-                    <img src="../Images/UserProfile.PNG"
-                        alt="Profile"
-                        class="user-avatar">
-                </div>
-                <span class="user-name">${userName}</span>
-            </a>
-        `;
-    }
-
-    renderUserButton() {
-        const storageData = UserDataService.getData();
-        if (!storageData) {
-            this.containerUser.innerHTML = this.getWarningUserHTML();
-        } else {
-            this.containerUser.innerHTML = this.getLogedUserHTML(storageData.name);
-        }
-    }*/
 }
 new SeatMapView();

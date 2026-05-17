@@ -43,7 +43,14 @@ body{
     border-radius: 15px;
     box-shadow: 0 4px 14px var(--color-translucent-grey);
 }
-
+.table-container::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+.table-container::-webkit-scrollbar-thumb {
+    background: var(--color-strong-blue);
+    border-radius: 10px;
+}
 .custom-table {
     thead th {  
         vertical-align: middle; 

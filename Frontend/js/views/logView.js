@@ -1,6 +1,8 @@
 // importaciones
 import { UserDataService, UserService} from "../services/userService.js"; //si da error en el html agregar Type="Module"
 import { Toast } from "../tools/toast.js";
+import { ReservationTimerService } from "../services/reservationService.js";
+import { lockButton } from "../tools/buttonLock.js";
 
 
 class UserForm {
@@ -84,13 +86,16 @@ class UserForm {
 
         // Listener para el envío del formulario
         const form = this.container.querySelector('#userForm');
-        form.addEventListener('submit', (e) => {
+        form.addEventListener('submit', async (e) => {
             e.preventDefault();
-            this.handleSubmit();
+            const submitButton = form.querySelector('button[type="submit"]');
+            await this.handleSubmit();
         });
     }
 
     async handleSubmit() {
+        const submitButton = this.container.querySelector('button[type="submit"]');
+        await lockButton( submitButton, async () => {
         const formElement = this.container.querySelector('#userForm'); //extraer datos
         const formData = new FormData(formElement); //crea objeto especial con pares clave/valor
         const data = Object.fromEntries(formData.entries()); //lo transforma en un objeto javaScript {}
@@ -99,32 +104,45 @@ class UserForm {
             let userId = null;
             if (this.isLogin) {
                 userId = await UserService.ValidateUserCredentials(data.name, data.password);
-                
+                //obtener reservaciones activas por si cerro sesion por error
+                const reservations = await UserService.GetUserReservationsById(userId);
+                if(reservations.length > 0) {
+                    for(const r of reservations){
+                        const dateStr = r.expiresAt.endsWith('Z') ? r.expiresAt : r.expiresAt + 'Z';
+                        r.expiresAt = new Date(dateStr).getTime();
+                    }
+                    ReservationTimerService.UpdateReservations(reservations);
+                    Toast.show("reservaciones cargadas");
+                }
             } else {
                 const command = {
                     name: data.name, 
                     email: data.email,
                     passwordHash : data.password
                 };
-                userId = await UserService.CreateUser(command);
+                const response = await UserService.CreateUser(command);
+                userId = response.id;
+                console.log(userId);
             }
             UserDataService.saveData(userId, data.name);
             Toast.show("¡Bienvenido "+ data.name +"!");
             //redireccion a la pagina anterior (normalmente el index catalogo)
-            setTimeout(() => {            
-                if (document.referrer) {
+            setTimeout(() => {   
+                if (this.isLogin && document.referrer){
                     window.location.href = document.referrer; //va directo a la pagina anterior
                 } else {
-                    window.location.href = "index.html"; // Backup por si no hay historial
-            }},3000);
+                    window.location.href = "../../index.html"; // Backup por si no hay historial
+                }
+            },3000);
+            await new Promise(resolve => setTimeout(resolve, 3000));
         } catch (error) 
         {
             const message = error.message || "Ocurrió un error inesperado";
             Toast.show(message, "error");
             console.error(`Error ${error.status}:`, error);
-        }
+        }});
     }
-}
+};
 
 // Uso:
 const app = new UserForm('userFormBox');

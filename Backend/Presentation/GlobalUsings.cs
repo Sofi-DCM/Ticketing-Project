@@ -10,6 +10,8 @@ global using System.Data;
 global using System.Net;
 global using System.Text.Json;
 global using Application.Response;
+global using Application.Interfaces.Payments;
+global using Infrastructure.Payments;
 
 
 // ----- for dependency injection -----
@@ -23,17 +25,19 @@ global using Application.Interfaces.Handlers._User;
 global using Application.UseCase._User.Commands.CreateUser;
 global using Application.UseCase._User.Queries.GetUserById;
 global using Application.UseCase._User.Queries.ValidateUserCredentials;
+global using Application.UseCase._User.Queries.GetUserReservationsById;
 
 //--- AuditLog
 global using Application.Interfaces.Handlers._AuditLog;
 
 global using Application.UseCase._AuditLog.Commands.CreateAuditLog;
+global using Application.UseCase._AuditLog.Queries.GetAuditLogsPaginated;
 
 //--- Reservation
 global using Application.Interfaces.Handlers._Reservation;
 
 global using Application.UseCase._Reservation.Commands.CreateReservation;
-
+global using Application.UseCase._Reservation.Commands.CancelReservation;
 //--- Seat
 global using Application.Interfaces.Handlers._Seat;
 
@@ -48,6 +52,7 @@ global using Application.Interfaces.Handlers._Event;
 
 global using Application.UseCase._Event.Queries.GetActiveEvents;
 global using Application.UseCase._Event.Commands.CreateEvent;
+global using Application.UseCase._Event.Queries.GetEventById;
 
 //--- Sector
 global using Application.Interfaces.Handlers._Sector;

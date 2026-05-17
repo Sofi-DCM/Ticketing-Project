@@ -1,5 +1,6 @@
 ﻿
 using Application.Interfaces.Repositories;
+using Application.UseCase._Seat.Commands.ChangeSeatStatus;
 using Domain.Constants;
 using Domain.Entities;
 using Infrastructure.Persistence;
@@ -29,22 +30,24 @@ namespace Infrastructure.Repositories
                 .ToListAsync(ct);
         }
 
-        public async Task<bool> PatchSeatStateAsync(Guid seatId, CancellationToken ct)
+        public async Task PatchSeatStateAsync(ChangeSeatStatusCommand command, CancellationToken ct)
         {
-            int rowsAffected = await _context.Seats
-                .Where(s => s.Id == seatId && s.Status == SeatStatusConstants.Available)
-                .ExecuteUpdateAsync(setters => setters
-                    .SetProperty(s => s.Status, SeatStatusConstants.Reserved), ct);
-            // a futuro se busca el where tambien con version y tambien se incrementa
+            var seat = await _context.Seats
+                .FirstOrDefaultAsync(s => s.Id == command.SeatId && s.Status == command.OriginalStatus, ct);
 
-            // Si rowsAffected es 0, significa que el estado no coincidio por eso no se modifico
-            return rowsAffected > 0;
+            if(seat == null) throw new DbUpdateConcurrencyException();
+
+            seat.Status = command.PatchStatus;
+            seat.Version++;
+
+            await _context.SaveChangesAsync();
         }
 
-        public async Task ReleaseSeatAsync(Guid seatId, CancellationToken ct)
+        public async Task ReleaseSeatsAsync(IEnumerable<Guid> seatsIds, CancellationToken ct)
         {
+            if (seatsIds == null || !seatsIds.Any()) return;
             await _context.Seats
-                .Where(s => s.Id == seatId && s.Status == SeatStatusConstants.Reserved)
+                .Where(s => seatsIds.Contains(s.Id) && s.Status == SeatStatusConstants.Reserved)
                 .ExecuteUpdateAsync(setters => setters
                     .SetProperty(s => s.Status, SeatStatusConstants.Available)
                     .SetProperty(s => s.Version, s => s.Version + 1), ct);

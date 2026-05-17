@@ -5,6 +5,6 @@ namespace Application.Interfaces.Handlers._AuditLog
 {
     public interface ICreateAuditLogHandler
     {
-        public Task HandleAsync(CreateAuditLogCommand command);
+        public Task HandleAsync(IReadOnlyList<CreateAuditLogCommand> commands, CancellationToken ct);
     }
 }

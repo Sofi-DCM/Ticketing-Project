@@ -56,3 +56,51 @@
 }
 
 .d-none { display: none !important; }
+
+.timer-container{
+    position: fixed;
+    top: 0;
+    width: fit-content;        
+    max-width: 90%;            
+    min-width: 100px;      
+
+    left: 50%;
+    transform: translateX(-50%);
+
+    display: flex;
+    padding: 0;           
+    justify-content: safe center;
+    
+    z-index: 9999;
+    border-radius: 0 0 15px 15px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+    pointer-events: auto;
+}
+#timerContainer {
+    width: fit-content;              
+    display: flex;
+    gap: 10px;
+    padding: 10px 20px 10px 0px;        
+    overflow-x: auto;         
+}
+#timerContainer::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+#timerContainer::-webkit-scrollbar-thumb {
+    background: var(--color-strong-blue);
+    border-radius: 10px;
+}
+
+.timer-custom{
+    background: white;
+    align-items: center;
+    font-size: medium;
+    em {
+        color: black;
+        font-weight: normal;
+    }
+    strong{
+        color: red;
+    }
+}

@@ -1,4 +1,4 @@
-import { UserDataService , UserService } from "../services/userService.js"; 
+import { UserService} from "../services/userService.js"; 
 import { Toast } from "../tools/toast.js";
 import { initEventModule } from '../modules/eventModule.js';
 import { initAuditModule } from '../modules/auditModule.js';

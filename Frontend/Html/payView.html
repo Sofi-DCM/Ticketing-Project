@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../Css/Views/payView.css">
+    <link rel="stylesheet" href="../Css/Boxes.css">
+    <link rel="stylesheet" href="../Css/Button.css">
+    <link rel="stylesheet" href="../Css/toast.css">
+    <link rel="stylesheet" href="../Css/responsive.css">
+</head>
+<body>
+    <div class="main-container p-3">
+        <header class="header-section d-flex flex-wrap justify-content-between align-items-center mb-4 ">
+            <h1 style="margin: 0;">Pestaña de <em>Compras</em></h1>
+            <div id="userContainer"></div>
+        </header>
+        <div id="cartContainer" class="cart-container">
+            <div id="reservationContainer" class="reservation-container">
+                <div class="d-flex align-items-center mb-3">
+                    <i class="bi bi-cart pe-2" style="font-size: 2rem;"></i>
+                    <h1 style="margin: 0;" >Carrito</h1>
+                </div>
+                <div id="tableContainer" class="table-container">
+                    <table class="table table-striped custom-table">
+                        <thead>
+                            <tr>
+                                <th class="big-cell">Event</th>
+                                <th class="big-cell">Sector</th>
+                                <th class="small-cell">Price</th>
+                                <th class="small-cell">Seat</th>
+                                <th class="small-cell">Timer</th>
+                                <th class="small-cell">Quit</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody">                             
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div id="paymentContainer" class="payment-container">
+                <h1>Pago</h1>
+                <div class="payment-section">
+                    <h3>Método de pago</h3>
+                    <label class="payment-option">
+                        <input type="radio" name="paymentMethod" value="card" checked>Tarjeta
+                    </label>
+                    <p class="coming-soon">Próximamente: MODO y Mercado Pago</p>
+                </div>
+                <div class="payment-section">
+                    <h3>Información de pago</h3>
+                    <input id="cardNumber" class="payment-input" type="text" inputmode="numeric" maxlength="19" placeholder="Número de tarjeta">
+                    <input id="cardHolder" class="payment-input" type="text" placeholder="Nombre completo del titular">
+                    <input id="cardDni" class="payment-input" type="text" inputmode="numeric" maxlength="8" placeholder="DNI del titular">
+                    <input id="cardExpiration" class="payment-input" type="text" maxlength="5" placeholder="MM/AA">
+                    <input id="cardSecurityCode" class="payment-input" type="password" inputmode="numeric" maxlength="4" placeholder="Código de seguridad">
+                    <label class="terms-rows">
+                        <input id="termsCheckbox" type="checkbox"> Acepto los términos y condiciones
+                    </label>
+                </div>
+                <div class="payment-total">
+                    <span>Total:</span>
+                    <strong id="totalAmount">$0</strong>
+                </div>
+                <button id="payButton" class="btn rounded-pill button-create-event">Pagar</button>
+            </div>
+        </div>
+    </div>
+</body>
+<script type="module" src="../js/views/payView.js"></script>
+<script type="module" src="../js/tools/timer.js"></script>
+</html>

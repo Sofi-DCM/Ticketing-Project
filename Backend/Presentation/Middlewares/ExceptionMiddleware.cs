@@ -41,6 +41,7 @@ namespace Presentation.Middlewares
                 // --- 400 Bad Request ---
                 ApplicationException => (int)HttpStatusCode.BadRequest,
                 ArgumentException => (int)HttpStatusCode.BadRequest,
+                BadRequestException =>(int)HttpStatusCode.BadRequest,
                 // --- 401 Unauthorized ---
                 UnauthorizedException => (int)HttpStatusCode.Unauthorized,
                 // --- 404 Not Found ---
@@ -48,7 +49,8 @@ namespace Presentation.Middlewares
                 NotFoundException => (int)HttpStatusCode.NotFound,
                 // --- 409 Conflict ---
                 DuplicateNameException => (int)HttpStatusCode.Conflict,
-                InvalidOperationException => (int)HttpStatusCode.Conflict, //a futuro es DbUpdateConcurrencyException
+                InvalidOperationException => (int)HttpStatusCode.Conflict, 
+                DbUpdateConcurrencyException => (int)HttpStatusCode.Conflict,
                 ConflictException => (int)HttpStatusCode.Conflict,
                 // --- 500 Server Error ---
                 _ => (int)HttpStatusCode.InternalServerError         

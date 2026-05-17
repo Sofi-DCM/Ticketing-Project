@@ -6,10 +6,11 @@ using Application.Interfaces.Handlers._Seat;
 using Application.Interfaces.Repositories;
 using Application.Response;
 using Application.UseCase._AuditLog.Commands.CreateAuditLog;
-using Application.UseCase._User.Commands.CreateUser;
+using Application.UseCase._Seat.Commands.ChangeSeatStatus;
 using Domain.Constants;
 using Domain.Entities;
 using Domain.Exceptions;
+using Microsoft.EntityFrameworkCore;
 using System.Text.Json;
 
 namespace Application.UseCase._Reservation.Commands.CreateReservation
@@ -48,7 +49,7 @@ namespace Application.UseCase._Reservation.Commands.CreateReservation
 
             try
             {
-                await _changeSeatStatusHandler.HandleAsync(command.SeatId, ct);
+                await _changeSeatStatusHandler.HandleAsync(new ChangeSeatStatusCommand { SeatId = command.SeatId }, ct);
 
                 var newReservation = new Reservation
                 {
@@ -68,12 +69,12 @@ namespace Application.UseCase._Reservation.Commands.CreateReservation
 
                 return MapToResponseDto(newReservation);
             }
-            catch (InvalidOperationException ex) //a futuro es DbUpdateConcurrencyException
+            catch (DbUpdateConcurrencyException)
             {
                 await transaction.RollbackAsync();
 
                 await _createAuditLogHandler.HandleAsync(MapToAuditLogCommand(command, false));
-                throw ex;
+                throw new ConflictException("La butaca ya fue reservada por otro usuario. Intente nuevamente");
             }
             catch (Exception) 
             {

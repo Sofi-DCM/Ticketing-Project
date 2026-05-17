@@ -28,7 +28,7 @@ namespace Application.UseCase._Event.Commands.CreateEvent
             if (command.UserId != 1)
                 throw new UnauthorizedException("Solo el administrador puede crear eventos.");
 
-            if (command.EventDate <= DateTime.Now)
+            if (command.EventDate <= DateTime.UtcNow)
                 throw new ArgumentException("El evento debe tener una fecha futura.");
 
             if (command.SectorsCommands == null || !command.SectorsCommands.Any())

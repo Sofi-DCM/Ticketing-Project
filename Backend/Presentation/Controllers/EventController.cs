@@ -7,11 +7,16 @@ namespace Presentation.Controllers
     {
         private readonly IGetActiveEventsHandler _getActiveEventsHandler;
         private readonly ICreateEventHandler _createEventHandler;
+        private readonly IGetEventByIdHandler _getEventByIdHandler;
 
-        public EventController(IGetActiveEventsHandler getActiveEventsHandler, ICreateEventHandler createEventHandler)
+        public EventController
+            (IGetActiveEventsHandler getActiveEventsHandler, 
+            ICreateEventHandler createEventHandler, 
+            IGetEventByIdHandler getEventByIdHandler)
         {
             _getActiveEventsHandler = getActiveEventsHandler;
             _createEventHandler = createEventHandler;
+            _getEventByIdHandler = getEventByIdHandler;
         }
 
         [HttpGet]
@@ -30,5 +35,11 @@ namespace Presentation.Controllers
             return Created(string.Empty, new { eventId = id });
         }
 
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetEventById(int id, CancellationToken ct = default) 
+        {
+            var response = await _getEventByIdHandler.HandleAsync(id);
+            return Ok(response);
+        }
     }
 }

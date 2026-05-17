@@ -180,3 +180,14 @@
     color: white;
     box-shadow: 0 4px 15px var(--color-translucent-pink);
 }
+
+.cart{
+    color: white;
+    transition: all 0.3s ease;
+}
+.cart:hover{
+    background-color: var(--color-soft-green);
+    border-radius: 5px;
+    color: black;
+    box-shadow: 0 4px 15px var(--color-translucent-green);
+}

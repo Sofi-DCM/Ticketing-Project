@@ -1,4 +1,5 @@
 ﻿
+using Application.Interfaces.Handlers._Reservation;
 using Application.Interfaces.Handlers._Seat;
 using Application.Interfaces.Repositories;
 using Application.Response;
@@ -10,10 +11,12 @@ namespace Application.UseCase._Seat.Queries.GetSeatsBySector
     public class GetSeatsBySectorHandler : IGetSeatsBySectorHandler
     {
         private readonly ISeatRepository _repository;
+        private readonly IExpireReservationsHandler _expireReservations;
 
-        public GetSeatsBySectorHandler(ISeatRepository repository)
+        public GetSeatsBySectorHandler(ISeatRepository repository, IExpireReservationsHandler expireReservations)
         {
             _repository = repository;
+            _expireReservations = expireReservations;
         }
         public async Task<List<SeatStatusDto>> HandleAsync(int sectorId, bool? onlyRow, CancellationToken ct = default)
         {
@@ -26,6 +29,8 @@ namespace Application.UseCase._Seat.Queries.GetSeatsBySector
 
             bool filterOnlyRow = onlyRow ?? false;
 
+            //primero los actualizo
+            await _expireReservations.HandleAsync(ct);
             var seats = await _repository.GetSeatsBySectorAsync(sectorId, filterOnlyRow, ct);
 
             return seats.Select(s => new SeatStatusDto

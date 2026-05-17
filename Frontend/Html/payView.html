@@ -45,7 +45,29 @@
                 </div>
             </div>
             <div id="paymentContainer" class="payment-container">
-                <h1 style="margin: 0;">Pago</h1>
+                <h1>Pago</h1>
+                <div class="payment-section">
+                    <h3>Método de pago</h3>
+                    <label class="payment-option">
+                        <input type="radio" name="paymentMethod" value="card" checked>Tarjeta
+                    </label>
+                    <p class="coming-soon">Próximamente: MODO y Mercado Pago</p>
+                </div>
+                <div class="payment-section">
+                    <h3>Información de pago</h3>
+                    <input id="cardNumber" class="payment-input" type="text" inputmode="numeric" maxlength="19" placeholder="Número de tarjeta">
+                    <input id="cardHolder" class="payment-input" type="text" placeholder="Nombre completo del titular">
+                    <input id="cardDni" class="payment-input" type="text" inputmode="numeric" maxlength="8" placeholder="DNI del titular">
+                    <input id="cardExpiration" class="payment-input" type="text" maxlength="5" placeholder="MM/AA">
+                    <input id="cardSecurityCode" class="payment-input" type="password" inputmode="numeric" maxlength="4" placeholder="Código de seguridad">
+                    <label class="terms-rows">
+                        <input id="termsCheckbox" type="checkbox"> Acepto los términos y condiciones
+                    </label>
+                </div>
+                <div class="payment-total">
+                    <span>Total:</span>
+                    <strong id="totalAmount">$0</strong>
+                </div>
                 <button id="payButton" class="btn rounded-pill button-create-event">Pagar</button>
             </div>
         </div>

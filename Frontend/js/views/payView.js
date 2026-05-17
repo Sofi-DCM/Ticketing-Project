@@ -12,6 +12,7 @@ class Payment {
         this.tableContainer = document.getElementById("tableContainer");
         this.tableBody = document.getElementById("tableBody");
         this.payButton = this.paymentContainer.querySelector("#payButton");
+        this.totalAmount = document.getElementById("totalAmount");
         this.init();
     }
 
@@ -31,9 +32,38 @@ class Payment {
         this.payButton.addEventListener('click', () => {
             this.handlePayment();
         });
+        this.onlyNumbers("cardNumber");
+        this.onlyNumbers("cardDni");
+        this.onlyNumbers("cardSecurityCode");
+        this.formatExpirationDate();
         window.addEventListener('reservationExpired', async () => {
             this.renderReservations();
         })
+    }
+    onlyNumbers(inputId) {
+        const input = document.getElementById(inputId);
+        if (!input) 
+        {
+            console.error(`No existe el input ${inputId}`);
+            return;
+        }
+
+        input.addEventListener("input", (e) => {
+            const originalValue = e.target.value;
+            e.target.value = originalValue.replace(/[^0-9]/g, "");
+        });
+    }
+
+    formatExpirationDate() {
+        const input = document.getElementById("cardExpiration");
+        input.addEventListener("input", () => {
+            let value = input.value.replace(/\D/g, "");
+            if (value.length >= 3) 
+            {
+                value = value.slice(0, 2) + "/" + value.slice(2, 4);
+            }
+            input.value = value;
+        });
     }
 
     initCancelButtonListeners(){
@@ -61,9 +91,65 @@ class Payment {
             this.initCancelButtonListeners();
         } 
         else{
-            Toast.show("Carrito vacio", "info");
-            this.tableBody.innerHTML = '<tr><td colspan="6" style="text-align:center;">No hay reservas</td></tr>';
+            this.tableBody.innerHTML =
+                '<tr><td colspan="6" style="text-align:center;">No hay reservas</td></tr>';
         }
+        this.calculateTotal();
+    }
+    calculateTotal() {
+        const reservations = ReservationTimerService.GetReservations();
+        const total = reservations.reduce((sum, reservation) => {
+            const price = Number(
+                reservation.sectorPrice
+                    .toString()
+                    .replace(/\./g, "")
+                    .replace(",", ".")
+            );
+            return sum + price;
+        }, 0);
+
+        this.totalAmount.textContent =
+            `$${total.toLocaleString("es-AR")}`;
+    }
+
+    validatePaymentForm() {
+        const cardNumber = document.getElementById("cardNumber").value.trim();
+        const cardHolder = document.getElementById("cardHolder").value.trim();
+        const cardDni = document.getElementById("cardDni").value.trim();
+        const cardExpiration = document.getElementById("cardExpiration").value.trim();
+        const cardSecurityCode = document.getElementById("cardSecurityCode").value.trim();
+        const termsCheckbox = document.getElementById("termsCheckbox");
+
+        if (!/^\d{13,19}$/.test(cardNumber)) {
+            Toast.show("El número de tarjeta debe tener entre 13 y 19 dígitos", "error");
+            return false;
+        }
+
+        if (cardHolder.length < 3) {
+            Toast.show("Ingresá el nombre completo del titular", "error");
+            return false;
+        }
+
+        if (!/^\d{7,8}$/.test(cardDni)) {
+            Toast.show("El DNI debe tener 7 u 8 dígitos", "error");
+            return false;
+        }
+
+        if (!/^(0[1-9]|1[0-2])\/\d{2}$/.test(cardExpiration)) {
+            Toast.show("La fecha de vencimiento debe tener formato MM/AA", "error");
+            return false;
+        }
+
+        if (!/^\d{3,4}$/.test(cardSecurityCode)) {
+            Toast.show("El código de seguridad debe tener 3 o 4 dígitos", "error");
+            return false;
+        }
+
+        if (!termsCheckbox.checked) {
+            Toast.show("Debés aceptar los términos y condiciones", "error");
+            return false;
+        }
+        return true;
     }
 //agregar listeners a botones de liberar reservas
     getReservationHtml(r){
@@ -80,22 +166,53 @@ class Payment {
     }
 
     async handlePayment(){
+        if (!this.validatePaymentForm()) {
+            return;
+        }
         try{
             const user = UserDataService.getData();
-            console.log(user.id);
             const reservations = ReservationTimerService.GetReservations();
-            if(reservations.length){
-                const reservationsIds = reservations.map( r => r.reservationId);
-                for (const r of reservationsIds){
-                    await ReservationService.PayReservation(r, user.id);
-                }
-                ReservationTimerService.ClearReservations();
-                Toast.show("Pagos realizados");
-                this.renderReservations();
-            }
-            else{
+            if(!reservations.length)
+            {
                 Toast.show("Nada para pagar", "info");
+                return;
             }
+            let paidCount = 0;
+            let failedCount = 0;
+            for (const r of reservations)
+            {
+                try
+                {
+                    await ReservationService.PayReservation(r.reservationId, user.id);
+                    ReservationTimerService.DeleteReservation(r.reservationId);
+                    paidCount++;
+                }catch (error) {
+                    failedCount++;
+                    console.error(error);
+                    if (
+                        error.status === 400 ||
+                        error.status === 404 ||
+                        error.status === 409
+                    ) {
+                        Toast.show(`La reserva ${r.seatName} expiró o ya fue pagada`,"error");
+                        ReservationTimerService.DeleteReservation(r.reservationId);
+                    }
+                    else {
+                        Toast.show(error.message, "error");
+                    }
+
+                }
+            }
+            this.renderReservations();
+            if(paidCount > 0)
+            {
+                Toast.show(`${paidCount} asiento(s) pagado(s) correctamente`, "success");
+            }
+            if (failedCount > 0) 
+            {
+                Toast.show(`${failedCount} pago(s) fallaron`,"error");
+            }
+            window.dispatchEvent(new Event("reservationExpired"));
         }
         catch(error){
             Toast.show(error.message, "error");

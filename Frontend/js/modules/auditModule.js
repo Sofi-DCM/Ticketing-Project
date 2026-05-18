@@ -163,32 +163,47 @@ class auditModule{
     }
 
     getAuditCard(audit){
-        let action = "nada";
-        switch (audit.action){
-            case "CREATE_USER":
-                action = "Create User";
-                break;
-            case "RESERVE_SUCCESS":
-                action = "Reserve Success";
-                break;
-            case "RESERVE_ATTEMP":
-                action = "Reserve Attemp";
-                break;
-            case "RESERVE_EXPIRED":
-                action = "Reserve expired";
-                break;
-            case "PAYMENT_CONFIRMED":
-                action = "Payment Confirmed";
-                break;
-        };
+ let action = "nada";
+    switch (audit.action) {
+        case "CREATE_USER": action = "Create User"; break;
+        case "RESERVE_SUCCESS": action = "Reserve Success"; break;
+        case "RESERVE_ATTEMP": action = "Reserve Attemp"; break;
+        case "RESERVE_EXPIRED": action = "Reserve Expired"; break;
+        case "PAYMENT_CONFIRMED": action = "Payment Confirmed"; break;
+    }
+
+    // --- PROCESAMIENTO DE LOS DETALLES ---
+    let detailsHtml = "";
+        if (audit.details) {
+            try {
+                const detailsObj = JSON.parse(audit.details);
+
+                const bulletpoints = Object.entries(detailsObj).map(([key, value]) => {
+                    return `<li><strong>${key}:</strong> ${value}</li>`;
+                });
+                detailsHtml = `<ul class="audit-details-list">${bulletpoints.join('')}</ul>`;
+
+            } catch (e) {
+                console.error("Error parseando los detalles del audit:", e);
+                detailsHtml = `<p>${audit.details}</p>`;
+            }
+        } else {
+            detailsHtml = "<p>No extra details available.</p>";
+        }
+
         return `
             <div class="card-item">
-                <h3><strong>Action:</strong> ${action}</h3>
-                <h5><strong>Created at:</strong> ${audit.createdAt}</h5>
-                <h6><strong>User ID:</strong> ${audit.userId}</h6>
+                <h3>Action: ${action}</h3>
+                <h5>Created At: ${audit.createdAt}</h5>
+                <h6>User ID: ${audit.userId}</h6>
                 <h6>${audit.entityType}: ${audit.entityId}</h6>
-                <p><strong>Details:</strong> ${audit.details}</p>
-            </div>`
+                
+                <div class="audit-details-container">
+                    <span class="details-title">Details:</span>
+                    ${detailsHtml}
+                </div>
+            </div>
+        `;
+    }
     }
 // #endregion
-}

@@ -1,6 +1,8 @@
 # Proyecto Ticketing
 Plataforma de venta de entradas para eventos de una productora.
 
+<img width="1152" height="741" alt="image" src="https://github.com/user-attachments/assets/595fa578-8996-435a-a163-6f1103521c02" />
+
 ## Alcance Entrega 1 :
 - El sistema gestiona creación de eventos en vista de administrador.
 - El sistema presenta un catálogo de eventos con paginación.

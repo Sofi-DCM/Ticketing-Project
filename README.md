@@ -1,11 +1,20 @@
 # Proyecto Ticketing
 Plataforma de venta de entradas para eventos de una productora.
 
+<img width="1152" height="741" alt="image" src="https://github.com/user-attachments/assets/b7dd0e8a-f7b1-43e2-b362-7b20816ef941" />
+
 ## Alcance Entrega 1 :
 - El sistema gestiona creación de eventos en vista de administrador.
 - El sistema presenta un catálogo de eventos con paginación.
 - El sistema permite ver a detalle un evento especifico.
 - El sistema permite a usuarios reservar asientos especificos de un evento.
+
+## Alcance Entrega 2:
+- El sistema gestiona el control de concurrencia evitando reservas duplicadas de una misma butaca.
+- El sistema permite a usuarios bloquear temporalmente asientos durante el proceso de compra.
+- El sistema permite confirmar la compra mediante un pago simulado actualizando el estado de la reserva y butaca.
+- El sistema implementa la liberación automática de reservas vencidas.
+- El sistema presenta manejo de errores visuales y temporizador de reserva en frontend.
 
 ## Pasos para ejecutar el proyecto :
 
@@ -32,6 +41,11 @@ Plataforma de venta de entradas para eventos de una productora.
 #### Credenciales:
 `{ "id" = 1, "name" = "admin",
 "password" = "1234" }`
+
+#### Reservas y pago: 
+Las reservas realizadas pueden visualizarse y abonarse desde el carrito, ubicado en la parte superior de la interfaz, junto a los temporizadores de cada reserva.
+
+<img width="1031" height="108" alt="image" src="https://github.com/user-attachments/assets/94985891-bd39-4ac4-8b55-a846ce27ec42" />
 
 ## Detalles del Sistema
 ### Tecnologías :

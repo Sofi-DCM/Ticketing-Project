@@ -21,7 +21,7 @@
         </a>
         <div id="timerContainer"></div>
     </div>
-<body class="event-mod"> <!--quitar el class-->
+<body id="body" class="event-mod"> <!--quitar el class-->
     <nav class="d-flex flex-wrap justify-content-between align-items-center mb-4 ">
         <h1 class="pt-2 title"><strong>Vista de administrador</strong></h1>
         <button id="createEvent" type="click" class="btn fw-bold button-custom button-create-event ">Crear Evento</button>
@@ -30,62 +30,6 @@
     </nav>
 
     <div id="mainContainer" class="main-container">
-        <nav id="filters" class="p-2  text-white">
-            <label for="userId">User ID:</label>
-            <input type="number" id="userId" name="userId" required>                
-
-            <label for="entityId">Entity ID:</label>
-            <input type="text" id="entityId" name="entityId" required>
-
-            <label for="actionOptions">Action:</label>
-            <select name="actionOptions" id="actionOptions">
-                <option value="CREATE_USER">Create User</option>
-                <option value="RESERVE_SUCCESS">Reserve Success</option>
-                <option value="RESERVE_ATTEMP">Reserve Attemp</option>
-                <option value="RESERVE_EXPIRED">Reserve Expired</option>
-                <option value="PAYMENT_CONFIRMED">Payment Confirmed</option>
-            </select>
-
-            <label for="entityTypeOptions">Entity Type:</label>
-            <select name="entityTypeOptions" id="entityTypeOptions">
-                <option value="User">User</option>
-                <option value="Seat">Seat</option>
-                <option value="Reservation">Reservation</option>
-            </select>
-
-            <label for="startDate">Start Date</label>
-            <input name="startDate" type="datetime-local" id="startDate" required>
-
-            <label for="endDate">End Date</label>
-            <input name="endDate" type="datetime-local" id="endDate" required>
-
-            <label for="createdAt">Created At</label>
-            <input name="createdAt" type="date" id="createdAt" required>        
-
-            <button id="filter" class="btn btn-sm rounded-pill button-filter-waiting">Filter</button>
-        </nav>
-        <div class="scroll-container p-2">
-            <div id="audits" class="cards-grid"> <!--tarjetas-->
-                <!-- 
-                UserId
-                Action
-                EntityType
-                EntityId
-                Details "bulletpoints"
-                CreatedAt
-                -->
-                <div class="card-item">
-                    <h3>Título Corto</h3>
-                    <p>Texto breve.</p>
-                </div>
-            </div>
-        </div>
-        <footer id="footer" class="pagination-footer d-flex justify-content-center align-items-center gap-3 mt-4">
-            <!--Disabled o no segun hay o no mas paginas-->
-            <button id="buttonPrev" class="btn btn-light btn-sm button-page" disabled>‹ Anterior</button>
-            <span id="pageIndicator" class="page-indicator"></span>
-            <button id="buttonNext" class="btn btn-light btn-sm button-page" disabled>Siguiente ›</button>
-        </footer>
     </div>
 
     <div id="adminAuthModal" class="auth-overlay d-none">

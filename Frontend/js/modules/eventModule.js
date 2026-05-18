@@ -7,7 +7,6 @@ export function initEventModule(){
     const manager = new eventModule();
     const container = document.getElementById('mainContainer');
     const body = document.getElementById('body');
-    body.classList.remove("body-audit");
     body.classList.add("event-mod");
     manager.renderForm(container);
 }

@@ -6,7 +6,6 @@ export function initAuditModule(){
     const manager = new auditModule();
     const container = document.getElementById('mainContainer');
     const body = document.getElementById('body');
-    body.classList.add("body-audit");
     body.classList.remove("event-mod");
     manager.init(container);
 }
@@ -69,8 +68,8 @@ class auditModule{
             userId: document.getElementById('userId').value ? Number(document.getElementById('userId').value) : null,
             entityId: document.getElementById('entityId').value.trim() || null,
                         
-            action: document.getElementById('actionOptions').value,
-            entityType: document.getElementById('entityTypeOptions').value,
+            action: document.getElementById('actionOptions').value || null,
+            entityType: document.getElementById('entityTypeOptions').value || null,
 
             startDate: document.getElementById('startDate').value || null,
             endDate: document.getElementById('endDate').value || null,
@@ -100,38 +99,48 @@ class auditModule{
     }
 
     getAuditModuleHtml(){
-        return `<nav id="filters" class="p-2  text-white">
-            <label for="userId">User ID:</label>
-            <input type="number" id="userId" name="userId" required>                
-
-            <label for="entityId">Entity ID:</label>
-            <input type="text" id="entityId" name="entityId" required>
-
-            <label for="actionOptions">Action:</label>
-            <select name="actionOptions" id="actionOptions">
-                <option value="CREATE_USER">Create User</option>
-                <option value="RESERVE_SUCCESS">Reserve Success</option>
-                <option value="RESERVE_ATTEMP">Reserve Attemp</option>
-                <option value="RESERVE_EXPIRED">Reserve Expired</option>
-                <option value="PAYMENT_CONFIRMED">Payment Confirmed</option>
-            </select>
-
-            <label for="entityTypeOptions">Entity Type:</label>
-            <select name="entityTypeOptions" id="entityTypeOptions">
-                <option value="User">User</option>
-                <option value="Seat">Seat</option>
-                <option value="Reservation">Reservation</option>
-            </select>
-
-            <label for="startDate">Start Date</label>
-            <input name="startDate" type="datetime-local" id="startDate" required>
-
-            <label for="endDate">End Date</label>
-            <input name="endDate" type="datetime-local" id="endDate" required>
-
-            <label for="createdAt">Created At</label>
-            <input name="createdAt" type="date" id="createdAt" required>        
-
+        return `
+        <nav id="filters" class="p-2 text-white">
+            <div class="filter-group">
+                <label for="userId">User ID:</label>
+                <input type="number" id="userId" name="userId">
+            </div>
+            <div class="filter-group">
+                <label for="entityId">Entity ID:</label>
+                <input type="text" id="entityId" name="entityId">
+            </div>
+            <div class="filter-group">
+                <label for="actionOptions">Action:</label>
+                <select name="actionOptions" id="actionOptions">
+                    <option value="">-- All Actions --</option>
+                    <option value="CREATE_USER">Create User</option>
+                    <option value="RESERVE_SUCCESS">Reserve Success</option>
+                    <option value="RESERVE_ATTEMP">Reserve Attemp</option>
+                    <option value="RESERVE_EXPIRED">Reserve Expired</option>
+                    <option value="PAYMENT_CONFIRMED">Payment Confirmed</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="entityTypeOptions">Entity Type:</label>
+                <select name="entityTypeOptions" id="entityTypeOptions">
+                    <option value="">-- All Entities --</option>
+                    <option value="User">User</option>
+                    <option value="Seat">Seat</option>
+                    <option value="Reservation">Reservation</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="startDate">Start Date:</label>
+                <input name="startDate" type="datetime-local" id="startDate">
+            </div>
+            <div class="filter-group">
+                <label for="endDate">End Date:</label>
+                <input name="endDate" type="datetime-local" id="endDate">
+            </div>
+            <div class="filter-group">
+                <label for="createdAt">Created At:</label>
+                <input name="createdAt" type="date" id="createdAt">
+            </div>
             <button id="filter" class="btn btn-sm rounded-pill button-filter-waiting">Filter</button>
         </nav>
         <div class="scroll-container p-2">
@@ -174,11 +183,11 @@ class auditModule{
         };
         return `
             <div class="card-item">
-                <h3>Action: ${action}</h3>
-                <h5>Creted At: ${audit.createdAt}</h5>
-                <h6>User ID: ${audit.userId}</h6>
+                <h3><strong>Action:</strong> ${action}</h3>
+                <h5><strong>Created at:</strong> ${audit.createdAt}</h5>
+                <h6><strong>User ID:</strong> ${audit.userId}</h6>
                 <h6>${audit.entityType}: ${audit.entityId}</h6>
-                <p>${audit.details}</p>
+                <p><strong>Details:</strong> ${audit.details}</p>
             </div>`
     }
 // #endregion

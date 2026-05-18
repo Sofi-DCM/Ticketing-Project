@@ -7,9 +7,7 @@ body{
     height: 100vh;
     padding: 1rem 5%; 
 }
-.body-audit{
-    overflow: hidden;
-}
+
 .title{
     color: var(--color-dark-pink);
     text-shadow: 0 4px 15px var(--color-translucent-pink);
@@ -145,9 +143,6 @@ body{
 
 .d-none { display: none !important; }
 
-
-
-
 .scroll-container {
     width: 100%;
     height: auto;
@@ -174,13 +169,67 @@ body{
 }
 
 .card-item {
-    background-color: #ffffff;
-    border: 2px solid #a3e635;
+    background-color:var(--color-strong-blue);
     border-radius: 12px;
     padding: 20px;
+    box-sizing: border-box; 
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-word; 
+    height: auto;        
+    min-height: 180px;  
     display: flex;
     flex-direction: column;
-    justify-content: space-between; 
-    box-sizing: border-box;
-    transition: transform 0.2s ease;
+    justify-content: space-between;
+}
+
+.card-item h3, 
+.card-item h5, 
+.card-item h6, 
+.card-item p {
+    margin: 0 0 10px 0;    /* Espaciado prolijo abajo de cada texto */
+    max-width: 100%;       /* Obliga al texto a respetar el ancho de la tarjeta */
+    overflow-wrap: break-word; 
+    white-space: normal;   /* Evita que el texto intente quedarse en una sola línea infinita */
+}
+
+#filters {
+    display: flex;
+    flex-wrap: wrap;         
+    gap: 10px;              
+    align-items: center;    
+    justify-content: center;
+    padding: 15px !important;
+}
+
+.filter-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;                
+    white-space: nowrap;    
+}
+
+
+#filters input, 
+#filters select {
+    background-color: #4b5563; 
+    color: #ffffff;
+    border: 1px solid var(--color-translucent-pink); 
+    border-radius: 8px;     
+    padding: 6px 12px;
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+/* Efecto focus iluminado en verde para hacer juego con tus botones */
+#filters input:focus, 
+#filters select:focus {
+    border-color: var(--color-soft-pink);
+    box-shadow: 0 0 8px var(--color-translucent-pink);
+}
+
+/* Ajuste rápido para los inputs de fecha (evita que se estiren de más) */
+#filters input[type="datetime-local"],
+#filters input[type="date"] {
+    max-width: 200px;
 }

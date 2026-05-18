@@ -7,6 +7,13 @@ Plataforma de venta de entradas para eventos de una productora.
 - El sistema permite ver a detalle un evento especifico.
 - El sistema permite a usuarios reservar asientos especificos de un evento.
 
+## Alcance Entrega 2:
+- El sistema gestiona el control de concurrencia evitando reservas duplicadas de una misma butaca.
+- El sistema permite a usuarios bloquear temporalmente asientos durante el proceso de compra.
+- El sistema permite confirmar la compra mediante un pago simulado actualizando el estado de la reserva y butaca.
+- El sistema implementa la liberación automática de reservas vencidas.
+- El sistema presenta manejo de errores visuales y temporizador de reserva en frontend.
+
 ## Pasos para ejecutar el proyecto :
 
 > [!NOTE]
@@ -32,6 +39,9 @@ Plataforma de venta de entradas para eventos de una productora.
 #### Credenciales:
 `{ "id" = 1, "name" = "admin",
 "password" = "1234" }`
+
+#### Reservas y pago: 
+Las reservas realizadas pueden visualizarse y abonarse desde el carrito, ubicado en la parte superior de la interfaz, junto a los temporizadores de cada reserva.
 
 ## Detalles del Sistema
 ### Tecnologías :

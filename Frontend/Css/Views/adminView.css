@@ -3,10 +3,12 @@
 body{
     background: var(--color-background); 
     font-family: 'Poppins', sans-serif;
-    margin: 0;
-    overflow: hidden; 
+    margin: 0; 
     height: 100vh;
     padding: 1rem 5%; 
+}
+.body-audit{
+    overflow: hidden;
 }
 .title{
     color: var(--color-dark-pink);

@@ -12,10 +12,11 @@ export const AuditLogService = {
         }
 
         const urlString = params.toString();
+        
         const url = urlString 
             ? `${CONFIG.ROUTES.AUDIT_LOG.GET}?${urlString}` 
             : CONFIG.ROUTES.AUDIT_LOG.GET;  
-
+        console.log(url);
         return await baseFetch(url, 'GET');
     }
 }

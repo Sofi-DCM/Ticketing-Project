@@ -6,6 +6,9 @@ import { lockButton } from "../tools/buttonLock.js";
 export function initEventModule(){
     const manager = new eventModule();
     const container = document.getElementById('mainContainer');
+    const body = document.getElementById('body');
+    body.classList.remove("body-audit");
+    body.classList.add("event-mod");
     manager.renderForm(container);
 }
 
@@ -158,6 +161,7 @@ class eventModule{
         this.sectorNumber +=1;
         const sectorContainer = container.querySelector('#customForm');
         sectorContainer.insertAdjacentHTML('beforeend', this.getSectorFormHTML(this.sectorNumber));
+        this.setupInputControls(container);
         this.initSectorInputsListeners();
     }
 

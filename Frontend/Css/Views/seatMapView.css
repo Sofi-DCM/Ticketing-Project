@@ -238,8 +238,8 @@ h1 {
     background-color: var(--color-dark-pink);
 }
  p.textCarrit {
-    color: var(--color-dark-pink);
+    color: var(--color-soft-blue);
     text-shadow:
-        0 0 3px var(--color-dark-pink),
+        0 0 3px var(--color-soft-blue),
         0 0 6px rgba(255, 77, 136, 0.25);
 }

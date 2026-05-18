@@ -45,7 +45,7 @@ Plataforma de venta de entradas para eventos de una productora.
 #### Reservas y pago: 
 Las reservas realizadas pueden visualizarse y abonarse desde el carrito, ubicado en la parte superior de la interfaz, junto a los temporizadores de cada reserva.
 
-<img width="1031" height="108" alt="image" src="https://github.com/user-attachments/assets/94985891-bd39-4ac4-8b55-a846ce27ec42" />
+<img width="1008" height="111" alt="image" src="https://github.com/user-attachments/assets/73f01967-f20c-4ab8-87e0-9c9a6b769b36" />
 
 ## Detalles del Sistema
 ### Tecnologías :
